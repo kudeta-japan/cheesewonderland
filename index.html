@@ -13,56 +13,46 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/img/favicon.png">
   <style>
-    :root{
-      --brand:#ffd166;           /* cheese yellow */
-      --brand-strong:#ffb703;    /* cheddar orange */
-      --pink:#ff9a8b;            /* sunset pink */
-      --purple:#a18cd1;          /* dusk purple */
-      --sky:#7bdff2;             /* pastel sky */
-      --cream:#fff6de;           /* milky cream */
-      --text:#f7f7fb;
-      --sub:#b9b9c8;
-      --radius:20px;
-      --max:1100px;
-    }
-
-    html,body{margin:0;background:#0b0b10;color:var(--text);font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;height:auto;display:block}
-    .container{max-width:var(--max);margin-inline:auto;padding:0 20px}
+    :root{ --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8; --muted:rgba(255,255,255,.06); --glass:rgba(255,255,255,.08); --max:1100px; --radius:18px; }
+    html,body{margin:0;background:#0b0b10;color:var(--text);font-family:system-ui, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:auto;padding:0 20px}
 
     /* NAV */
     header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.3px}
+    .nav{display:flex;justify-content:space-between;align-items:center;height:64px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
     .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-strong));box-shadow:0 0 20px rgba(255,209,102,.85)}
-    .links{display:flex;gap:16px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+    .links{display:flex;gap:16px;white-space:nowrap;overflow:auto;scrollbar-width:none}
     .links::-webkit-scrollbar{display:none}
-
-    /* BUTTONS */
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 8px 24px rgba(255,183,3,.25);transition:.25s}
-    .btn:hover{transform:translateY(-2px)}
-    .btn.ghost{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.05));color:var(--text);border:1px solid rgba(255,255,255,.18);box-shadow:none}
-    .btn.pink{background:linear-gradient(135deg,var(--pink),#ffa6c1);color:#3a0b1a}
 
     /* HERO */
     .hero{position:relative}
-    .hero::before{content:"";position:absolute;inset:0;background:url('img/hero_sunset.jpg') center/cover no-repeat;opacity:.45;z-index:0}
-    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(251,194,235,.6) 0%, rgba(166,193,238,.4) 40%, rgba(11,11,16,.9) 100%);z-index:1}
-    .hero .inner{position:relative;z-index:2;padding:86px 0 66px;text-align:center}
-    .hero h1{font-size:clamp(30px,6vw,56px);line-height:1.08;margin:0 0 16px}
-    .hero p.lead{font-size:clamp(15px,4vw,20px);color:var(--sub);margin:0 0 26px}
-    .chip{display:inline-flex;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,246,222,.22);border:1px solid rgba(255,246,222,.35);color:#ffe7a3;font-weight:800}
+    .hero::before{content:"";position:absolute;inset:0;background:url('img/hero_sunset.jpg') center/cover no-repeat;opacity:.42}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(251,194,235,.58) 0%, rgba(166,193,238,.38) 40%, rgba(11,11,16,.9) 100%)}
+    .hero-inner{position:relative;z-index:1;padding:90px 0 70px}
+    .hero h1{font-size:clamp(28px,6vw,52px);line-height:1.1;margin:10px 0}
+    .lead{color:var(--sub)}
 
-    /* SECTIONS */
-    .section{padding:66px 0}
-    .section h2{font-size:clamp(22px,4vw,34px);margin:0 0 14px;text-align:center}
-    .section.cream{background:linear-gradient(180deg, #fff6de 0%, #ffe1ec 100%);color:#2a2315}
-    .section.cream .muted{color:#4b4336}
-    .section.twilight{background:linear-gradient(180deg,#a6c1ee 0%,#0b0b10 100%)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
 
+    .hero-grid{display:grid;gap:18px}
+    @media(min-width:920px){.hero-grid{grid-template-columns:1.2fr .8fr}}
+
+    .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+    .kpi{background:var(--muted);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
+    .kpi b{display:block;font-size:clamp(18px,4vw,26px)}
+
+    .cta{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 8px 24px rgba(255,183,3,.25);transition:.2s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:var(--text)}
+
+    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+
+    /* SECTION */
+    section{padding:68px 0} section h2{text-align:center;font-size:clamp(22px,4vw,34px);margin:0 0 14px}
     .muted{color:var(--sub)}
-    .grid{display:grid;gap:18px}
 
     /* ATTRACTIONS */
     .attractions{display:grid;gap:18px}
@@ -73,194 +63,241 @@
     /* PRICING */
     .pricing{display:grid;gap:18px}
     @media(min-width:860px){.pricing{grid-template-columns:repeat(3,1fr)}}
-    .plan{padding:20px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+    .card{padding:20px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
 
-    /* FAQ */
+    /* COUNTDOWN */
+    .count{display:flex;gap:8px;margin:14px 0}
+    .box{min-width:68px;text-align:center;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 8px}
+    .num{font-size:24px;font-weight:800}
+    .lbl{font-size:12px;color:var(--sub)}
+
+    /* FAQ & FORM */
     details{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px}
-    details + details{margin-top:10px}
-    summary{cursor:pointer;font-weight:700}
-
-    /* FORM */
-    input,textarea,select{width:100%;margin-top:6px;padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--text)}
+    details+details{margin-top:10px} summary{cursor:pointer;font-weight:700}
+    input,textarea,select{width:100%;margin-top:6px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--text)}
     label{display:block;margin:8px 0}
 
     footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(10px);transition:.6s}
+    .reveal.show{opacity:1;transform:none}
   </style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <div class="brand"><span class="dot"></span>CHEESE WONDERLAND</div>
-    <nav class="links">
-      <a href="#story">ストーリー</a>
-      <a href="#attractions">アトラクション</a>
-      <a href="#tickets">チケット</a>
-      <a href="#faq">FAQ</a>
-      <a href="#access">アクセス</a>
-      <a class="btn" href="#reserve-form">予約する</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="container inner">
-    <span class="chip">10/5(日) 17:30–20:00｜岐阜 KU-DETA</span>
-    <h1>一夜限りのチーズテーマパーク<br>CHEESE WONDERLAND</h1>
-    <p class="lead"><b>20〜23歳女性に贈る、SNSに残したくなる夜。</b><br>友達とワイワイ、ひとりでもOK！男子も歓迎！</p>
-    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-      <a class="btn" href="#reserve-form">予約する</a>
-      <a class="btn pink" href="https://www.instagram.com/ku_deta_gifu/" target="_blank">Instagramで見る</a>
-      <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank">LINEで質問</a>
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="dot"></span>CHEESE WONDERLAND</div>
+      <nav class="links">
+        <a href="#about">概要</a>
+        <a href="#attractions">アトラクション</a>
+        <a href="#tickets">チケット</a>
+        <a href="#faq">FAQ</a>
+        <a href="#access">アクセス</a>
+        <a class="btn" href="#reserve">予約する</a>
+      </nav>
     </div>
-  </div>
-</section>
+  </header>
 
-<section id="story" class="section cream">
-  <div class="container">
-    <h2>ストーリー</h2>
-    <p class="muted" style="text-align:center;max-width:720px;margin:auto">
-      日常に少し退屈していたあなたのもとに届く、金色のチーズの鍵。その鍵が開くのは、とろける幸せでいっぱいの秘密の王国――Cheese Wonderland。<br><br>
-      ここではチーズがアトラクションとなって現れ、ただ食べるだけではなく「体験して、ときめいて、笑って、スマホに残す」時間が広がります。<br>
-      友達と「かわいい！」「やばい！」「撮って！」と盛り上がる瞬間が、あなたを日常から解き放ち、特別な思い出になる。<br><br>
-      5つの体験をクリアすると“黄金のチーズクラウン”を授与。CHEESE WONDERLANDは、友達と一緒に思い出を作る特別な120分。
-    </p>
-  </div>
-</section>
+  <section class="hero" id="top">
+    <div class="container hero-inner hero-grid">
+      <div>
+        <span class="pill">10/5(日) 17:30–20:00｜岐阜 KU-DETA</span>
+        <h1>一夜限り。とろけて遊ぶ、チーズの夜。</h1>
+        <h3 style=\"margin:4px 0 14px\">Melt, Taste & Play!</h3>
+        <p class=\"lead\">日曜のトワイライトに、ライブ演出で“体験する”チーズの遊園地。SNSに残したくなる驚きが続きます。男子・お一人様も歓迎。</p>
 
-<section id="attractions" class="section twilight">
-  <div class="container">
-    <h2>5大アトラクション</h2>
-    <div class="attractions grid">
-      <div class="attr">
-        <img src="img/attr_raclette.jpg" alt="ラクレットチーズを流す実演">
-        <div>
-          <h3>ラクレット・スライダー</h3>
-          <p class="muted">熱々のチーズをとろ〜り流してポテトにオン！SNS映え間違いなし。</p>
+        <!-- countdown -->
+        <div class="count" aria-label="countdown">
+          <div class="box"><div class="num" id="c-days">--</div><div class="lbl">日</div></div>
+          <div class="box"><div class="num" id="c-hours">--</div><div class="lbl">時間</div></div>
+          <div class="box"><div class="num" id="c-mins">--</div><div class="lbl">分</div></div>
+          <div class="box"><div class="num" id="c-secs">--</div><div class="lbl">秒</div></div>
+        </div>
+
+        <div class="cta" style="margin:10px 0 18px">
+          <a class=\"btn\" href=\"#reserve\">今すぐ予約</a>
+          <a class=\"btn ghost\" href=\"#highlights\">見どころを見る</a>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><span class="lbl">参加費</span><b>¥3,000（1ドリンク付）</b></div>
+          <div class="kpi"><span class="lbl">定員</span><b>40名</b></div>
+          <div class="kpi"><span class="lbl">会場</span><b>KU-DETA（岐阜市）</b></div>
         </div>
       </div>
-      <div class="attr">
-        <img src="img/attr_chicago.jpg" alt="チーズがのびるシカゴピザ">
-        <div>
-          <h3>シカゴ・ウォーターフォール</h3>
-          <p class="muted">ピザを持ち上げるとチーズが滝みたいにのびる！友達と盛り上がろう。</p>
+
+      <!-- 当日の流れ -->
+      <aside class="glass">
+        <h4 style="margin:0 0 8px">当日の流れ</h4>
+        <ol class=\"muted\" style=\"line-height:1.8; margin:0\">
+          <li>17:30 受付・パスポート配布・ウェルカムフォト</li>
+          <li>17:45 オープニング（安全・遊び方）</li>
+          <li>17:50–19:15 フリー周遊（5大アトラクション）</li>
+          <li>19:15–19:35 コンプリート演出（スタンプ達成者）</li>
+          <li>19:35 フィナーレ：パレード＆一斉演出</li>
+          <li>19:50 ラストオーダー → 20:00 クローズ</li>
+        </ol>
+        <p class=\"muted\" style=\"margin:.8rem 0 0; font-size:12px\">ハッシュタグは <b>#CheeseWonderland</b> <b>#KUDETA</b> ／ 投稿画面提示で当日スタンプ<strong>+1</strong>（代表1名）</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id=\"highlights\" class=\"reveal\">
+    <div class=\"container\">
+      <h2>見どころ 3つ</h2>
+      <div class=\"pricing\">
+        <div class=\"card\"><h3>① とろけるライブ演出</h3><p class=\"muted\">ラクレット滝・ピザの超ストレッチ・泡の雲。目の前で“わっ”と湧く瞬間を体験。</p></div>
+        <div class=\"card\"><h3>② みんなでワイワイ遊べる</h3><p class=\"muted\">メルティ・ディップ・ポットはルーレットで当たり串！友達と盛り上がる仕掛け。</p></div>
+        <div class=\"card\"><h3>③ SNSに残したくなる</h3><p class=\"muted\">#CheeseWonderland で投稿しやすいシーンを多数用意。投稿特典も。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id=\"about\" class="reveal">
+    <div class="container">
+      <h2>イベント概要</h2>
+      <p class="muted" style="text-align:center;max-width:780px;margin:auto">CHEESE WONDERLAND は、チーズを主役にした“周遊型”ミニテーマパーク。ライブでとろける <b>Raclette Slider</b>、チーズ滝の <b>Chicago Waterfall</b>、遊べるディップ <b>Melty Dip Pot</b>、DIYピザの <b>Cheese Lab</b>、ふわ仕上げの <b>Espuma Basque</b> で、写真映えと体験をセットでお届けします。</p>
+    </div>
+  </section>
+
+  <section id="attractions" class="reveal">
+    <div class="container">
+      <h2>5大アトラクション</h2>
+      <div class="attractions">
+        <div class="attr">
+          <img src="img/attr_raclette.jpg" alt="ラクレットチーズを流す実演">
+          <div><h3>ラクレット・スライダー</h3><p class="muted">熱々のチーズをとろ〜り流してポテトにオン！動画映え◎</p></div>
+        </div>
+        <div class="attr">
+          <img src="img/attr_chicago.jpg" alt="チーズがのびるシカゴピザ">
+          <div><h3>シカゴ・ウォーターフォール</h3><p class="muted">ピザをリフトアップするとチーズが“滝”のようにのびる！</p></div>
+        </div>
+        <div class="attr">
+          <img src="img/attr_meltydip.jpg" alt="チーズフォンデュルーレット">
+          <div><h3>メルティ・ディップ・ポット</h3><p class="muted">ルーレットでトッピングを決定。のび〜るメーター＆当たり串で大盛り上がり。</p></div>
+        </div>
+        <div class="attr">
+          <img src="img/attr_lab.jpg" alt="DIYピザ体験">
+          <div><h3>チーズ・ラボ（DIYピザ）</h3><p class="muted">4種のチーズから選び、自分だけのミニピザを窯焼き！</p></div>
+        </div>
+        <div class="attr">
+          <img src="img/attr_espuma.jpg" alt="エスプーマ仕上げのバスクチーズケーキ">
+          <div><h3>エスプーマ・バスク</h3><p class="muted">ふわエスプーマを目の前で。ラストは炙りキャラメリゼで香り立つ。</p></div>
         </div>
       </div>
-      <div class="attr">
-        <img src="img/attr_meltydip.jpg" alt="チーズフォンデュルーレット">
-        <div>
-          <h3>メルティ・ディップ・ポット</h3>
-          <p class="muted">ルーレットでトッピングを決めてディップ！当たり串で大盛り上がり。</p>
+    </div>
+  </section>
+
+  <section id="tickets" class="reveal">
+    <div class="container">
+      <h2>チケット</h2>
+      <div class="pricing">
+        <div class="card">
+          <h3>入場パス（1ドリンク付）</h3>
+          <p><b>¥3,000</b>｜税込</p>
+          <p class="muted">5つのアトラクションを自由に楽しめます。追加ドリンク/追加アトラクションは各¥500。</p>
+        </div>
+        <div class="card">
+          <h3>注意事項</h3>
+          <ul class="muted">
+            <li>未成年の方はソフトドリンクのみ</li>
+            <li>アレルギーは予約時にご連絡ください</li>
+            <li>演出の都合でお待ちいただくことがあります</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>開催情報</h3>
+          <p class="muted">2025/10/5(日) 17:30–20:00<br>岐阜市 KU-DETA<br>定員40名（最大45名）</p>
         </div>
       </div>
-      <div class="attr">
-        <img src="img/attr_lab.jpg" alt="ピザ作り体験">
-        <div>
-          <h3>チーズラボ</h3>
-          <p class="muted">いろんなチーズを選んで、自分だけのピザを作ろう！焼きたてをそのまま。</p>
+      <div class="cta" style="margin-top:14px">
+        <a class="btn" href="#reserve">予約する</a>
+        <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank">LINEで質問</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="reveal">
+    <div class="container">
+      <h2>よくある質問</h2>
+      <div style="max-width:720px;margin:auto">
+        <details><summary>一人参加でも大丈夫？</summary><p class="muted">もちろん！一人参加も大歓迎です。多くのアトラクションは他の方と一緒に楽しめます。</p></details>
+        <details><summary>途中参加・途中退場は可能？</summary><p class="muted">可能です。ただし体験時間が短くなる場合があります。</p></details>
+        <details><summary>写真撮影はOK？</summary><p class="muted">大歓迎！ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b> を付けて投稿してね。</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="access" class="reveal">
+    <div class="container">
+      <h2>アクセス</h2>
+      <p class="muted" style="text-align:center">岐阜市加納新本町3-1-1 KU-DETA / 058-274-2212</p>
+      <div class="pricing">
+        <div class="card">
+          <h3>電車でのアクセス</h3>
+          <p class="muted">JR岐阜駅南口から徒歩10分。駐車場あり。</p>
+        </div>
+        <div class="card" style="position:relative; padding-top:56.25%">
+          <iframe title="map" src="https://maps.google.com/maps?q=KU-DETA%20Gifu&t=&z=15&ie=UTF8&iwloc=&output=embed" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px" loading="lazy" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="attr">
-        <img src="img/attr_espuma.jpg" alt="チーズケーキ仕上げの様子">
-        <div>
-          <h3>エスプーマ・バスククラウド</h3>
-          <p class="muted">ふわふわエスプーマと炙り仕上げ。夢のようなチーズケーキ。</p>
+    </div>
+  </section>
+
+  <section id="reserve" class="reveal">
+    <div class="container">
+      <h2>予約フォーム</h2>
+      <form class="card" method="POST" action="https://formspree.io/f/xpwlgjrn" onsubmit="this.querySelector('button').disabled=true;">
+        <label>お名前*<br><input name="name" required></label>
+        <label>メール*<br><input type="email" name="email" required></label>
+        <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
+        <div class="cta" style="margin-top:12px">
+          <button class="btn" type="submit">送信</button>
+          <a class="btn ghost" href="https://www.instagram.com/ku_deta_gifu/" target="_blank">最新情報を見る</a>
         </div>
-      </div>
+      </form>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="tickets" class="section cream">
-  <div class="container">
-    <h2>チケット</h2>
-    <div class="pricing">
-      <div class="plan">
-        <h3>入場パス（1ドリンク付）</h3>
-        <p><b>¥3,000</b>｜税込</p>
-        <p class="muted">5つのアトラクションを全部楽しめます。友達とも一人でもOK！</p>
-      </div>
-      <div class="plan">
-        <h3>注意事項</h3>
-        <ul class="muted">
-          <li>未成年の方はソフトドリンクのみ</li>
-          <li>アレルギーは予約時にご連絡ください</li>
-          <li>演出の都合でお待ちいただくことがあります</li>
-        </ul>
-      </div>
-      <div class="plan">
-        <h3>開催情報</h3>
-        <p class="muted">
-          2025/10/5(日) 17:30–20:00<br>
-          岐阜市 KU-DETA<br>
-          定員40名（先着）
-        </p>
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <small>© 2025 KU-DETA</small>
+      <div style="display:flex;gap:12px">
+        <a href="https://www.instagram.com/ku_deta_gifu/" target="_blank">Instagram</a>
+        <a href="mailto:kudeta.kanou@gmail.com">Email</a>
       </div>
     </div>
-    <div class="cta" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-      <a class="btn" href="#reserve-form">予約する</a>
-      <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank">LINEで質問する</a>
-    </div>
-  </div>
-</section>
+  </footer>
 
-<section id="faq" class="section cream">
-  <div class="container">
-    <h2>よくある質問</h2>
-    <div class="faq" style="max-width:720px;margin:auto">
-      <details>
-        <summary>一人参加でも大丈夫？</summary>
-        <p class="muted">もちろん！一人参加も大歓迎です。多くのアトラクションは他の方と一緒に楽しめます。</p>
-      </details>
-      <details>
-        <summary>どんな料理が楽しめるの？</summary>
-        <p class="muted">ラクレット・シカゴピザ・ディップ・ピザ作り・チーズケーキの5大体験に加え、軽食や追加ドリンクも購入できます。</p>
-      </details>
-      <details>
-        <summary>当日の流れは？</summary>
-        <p class="muted">受付後に自由にアトラクションを体験 → フィナーレで一体感のある演出を楽しんで終了です。</p>
-      </details>
-    </div>
-  </div>
-</section>
+  <script>
+    // Countdown to 2025-10-05T17:30:00+09:00
+    const target = new Date('2025-10-05T17:30:00+09:00').getTime();
+    const ids = {d:'c-days',h:'c-hours',m:'c-mins',s:'c-secs'};
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+      const d = Math.floor(diff/86400000); diff-=d*86400000;
+      const h = Math.floor(diff/3600000);  diff-=h*3600000;
+      const m = Math.floor(diff/60000);    diff-=m*60000;
+      const s = Math.floor(diff/1000);
+      document.getElementById(ids.d).textContent=d;
+      document.getElementById(ids.h).textContent=h;
+      document.getElementById(ids.m).textContent=m;
+      document.getElementById(ids.s).textContent=s;
+    }
+    tick(); setInterval(tick,1000);
 
-<section id="access" class="section twilight">
-  <div class="container">
-    <h2>アクセス</h2>
-    <p class="muted" style="text-align:center">岐阜市加納新本町3-1-1 KU-DETA / 058-274-2212</p>
-    <div class="grid" style="grid-template-columns:1fr 1fr; gap:18px">
-      <div class="plan">
-        <h3>電車でのアクセス</h3>
-        <p class="muted">JR岐阜駅南口から徒歩10分。駐車場あり。</p>
-      </div>
-      <div class="plan" style="position:relative; padding-top:56.25%">
-        <iframe title="map" src="https://maps.google.com/maps?q=KU-DETA%20Gifu&t=&z=15&ie=UTF8&iwloc=&output=embed" style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px" loading="lazy" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
-</section>
+    // reveal on scroll
+    const io = new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('show')), {threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-<section id="reserve-form" class="section cream">
-  <div class="container">
-    <h2>予約フォーム</h2>
-    <form id="booking" class="plan" method="POST" action="https://formspree.io/f/xpwlgjrn">
-      <label>お名前*<br><input name="name" required></label>
-      <label>メール*<br><input type="email" name="email" required></label>
-      <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
-      <div class="cta" style="margin-top:12px;text-align:center">
-        <button class="btn" type="submit">送信</button>
-      </div>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <small>© 2025 KU-DETA</small>
-    <div class="sns" style="display:flex;gap:12px">
-      <a href="https://www.instagram.com/ku_deta_gifu/" target="_blank">Instagram</a>
-      <a href="mailto:kudeta.kanou@gmail.com">Email</a>
-    </div>
-  </div>
-</footer>
+    // smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+      const id=a.getAttribute('href').slice(1); if(!id) return;
+      const t=document.getElementById(id); if(!t) return; e.preventDefault();
+      window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-64,behavior:'smooth'});
+    }));
+  </script>
 </body>
 </html>
