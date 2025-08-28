@@ -6,37 +6,39 @@
   <title>CHEESE WONDERLAND｜KU-DETA</title>
   <meta name="description" content="一夜限りのチーズテーマパーク。10/5(日) 17:30–20:00｜1ドリンク付 ¥3,000｜岐阜・KU-DETAで開催。20〜23歳女性向け。ラクレットやシカゴピザ、ルーレットフォンデュなど5つのアトラクションが楽しめる。">
 
-  <!-- OGP基本 -->
+  <!-- OGP / Twitter -->
   <meta property="og:title" content="CHEESE WONDERLAND｜KU-DETA" />
   <meta property="og:description" content="20〜23歳女性に贈る、一夜限りのチーズテーマパーク。とろけて・食べて・遊べる120分！" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://kudeta-japan.github.io/cheesewonderland/" />
-  <meta property="og:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=2" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitterカード -->
+  <meta property="og:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=3" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CHEESE WONDERLAND｜KU-DETA" />
-  <meta name="twitter:description" content="20〜23歳女性に贈る、一夜限りのチーズテーマパーク。とろけて・食べて・遊べる120分！" />
-  <meta name="twitter:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=2" />
-
-  <!-- Favicon -->
+  <meta name="twitter:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=3" />
   <link rel="icon" href="https://kudeta-japan.github.io/cheesewonderland/img/favicon.png" />
 
   <style>
-    :root{ --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8; --muted:rgba(255,255,255,.06); --max:1100px; --radius:18px; }
-    html,body{margin:0;background:#0b0b10;color:var(--text);font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
+    :root{
+      --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8;
+      --max:1100px; --radius:18px;
+    }
+    html,body{margin:0;background:#0b0b10;color:var(--text);
+      font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
     a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
     .container{max-width:var(--max);margin:auto;padding:0 20px}
 
-    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);
+      backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
     .nav{display:flex;justify-content:space-between;align-items:center;height:64px}
     .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-    .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-strong));box-shadow:0 0 20px rgba(255,209,102,.85)}
+    .brand .dot{width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(135deg,var(--brand),var(--brand-strong));
+      box-shadow:0 0 20px rgba(255,209,102,.85)}
     .links{display:flex;gap:16px;white-space:nowrap;overflow:auto;scrollbar-width:none}
     .links::-webkit-scrollbar{display:none}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;
+      font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.26);color:var(--text)}
 
@@ -57,17 +59,71 @@
     .hero-inner{position:relative;z-index:2;padding:90px 0 72px}
     .hero-grid{display:grid;gap:18px}
     @media(min-width:920px){.hero-grid{grid-template-columns:1.15fr .85fr}}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;
+      background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
     .hero h1{font-size:clamp(28px,6vw,52px);line-height:1.1;margin:10px 0}
     .lead{color:var(--sub)}
     .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
+    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
     .kpi b{display:block;font-size:clamp(18px,4vw,26px)}
-    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);
+      border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+
+    /* Countdown – 横並び＆中央寄せ */
+    .count{display:flex;gap:8px;justify-content:flex-start;flex-wrap:nowrap;margin:14px 0}
+    .box{min-width:72px;text-align:center;background:rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 8px}
+    .num{font-size:24px;font-weight:800}
+    .lbl{font-size:12px;color:var(--sub)}
 
     /* mini OGP in hero */
     .ogp-mini{width:100%;height:auto;margin-top:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 28px rgba(0,0,0,.35)}
     .ogp-cap{display:block;color:#aeb0c8;font-size:12px;margin-top:6px}
+
+    /* Sections */
+    section{padding:68px 0}
+    section h2{text-align:center;font-size:clamp(22px,4vw,34px);margin:0 0 14px}
+    .muted{color:var(--sub)}
+
+    /* Pastel bands (下層をHero調に) */
+    .section-band{position:relative;isolation:isolate}
+    .section-band::before{
+      content:"";position:absolute;inset:-60px 0;z-index:-1;
+      background:
+        radial-gradient(1200px 420px at 18% -8%, rgba(255,223,186,.28), transparent 62%),
+        radial-gradient(980px 380px at 85% 0%, rgba(255,210,214,.22), transparent 58%),
+        radial-gradient(800px 320px at 50% 100%, rgba(190,230,255,.14), transparent 60%);
+      filter:blur(2px);
+    }
+
+    /* 概要：テキスト＋3カード横並び */
+    .about-grid{display:grid;gap:24px;align-items:center}
+    @media(min-width:960px){.about-grid{grid-template-columns:1fr 1fr}}
+    .feature-cards{display:grid;gap:18px}
+    @media(min-width:980px){.feature-cards{grid-template-columns:repeat(3,1fr)}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px;transition:.25s}
+    .card:hover{transform:translateY(-2px)}
+    .feature .fig{position:relative;border-radius:12px;overflow:hidden}
+    .feature img{width:100%;height:220px;object-fit:cover;filter:brightness(1.03) contrast(.98) saturate(.92) hue-rotate(-4deg)}
+    .badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.22);color:#ffe8b0;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
+
+    /* アトラクション：カード型3列 */
+    .attractions-grid{display:grid;gap:22px}
+    @media(min-width:900px){.attractions-grid{grid-template-columns:repeat(3,1fr)}}
+    .attr-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;text-align:center;transition:.25s
+    }
+    .attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
+    .attr-card img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:10px}
+
+    footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
+    .reveal{opacity:0;transform:translateY(10px);transition:.6s}
+    .reveal.show{opacity:1;transform:none}
+    .hr-glow{height:1px;margin:28px 0;background:linear-gradient(90deg,transparent,rgba(255,215,170,.55),rgba(255,210,214,.45),rgba(190,230,255,.40),transparent);filter:blur(.4px)}
   </style>
 </head>
 <body>
@@ -94,6 +150,7 @@
       <h3 style="margin:4px 0 14px">Melt, Taste & Play!</h3>
       <p class="lead">日曜の夕方は、とろけるチーズのテーマパークへ！SNS映え間違いなしのサプライズが次々登場♪ 女子会はもちろん、彼と一緒も、一人参加も大歓迎♡</p>
 
+      <!-- 横並びカウントダウン -->
       <div class="count" aria-label="countdown">
         <div class="box"><div class="num" id="c-days">--</div><div class="lbl">日</div></div>
         <div class="box"><div class="num" id="c-hours">--</div><div class="lbl">時間</div></div>
@@ -121,125 +178,102 @@
         <li>17:50–19:15 フリー周遊（5大アトラクション）</li>
         <li>19:15–19:35 コンプリート演出（スタンプ達成者）</li>
         <li>19:35 フィナーレ：パレード＆一斉演出</li>
-        <li>19:50 ラストアトラクション → 20:00 クローズ</li>
+        <li>19:50 ラストオーダー → 20:00 クローズ</li>
       </ol>
-      <p class="muted" style="margin:.8rem 0 0; font-size:12px">
-        ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b>
-      </p>
-
-      <!-- ▼ OGPプレビュー（Hero右に追加） -->
-      <img class="ogp-mini" src="img/ogp.jpg?v=2" alt="CHEESE WONDERLAND OGP preview" loading="lazy" width="1200" height="630">
+      <p class="muted" style="margin:.8rem 0 0; font-size:12px">ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b></p>
+      <!-- OGPプレビュー -->
+      <img class="ogp-mini" src="img/ogp.jpg?v=3" alt="CHEESE WONDERLAND OGP preview" loading="lazy" width="1200" height="630">
       <small class="ogp-cap">※ SNSで共有されるカード画像（OGP）</small>
-      <!-- ▲ -->
     </aside>
   </div>
 </section>
 
-<section id="about" class="reveal section-band dusk">
+<!-- ABOUT（テキスト＋3カード） -->
+<section id="about" class="reveal section-band">
   <div class="container">
     <h2 class="section-title" style="text-align:left">イベント概要</h2>
-    <p class="about-copy">
-      「CHEESE WONDERLAND」は、チーズ好きのための夢の国♡ 目の前でとろける <b>Raclette Slider</b>、
-      チーズが滝みたいにあふれる <b>Chicago Waterfall</b>、DIYピザの <b>Cheese Lab</b> まで、映えて楽しい＆美味しい体験がぎゅっと詰まってます！
-    </p>
-
-    <div class="feature-cards">
-      <a class="feature card" href="#attractions" aria-label="Raclette Slider">
-        <div class="fig">
-          <img src="img/attr_raclette.jpg?v=3" alt="Raclette Slider（イメージ）">
-          <span class="badge">CHEESE WONDERLAND</span>
-        </div>
-        <small class="muted">Raclette Slider（イメージ）</small>
-      </a>
-
-      <a class="feature card" href="#attractions" aria-label="Chicago Waterfall">
-        <div class="fig">
-          <img src="img/attr_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）">
-          <span class="badge">CHEESE WONDERLAND</span>
-        </div>
-        <small class="muted">Chicago Waterfall（イメージ）</small>
-      </a>
-
-      <a class="feature card" href="#attractions" aria-label="Cheese Lab">
-        <div class="fig">
-          <img src="img/attr_lab.jpg?v=3" alt="Cheese Lab – DIY Quadro Pizza（イメージ）">
-          <span class="badge">CHEESE WONDERLAND</span>
-        </div>
-        <small class="muted">Cheese Lab（イメージ）</small>
-      </a>
+    <div class="about-grid">
+      <div>
+        <p class="about-copy">
+          CHEESE WONDERLAND は、チーズを主役にした“周遊型”ミニテーマパーク。ライブでとろける <b>Raclette Slider</b>、
+          チーズ滝の <b>Chicago Waterfall</b>、遊べるディップ <b>Melty Dip Pot</b>、DIYピザの <b>Cheese Lab</b>、
+          ふわ仕上げの <b>Espuma Basque</b> まで、写真映えと体験をセットでお届けします。
+        </p>
+      </div>
+      <div class="feature-cards">
+        <a class="feature card" href="#attractions" aria-label="Raclette Slider">
+          <div class="fig">
+            <img src="img/attr_raclette.jpg?v=3" alt="Raclette Slider（イメージ）">
+            <span class="badge">CHEESE WONDERLAND</span>
+          </div>
+          <small class="muted">Raclette Slider（イメージ）</small>
+        </a>
+        <a class="feature card" href="#attractions" aria-label="Chicago Waterfall">
+          <div class="fig">
+            <img src="img/attr_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）">
+            <span class="badge">CHEESE WONDERLAND</span>
+          </div>
+          <small class="muted">Chicago Waterfall（イメージ）</small>
+        </a>
+        <a class="feature card" href="#attractions" aria-label="Cheese Lab">
+          <div class="fig">
+            <img src="img/attr_lab.jpg?v=3" alt="Cheese Lab（イメージ）">
+            <span class="badge">CHEESE WONDERLAND</span>
+          </div>
+          <small class="muted">Cheese Lab（イメージ）</small>
+        </a>
+      </div>
     </div>
     <p class="muted" style="margin-top:10px">※画像はイメージ。実際と一部異なる場合があります。</p>
     <div class="hr-glow"></div>
   </div>
 </section>
-  .about-grid{
-  display:grid; gap:24px; align-items:center;
-}
-@media(min-width:960px){
-  .about-grid{grid-template-columns:1fr 1fr}
-}
 
-<!-- ATTRACTIONS -->
-<section id="attractions" class="reveal section-band dusk">
+<!-- ATTRACTIONS（カード型3列＋シークレット） -->
+<section id="attractions" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">5大アトラクション</h2>
     <div class="attractions-grid">
       <div class="attr-card">
-        <img src="img/attr_raclette.jpg" alt="ラクレットの実演">
-        <div><h3>ラクレット・スライダー</h3><p class="muted">熱々チーズがポテトにとろ〜り♡「これぞSNS映え！」な瞬間を狙って。</p></div>
+        <img src="img/attr_raclette.jpg?v=3" alt="ラクレットの実演">
+        <h3>ラクレット・スライダー</h3>
+        <p class="muted">熱々チーズがとろ〜り♡ ポテトに豪快オン！</p>
       </div>
       <div class="attr-card">
-        <img src="img/attr_chicago.jpg" alt="シカゴピザのチーズ滝">
-        <div><h3>シカゴ・ウォーターフォール</h3><p class="muted">チーズが“滝”のように溢れ出す衝撃のピザ！持ち上げた瞬間、歓声が止まらない！</p></div>
+        <img src="img/attr_chicago.jpg?v=3" alt="シカゴピザのチーズ滝">
+        <h3>シカゴ・ウォーターフォール</h3>
+        <p class="muted">持ち上げた瞬間、チーズが“滝”みたいに！</p>
       </div>
       <div class="attr-card">
-        <img src="img/attr_meltydip.jpg" alt="チーズフォンデュルーレット">
-        <div><h3>メルティ・ディップ・ポット</h3><p class="muted">運試しルーレットで盛り上がりMAX！どの具材に当たるかはお楽しみ♡</p></div>
+        <img src="img/attr_meltydip.jpg?v=3" alt="チーズフォンデュルーレット">
+        <h3>メルティ・ディップ・ポット</h3>
+        <p class="muted">ルーレットで具材決定。のび〜るメーターで盛り上がり♪</p>
       </div>
       <div class="attr-card">
-        <img src="img/attr_lab.jpg" alt="DIYピザ">
-        <div><h3>チーズ・ラボ（DIYピザ）</h3><p class="muted">好きなチーズを選んで、自分だけの“映えピザ”を焼き上げよう！</p></div>
+        <img src="img/attr_lab.jpg?v=3" alt="DIYピザ">
+        <h3>チーズ・ラボ（DIYピザ）</h3>
+        <p class="muted">好きなチーズを選んで、自分だけの“映えピザ”。</p>
       </div>
       <div class="attr-card">
-        <img src="img/attr_espuma.jpg" alt="エスプーマ仕上げ">
-        <div><h3>エスプーマ・バスク</h3><p class="muted">ふわ泡を目の前でオン！とろける甘さにキュン♡</p></div>
+        <img src="img/attr_espuma.jpg?v=3" alt="エスプーマ仕上げ">
+        <h3>エスプーマ・バスク</h3>
+        <p class="muted">ふわ泡を目の前でオン。ラストは炙りでキュン♡</p>
       </div>
-            <!-- シークレット -->
+      <!-- シークレット -->
       <div class="attr-card">
         <img src="img/attr_secret.jpg?v=1" alt="シークレットアトラクション">
-        <div>
-          <h3>？？？ ？？？ シークレットアトラクション</h3>
-          <p class="muted">当日のお楽しみ♡ ここだけのサプライズ、準備中！</p>
-        </div>
+        <h3>？？？ ？？？ シークレットアトラクション</h3>
+        <p class="muted">当日のお楽しみ♡ ここだけのサプライズ、準備中！</p>
       </div>
     </div>
   </div>
 </section>
-  
-.attractions-grid{
-  display:grid; gap:22px;
-}
-@media(min-width:900px){
-  .attractions-grid{grid-template-columns:repeat(3,1fr)}
-}
-.attr-card{
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:16px;
-  padding:16px;
-  text-align:center;
-  transition:.25s;
-}
-.attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-.attr-card img{
-  width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:10px;
-}
-  
-<!-- TICKETS -->
-<section id="tickets" class="reveal section-band dusk">
+
+<!-- TICKETS（POP文言） -->
+<section id="tickets" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">チケット</h2>
-    <div class="pricing">
+    <div class="attractions-grid" style="grid-template-columns:repeat(3,1fr)">
       <div class="card">
         <h3>入場パス（1ドリンク付）</h3>
         <p><b>¥3,000</b>｜税込</p>
@@ -258,11 +292,7 @@
       </div>
       <div class="card">
         <h3>開催情報</h3>
-        <p class="muted">
-          2025/10/5(日) 17:30–20:00<br>
-          岐阜市 KU-DETA<br>
-          定員40名（最大45名）
-        </p>
+        <p class="muted">2025/10/5(日) 17:30–20:00<br>岐阜市 KU-DETA<br>定員40名（最大45名）</p>
       </div>
     </div>
     <div class="cta" style="margin-top:14px">
@@ -272,7 +302,8 @@
   </div>
 </section>
 
-<section id="faq" class="reveal section-band dusk">
+<!-- FAQ（POP文言） -->
+<section id="faq" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">FAQ</h2>
     <div style="max-width:720px;margin:auto">
@@ -293,11 +324,11 @@
 </section>
 
 <!-- ACCESS -->
-<section id="access" class="reveal section-band dusk">
+<section id="access" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">アクセス</h2>
     <p class="muted" style="text-align:center">岐阜市加納新本町3-1-1 KU-DETA / 058-274-2212</p>
-    <div class="pricing">
+    <div class="attractions-grid" style="grid-template-columns:1fr 1fr">
       <div class="card">
         <h3>電車でのアクセス</h3>
         <p class="muted">JR岐阜駅南口から徒歩10分。駐車場あり。</p>
@@ -312,7 +343,7 @@
 </section>
 
 <!-- RESERVE -->
-<section id="reserve" class="reveal section-band dusk">
+<section id="reserve" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">予約フォーム</h2>
     <form class="card" method="POST" action="https://formspree.io/f/xpwlgjrn" onsubmit="this.querySelector('button').disabled=true;">
@@ -367,7 +398,7 @@
   }));
 </script>
 
-<!-- JSON-LD（構造化データ：イベント） -->
+<!-- JSON-LD（イベント） -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -379,16 +410,8 @@
   "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode",
   "eventStatus":"https://schema.org/EventScheduled",
   "image":["https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg"],
-  "location":{
-    "@type":"Place",
-    "name":"KU-DETA",
-    "address":{"@type":"PostalAddress","addressLocality":"岐阜市","streetAddress":"加納新本町3-1-1"}
-  },
-  "offers":{
-    "@type":"Offer","price":"3000","priceCurrency":"JPY",
-    "url":"https://kudeta-japan.github.io/cheesewonderland/#reserve",
-    "availability":"https://schema.org/InStock"
-  },
+  "location":{"@type":"Place","name":"KU-DETA","address":{"@type":"PostalAddress","addressLocality":"岐阜市","streetAddress":"加納新本町3-1-1"}},
+  "offers":{"@type":"Offer","price":"3000","priceCurrency":"JPY","url":"https://kudeta-japan.github.io/cheesewonderland/#reserve","availability":"https://schema.org/InStock"},
   "organizer":{"@type":"Organization","name":"KU-DETA","url":"https://kudeta-japan.github.io/cheesewonderland/"}
 }
 </script>
