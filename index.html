@@ -34,9 +34,25 @@
     .brand .dot{width:12px;height:12px;border-radius:50%;
       background:linear-gradient(135deg,var(--brand),var(--brand-strong));
       box-shadow:0 0 20px rgba(255,209,102,.85)}
-    .links{display:flex;gap:16px;white-space:nowrap;overflow:auto;scrollbar-width:none}
-    .links::-webkit-scrollbar{display:none}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;
+   /* 既存 .links を上書き */
+.links{
+  display:flex; gap:14px; white-space:nowrap;
+  overflow-x:auto; overflow-y:hidden;           /* 横スクロールを確実に */
+  -webkit-overflow-scrolling: touch;            /* iOSでスムーズ */
+  padding-right: max(16px, env(safe-area-inset-right));  /* 右端の切れ防止 */
+  scroll-snap-type: x proximity;                /* 指で送りやすく */
+}
+.links a{ flex:0 0 auto; scroll-snap-align:start }
+
+/* 小画面で右端にフェード（切れて見えない問題の視覚対策） */
+@media (max-width: 760px){
+  .links{
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+  .container{ padding-left: max(16px, env(safe-area-inset-left));
+              padding-right:max(16px, env(safe-area-inset-right)); }
+}.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;
       background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;
       font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
     .btn:hover{transform:translateY(-1px)}
@@ -165,13 +181,12 @@ form.card{
   box-shadow: 0 18px 44px rgba(0,0,0,.38);
 }
 
-/* ラベルは読みやすいコントラスト＆余白広め */
-form.card label{
-  display: block;
-  font-weight: 700;
-  margin: 16px 0 8px;
-  color: #ffecc1;
-  letter-spacing: .2px;
+/* チケットセクションのカードはスマホで1カラムに */
+@media (max-width: 760px){
+  #tickets .attractions-grid{
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
 }
 
 /* 入力欄：角丸・内側余白を大きく、視線の導線を作る */
