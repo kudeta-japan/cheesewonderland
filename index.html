@@ -97,19 +97,40 @@
       filter:blur(2px);
     }
 
-    /* 概要：テキスト＋3カード横並び */
-    .about-grid{display:grid;gap:24px;align-items:center}
-    @media(min-width:960px){.about-grid{grid-template-columns:1fr 1fr}}
-    .feature-cards{display:grid;gap:18px}
-    @media(min-width:980px){.feature-cards{grid-template-columns:repeat(3,1fr)}}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px;transition:.25s}
-    .card:hover{transform:translateY(-2px)}
-    .feature .fig{position:relative;border-radius:12px;overflow:hidden}
-    .feature img{width:100%;height:220px;object-fit:cover;filter:brightness(1.03) contrast(.98) saturate(.92) hue-rotate(-4deg)}
-    .badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.22);color:#ffe8b0;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
+    /* 均等カード：画面幅に応じて自動で揃う */
+.feature-cards{
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
 
+/* カードベース（他セクションカードも同じトーンでOK） */
+.card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 0;             /* 画像とキャプションで揃えるため 0 に */
+  overflow: hidden;
+  transition: .25s;
+}
+.card:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,.35) }
+
+/* カード内画像は高さ固定でトリミング、ビジュアルを揃える */
+.feature .fig{ flex-shrink: 0; height: 180px; overflow: hidden; position: relative }
+.feature .fig img{ width: 100%; height: 100%; object-fit: cover }
+
+/* バッジ（そのまま使用） */
+.badge{
+  position:absolute; left:10px; top:10px; background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.22); color:#ffe8b0; border-radius:999px;
+  padding:6px 10px; font-size:12px; font-weight:800
+}
+
+/* キャプションの余白・色を統一 */
+.feature small{ display:block; padding:8px 10px; color:#aeb0c8 }
     /* アトラクション：カード型3列 */
     .attractions-grid{display:grid;gap:22px}
     @media(min-width:900px){.attractions-grid{grid-template-columns:repeat(3,1fr)}}
@@ -124,6 +145,49 @@
     .reveal{opacity:0;transform:translateY(10px);transition:.6s}
     .reveal.show{opacity:1;transform:none}
     .hr-glow{height:1px;margin:28px 0;background:linear-gradient(90deg,transparent,rgba(255,215,170,.55),rgba(255,210,214,.45),rgba(190,230,255,.40),transparent);filter:blur(.4px)}
+ /* 予約フォーム：中央にどんと配置、リッチなカード見た目 */
+form.card{
+  max-width: 680px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.38);
+}
+
+/* ラベルは読みやすいコントラスト＆余白広め */
+form.card label{
+  display: block;
+  font-weight: 700;
+  margin: 16px 0 8px;
+  color: #ffecc1;
+  letter-spacing: .2px;
+}
+
+/* 入力欄：角丸・内側余白を大きく、視線の導線を作る */
+form.card input{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 16px;
+  transition: .2s border-color, .2s box-shadow, .2s background;
+}
+form.card input::placeholder{ color: #bfc2d5 }
+form.card input:focus{
+  border-color: var(--brand);
+  outline: none;
+  background: rgba(255,255,255,.10);
+  box-shadow: 0 0 0 2px rgba(255,209,102,.28);
+}
+
+/* CTA：横並び・主ボタンは面積広めで信頼感 */
+form.card .cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
+form.card button.btn{ flex:1; justify-content:center; font-size:16px; padding:1rem 1.1rem }
+form.card .btn.ghost{ flex:1; justify-content:center }
   </style>
 </head>
 <body>
