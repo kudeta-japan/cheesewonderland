@@ -118,9 +118,18 @@
 }
 .card:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,.35) }
 
-/* カード内画像は高さ固定でトリミング、ビジュアルを揃える */
-.feature .fig{ flex-shrink: 0; height: 300px; overflow: hidden; position: relative }
-.feature .fig img{ width: 100%; height: 100%; object-fit: cover }
+/* 枠の高さはそのまま（例：300px）。ここは任意の数値 */
+.feature .fig{ flex-shrink:0; height:300px; overflow:hidden; position:relative }
+.attr-card img{ height:200px } /* ←アトラクションのカード高さに合わせて任意 */
+
+/* ★ ここがポイント：cover → contain に変更＋背景色でレターボックスを馴染ませる */
+.feature .fig img,
+.attr-card img{
+  width:100%;
+  height:100%;
+  object-fit: contain;           /* ← 切り抜かない */
+  background: rgba(255,255,255,.04); /* ← 余白の下地（ダークでも違和感少なめ） */
+}
 
 /* バッジ（そのまま使用） */
 .badge{
