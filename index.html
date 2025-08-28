@@ -120,7 +120,7 @@
 
 /* カード内画像は高さ固定でトリミング、ビジュアルを揃える */
 .feature .fig{ flex-shrink: 0; height: 180px; overflow: hidden; position: relative }
-.feature .fig img{ width: 100%; height: 100%; object-fit: cover }
+.feature .fig img{ width: 100%; height: 300px; object-fit: cover }
 
 /* バッジ（そのまま使用） */
 .badge{
@@ -139,7 +139,7 @@
       border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;text-align:center;transition:.25s
     }
     .attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-    .attr-card img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:10px}
+    .attr-card img{width:100%;height:300px;object-fit:cover;border-radius:12px;margin-bottom:10px}
 
     footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
     .reveal{opacity:0;transform:translateY(10px);transition:.6s}
@@ -267,22 +267,22 @@ form.card .btn.ghost{ flex:1; justify-content:center }
       <div class="feature-cards">
         <a class="feature card" href="#attractions" aria-label="Raclette Slider">
           <div class="fig">
-            <img src="img/attr_raclette.jpg?v=3" alt="Raclette Slider（イメージ）">
-            <span class="badge">CHEESE WONDERLAND</span>
+            <img src="img/gal_raclette.jpg?v=3" alt="Raclette Slider（イメージ）">
+       
           </div>
           <small class="muted">Raclette Slider（イメージ）</small>
         </a>
         <a class="feature card" href="#attractions" aria-label="Chicago Waterfall">
           <div class="fig">
-            <img src="img/attr_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）">
-            <span class="badge">CHEESE WONDERLAND</span>
+            <img src="img/gal_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）">
+     
           </div>
           <small class="muted">Chicago Waterfall（イメージ）</small>
         </a>
         <a class="feature card" href="#attractions" aria-label="Cheese Lab">
           <div class="fig">
-            <img src="img/attr_lab.jpg?v=3" alt="Cheese Lab（イメージ）">
-            <span class="badge">CHEESE WONDERLAND</span>
+            <img src="img/gal_lab.jpg?v=3" alt="Cheese Lab（イメージ）">
+
           </div>
           <small class="muted">Cheese Lab（イメージ）</small>
         </a>
@@ -326,7 +326,7 @@ form.card .btn.ghost{ flex:1; justify-content:center }
       <!-- シークレット -->
       <div class="attr-card">
         <img src="img/attr_secret.jpg?v=1" alt="シークレットアトラクション">
-        <h3>？？？ ？？？ シークレットアトラクション</h3>
+        <h3> シークレットアトラクション</h3>
         <p class="muted">当日のお楽しみ♡ ここだけのサプライズ、準備中！</p>
       </div>
     </div>
