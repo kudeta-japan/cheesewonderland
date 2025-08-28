@@ -6,7 +6,7 @@
   <title>CHEESE WONDERLAND｜KU-DETA</title>
   <meta name="description" content="一夜限りのチーズテーマパーク。10/5(日) 17:30–20:00｜1ドリンク付 ¥3,000｜岐阜・KU-DETAで開催。20〜23歳女性向け。ラクレットやシカゴピザ、ルーレットフォンデュなど5つのアトラクションが楽しめる。">
 
-  <!-- OGP -->
+  <!-- OGP基本 -->
   <meta property="og:title" content="CHEESE WONDERLAND｜KU-DETA" />
   <meta property="og:description" content="20〜23歳女性に贈る、一夜限りのチーズテーマパーク。とろけて・食べて・遊べる120分！" />
   <meta property="og:type" content="website" />
@@ -14,37 +14,29 @@
   <meta property="og:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=2" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <!-- Twitter -->
+
+  <!-- Twitterカード -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="CHEESE WONDERLAND｜KU-DETA" />
   <meta name="twitter:description" content="20〜23歳女性に贈る、一夜限りのチーズテーマパーク。とろけて・食べて・遊べる120分！" />
   <meta name="twitter:image" content="https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg?v=2" />
+
   <!-- Favicon -->
   <link rel="icon" href="https://kudeta-japan.github.io/cheesewonderland/img/favicon.png" />
 
   <style>
-    :root{
-      --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8;
-      --muted:rgba(255,255,255,.06); --max:1100px; --radius:18px;
-    }
-    html,body{margin:0;background:#0b0b10;color:var(--text);
-      font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif; overflow-x:hidden}
+    :root{ --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8; --muted:rgba(255,255,255,.06); --max:1100px; --radius:18px; }
+    html,body{margin:0;background:#0b0b10;color:var(--text);font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
     a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
     .container{max-width:var(--max);margin:auto;padding:0 20px}
 
-    /* Header */
-    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);
-      backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
     .nav{display:flex;justify-content:space-between;align-items:center;height:64px}
     .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-    .brand .dot{width:12px;height:12px;border-radius:50%;
-      background:linear-gradient(135deg,var(--brand),var(--brand-strong));
-      box-shadow:0 0 20px rgba(255,209,102,.85)}
+    .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-strong));box-shadow:0 0 20px rgba(255,209,102,.85)}
     .links{display:flex;gap:16px;white-space:nowrap;overflow:auto;scrollbar-width:none}
     .links::-webkit-scrollbar{display:none}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;
-      background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;
-      font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.26);color:var(--text)}
 
@@ -65,83 +57,17 @@
     .hero-inner{position:relative;z-index:2;padding:90px 0 72px}
     .hero-grid{display:grid;gap:18px}
     @media(min-width:920px){.hero-grid{grid-template-columns:1.15fr .85fr}}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;
-      background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
     .hero h1{font-size:clamp(28px,6vw,52px);line-height:1.1;margin:10px 0}
     .lead{color:var(--sub)}
     .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-      border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
+    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
     .kpi b{display:block;font-size:clamp(18px,4vw,26px)}
-    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);
-      border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
 
-    /* Sections */
-    section{padding:68px 0}
-    section h2{text-align:center;font-size:clamp(22px,4vw,34px);margin:0 0 14px}
-    .muted{color:var(--sub)}
-
-    /* Pastel bands */
-    .section-band{position:relative;isolation:isolate}
-    .section-band::before{
-      content:"";position:absolute;inset:-60px 0;z-index:-1;
-      background:
-        radial-gradient(1200px 420px at 18% -8%, rgba(255,223,186,.28), transparent 62%),
-        radial-gradient(980px 380px at 85% 0%, rgba(255,210,214,.22), transparent 58%),
-        radial-gradient(800px 320px at 50% 100%, rgba(190,230,255,.14), transparent 60%);
-      filter:blur(2px);
-    }
-    .section-band.dusk::after{
-      content:"";position:absolute;inset:-20px 0;z-index:-1;
-      background:linear-gradient(180deg, rgba(255,230,200,.08), rgba(11,11,16,.06));
-    }
-    .section-title{color:#ffecc1;text-shadow:0 8px 28px rgba(255,200,120,.22)}
-
-    /* Features / Cards */
-    .feature-cards{display:grid;gap:18px;grid-template-columns:1fr}
-    @media(min-width:980px){.feature-cards{grid-template-columns:repeat(3,1fr)}}
-    .card{padding:20px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.14);box-shadow:0 14px 40px rgba(15,15,20,.28);transition:.25s}
-    .card:hover{transform:translateY(-1px)}
-    .feature{display:block;border-radius:20px;padding:10px;transition:.25s}
-    .feature:hover{transform:translateY(-1px);box-shadow:0 18px 46px rgba(15,15,20,.32)}
-    .feature .fig{position:relative;border-radius:12px;overflow:hidden}
-    .feature img{width:100%;height:220px;object-fit:cover;filter:brightness(1.03) contrast(.98) saturate(.92) hue-rotate(-4deg)}
-    .feature .badge{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.22);color:#ffe8b0;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
-
-    /* Attractions list */
-    .attractions{display:grid;gap:18px}
-    @media(min-width:900px){.attractions{grid-template-columns:repeat(3,1fr)}}
-    .attr{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center;border-radius:20px;
-      padding:14px;border:1px solid rgba(255,255,255,.12);
-      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.035))}
-    .attr img{width:90px;height:90px;border-radius:10px;object-fit:cover}
-
-    /* Pricing */
-    .pricing{display:grid;gap:18px}
-    @media(min-width:860px){.pricing{grid-template-columns:repeat(3,1fr)}}
-
-    /* Countdown */
-    .count{display:flex;gap:8px;margin:14px 0}
-    .box{min-width:68px;text-align:center;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.1);
-      border-radius:12px;padding:10px 8px}
-    .num{font-size:24px;font-weight:800}
-    .lbl{font-size:12px;color:var(--sub)}
-
-    /* FAQ / Form */
-    details{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);
-      border-radius:14px;padding:12px 14px}
-    details+details{margin-top:10px} summary{cursor:pointer;font-weight:700}
-    input,textarea,select{width:100%;margin-top:6px;padding:12px;border-radius:12px;
-      border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--text)}
-    label{display:block;margin:8px 0}
-
-    /* Footer & effects */
-    footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
-    .reveal{opacity:0;transform:translateY(10px);transition:.6s}
-    .reveal.show{opacity:1;transform:none}
-    .hr-glow{height:1px;margin:28px 0;background:linear-gradient(90deg,transparent,rgba(255,215,170,.55),rgba(255,210,214,.45),rgba(190,230,255,.40),transparent);filter:blur(.4px)}
+    /* mini OGP in hero */
+    .ogp-mini{width:100%;height:auto;margin-top:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 28px rgba(0,0,0,.35)}
+    .ogp-cap{display:block;color:#aeb0c8;font-size:12px;margin-top:6px}
   </style>
 </head>
 <body>
@@ -195,9 +121,16 @@
         <li>17:50–19:15 フリー周遊（5大アトラクション）</li>
         <li>19:15–19:35 コンプリート演出（スタンプ達成者）</li>
         <li>19:35 フィナーレ：パレード＆一斉演出</li>
-        <li>19:50 ラストオーダー → 20:00 クローズ</li>
+        <li>19:50 ラストアトラクション → 20:00 クローズ</li>
       </ol>
-      <p class="muted" style="margin:.8rem 0 0; font-size:12px">ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b></p>
+      <p class="muted" style="margin:.8rem 0 0; font-size:12px">
+        ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b>
+      </p>
+
+      <!-- ▼ OGPプレビュー（Hero右に追加） -->
+      <img class="ogp-mini" src="img/ogp.jpg?v=2" alt="CHEESE WONDERLAND OGP preview" loading="lazy" width="1200" height="630">
+      <small class="ogp-cap">※ SNSで共有されるカード画像（OGP）</small>
+      <!-- ▲ -->
     </aside>
   </div>
 </section>
