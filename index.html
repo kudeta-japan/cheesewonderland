@@ -212,6 +212,52 @@ form.card input:focus{
 form.card .cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
 form.card button.btn{ flex:1; justify-content:center; font-size:16px; padding:1rem 1.1rem }
 form.card .btn.ghost{ flex:1; justify-content:center }
+
+    /* === Mobile: ヘッダーメニューを3段表示（2列×3段） === */
+@media (max-width: 760px){
+
+  /* 1) ヘッダー行自体を縦積みにして高さを自動に */
+  .nav{
+    height: auto;                 /* ← 64px固定を解除 */
+    padding: 10px 0 12px;
+    align-items: flex-start;
+    gap: 8px;
+    flex-direction: column;       /* ブランド行の下にリンクを置く */
+  }
+
+  /* 2) リンク群をグリッド化（2列×自動行＝3段） */
+  .links{
+    display: grid;                /* ← flex→grid に切替 */
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 10px;
+    white-space: normal;          /* ← 折り返しOK */
+    overflow: visible;            /* ← 横スクロールを無効化 */
+    padding-right: 0;             /* ← 右切れ対策の余白も不要に */
+    -webkit-mask-image: none;     /* ← 以前のフェードを無効化 */
+            mask-image: none;
+    scroll-snap-type: none;       /* ← スナップ無効化 */
+  }
+
+  /* 3) 各リンクをタッチしやすい“チップ”に */
+  .links a{
+    flex: 0 0 auto;
+    display: block;
+    text-align: center;
+    padding: .55rem .8rem;
+    border: 1px solid rgba(255,255,255,.20);
+    background: rgba(255,255,255,.06);
+    border-radius: 12px;
+  }
+
+  /* 4) 「予約する」だけ横幅ぜんぶ（目立たせる） */
+  .links .btn{
+    grid-column: 1 / -1;     /* ← 2列ぶち抜き */
+    justify-content: center;
+    border: none;            /* 既存のbtnスタイルを活かす */
+    background: linear-gradient(135deg,var(--brand),var(--brand-strong));
+    color: #2b2000;
+  }
+}
   </style>
 </head>
 <body>
