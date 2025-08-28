@@ -172,34 +172,40 @@
     <div class="hr-glow"></div>
   </div>
 </section>
+  .about-grid{
+  display:grid; gap:24px; align-items:center;
+}
+@media(min-width:960px){
+  .about-grid{grid-template-columns:1fr 1fr}
+}
 
 <!-- ATTRACTIONS -->
 <section id="attractions" class="reveal section-band dusk">
   <div class="container">
     <h2 class="section-title">5大アトラクション</h2>
-    <div class="attractions">
-      <div class="attr">
+    <div class="attractions-grid">
+      <div class="attr-card">
         <img src="img/attr_raclette.jpg" alt="ラクレットの実演">
         <div><h3>ラクレット・スライダー</h3><p class="muted">熱々チーズがポテトにとろ〜り♡「これぞSNS映え！」な瞬間を狙って。</p></div>
       </div>
-      <div class="attr">
+      <div class="attr-card">
         <img src="img/attr_chicago.jpg" alt="シカゴピザのチーズ滝">
         <div><h3>シカゴ・ウォーターフォール</h3><p class="muted">チーズが“滝”のように溢れ出す衝撃のピザ！持ち上げた瞬間、歓声が止まらない！</p></div>
       </div>
-      <div class="attr">
+      <div class="attr-card">
         <img src="img/attr_meltydip.jpg" alt="チーズフォンデュルーレット">
         <div><h3>メルティ・ディップ・ポット</h3><p class="muted">運試しルーレットで盛り上がりMAX！どの具材に当たるかはお楽しみ♡</p></div>
       </div>
-      <div class="attr">
+      <div class="attr-card">
         <img src="img/attr_lab.jpg" alt="DIYピザ">
         <div><h3>チーズ・ラボ（DIYピザ）</h3><p class="muted">好きなチーズを選んで、自分だけの“映えピザ”を焼き上げよう！</p></div>
       </div>
-      <div class="attr">
+      <div class="attr-card">
         <img src="img/attr_espuma.jpg" alt="エスプーマ仕上げ">
         <div><h3>エスプーマ・バスク</h3><p class="muted">ふわ泡を目の前でオン！とろける甘さにキュン♡</p></div>
       </div>
             <!-- シークレット -->
-      <div class="attr">
+      <div class="attr-card">
         <img src="img/attr_secret.jpg?v=1" alt="シークレットアトラクション">
         <div>
           <h3>？？？ ？？？ シークレットアトラクション</h3>
@@ -209,7 +215,26 @@
     </div>
   </div>
 </section>
-
+  
+.attractions-grid{
+  display:grid; gap:22px;
+}
+@media(min-width:900px){
+  .attractions-grid{grid-template-columns:repeat(3,1fr)}
+}
+.attr-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+  transition:.25s;
+}
+.attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.attr-card img{
+  width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:10px;
+}
+  
 <!-- TICKETS -->
 <section id="tickets" class="reveal section-band dusk">
   <div class="container">
