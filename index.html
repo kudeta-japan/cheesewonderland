@@ -164,12 +164,15 @@
     }
     .attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
     /* Attractions 画像：切らさない均一表示 */
+/* Attractions 画像：正方形で統一＆均一に見せる */
 .attr-card img{
   width: 100%;
-  height: 300px;                 /* 高さは300pxで統一 */
-  object-fit: contain;           /* 切らさない */
-  background: rgba(255,255,255,.04); /* 黒背景でも馴染むように */
+  aspect-ratio: 1 / 1;   /* 正方形に固定（レスポンシブ） */
+  height: auto;          /* aspect-ratio に任せる */
+  object-fit: cover;     /* はみ出しをトリミングして埋める */
   border-radius: 12px;
+  display: block;
+  background: none;      /* レターボックス背景は不要に */
   margin-bottom: 10px;
 }
     footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
