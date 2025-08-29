@@ -224,6 +224,18 @@ form.card .btn.ghost{ flex:1; justify-content:center }
   .links a:not(.btn){
     display: none;   /* 通常リンクは消す */
   }
+@media (max-width: 760px){
+  .links{ width: 100%; }           /* 親を全幅に */
+  .links .btn{
+    flex: 1;                       /* フレックス項目として横いっぱい */
+    display: inline-flex;
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+    font-size: 16px;
+    justify-content: center;
+    width: 100%;
+  }
+}
   .links .btn{
     display: inline-flex;
     padding: 0.9rem 1.2rem;
