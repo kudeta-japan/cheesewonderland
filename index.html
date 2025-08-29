@@ -136,7 +136,6 @@
 
 /* 枠の高さはそのまま（例：300px）。ここは任意の数値 */
 .feature .fig{ flex-shrink:0; height:300px; overflow:hidden; position:relative }
-.attr-card img{ height:200px } /* ←アトラクションのカード高さに合わせて任意 */
 
 /* ★ ここがポイント：cover → contain に変更＋背景色でレターボックスを馴染ませる */
 .feature .fig img,
@@ -164,8 +163,15 @@
       border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;text-align:center;transition:.25s
     }
     .attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-    .attr-card img{width:100%;height:300px;object-fit:cover;border-radius:12px;margin-bottom:10px}
-
+    /* Attractions 画像：切らさない均一表示 */
+.attr-card img{
+  width: 100%;
+  height: 300px;                 /* 高さは300pxで統一 */
+  object-fit: contain;           /* 切らさない */
+  background: rgba(255,255,255,.04); /* 黒背景でも馴染むように */
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
     footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
     .reveal{opacity:0;transform:translateY(10px);transition:.6s}
     .reveal.show{opacity:1;transform:none}
