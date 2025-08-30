@@ -512,14 +512,13 @@ form.card .btn.ghost{ flex:1; justify-content:center }
       <label>メール*<br><input type="email" name="email" required></label>
       <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
 
-      <!-- ✅ ポテト特典 -->
-      <div style="grid-column:1/-1; margin-top:12px; display:flex; align-items:flex-start; gap:10px; background:rgba(255,255,255,.05); padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.15)">
-        <input type="checkbox" name="opt_potato" value="yes" style="margin-top:3px">
-        <span style="font-size:0.95rem; line-height:1.6">
-          <b>9/10までの申し込み限定！</b><br>
-          フライドポテトをプレゼント🎁
-        </span>
-      </div>
+    <!-- フライドポテトキャンペーン -->
+<div style="grid-column:1/-1; margin-top:10px;">
+  <label style="display:flex; align-items:center; gap:8px; font-size:0.95rem; color:#fff;">
+    <input type="checkbox" name="potato_present" value="yes" style="margin:0;">
+    <span>9/10までのお申し込み限定！フライドポテトをプレゼント🍟</span>
+  </label>
+</div>
 
       <div class="cta" style="margin-top:16px">
         <button class="btn" type="submit">送信</button>
