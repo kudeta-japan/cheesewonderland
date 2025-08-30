@@ -268,6 +268,31 @@ form.card .btn.ghost{ flex:1; justify-content:center }
   display: block;
   margin: 0 auto;
 }
+    /* ポテト特典のレイアウト（スマホで崩れない） */
+.promo{
+  display:flex;
+  align-items:flex-start;       /* 先頭で揃える（iOSでのズレ防止） */
+  gap:10px;
+  margin:10px 0 0;
+}
+.promo input{
+  flex:0 0 auto;
+  margin:0;                    /* 余白で左に寄せる */
+  transform: translateY(2px);  /* 文字と高さを合わせる微調整 */
+}
+.promo label{
+  flex:1;                      /* 文章側は残り幅いっぱい */
+  color:#fff;
+  font-size:0.95rem;
+  line-height:1.6;
+  word-break:break-word;       /* 長文でも折り返す */
+}
+
+/* 極小端末での安全マージン */
+@media (max-width: 390px){
+  .promo{ gap:8px; }
+  .promo label{ font-size:0.9rem; }
+}
   </style>
 </head>
 <body>
@@ -512,11 +537,11 @@ form.card .btn.ghost{ flex:1; justify-content:center }
       <label>メール*<br><input type="email" name="email" required></label>
       <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
 
-    <!-- フライドポテトキャンペーン -->
-<div style="grid-column:1/-1; margin-top:10px;">
-  <label style="display:flex; align-items:center; gap:8px; font-size:0.95rem; color:#fff;">
-    <input type="checkbox" name="potato_present" value="yes" style="margin:0;">
-    <span>9/10までのお申し込み限定！フライドポテトをプレゼント🍟</span>
+<!-- フライドポテト・キャンペーン -->
+<div class="promo">
+  <input type="checkbox" id="promo-potato" name="potato_present" value="yes">
+  <label for="promo-potato">
+    9/10までのお申し込み限定！フライドポテトをプレゼント🍟
   </label>
 </div>
 
