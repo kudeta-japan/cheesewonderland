@@ -268,30 +268,38 @@ form.card .btn.ghost{ flex:1; justify-content:center }
   display: block;
   margin: 0 auto;
 }
-    /* ポテト特典のレイアウト（スマホで崩れない） */
-.promo{
+  /* --- ポテト特典の行を横並びで安定表示 --- */
+form .promo{
   display:flex;
-  align-items:flex-start;       /* 先頭で揃える（iOSでのズレ防止） */
+  align-items:flex-start;     /* アイコンと文字のズレ防止 */
   gap:10px;
   margin:10px 0 0;
+  width:100%;
 }
-.promo input{
+form .promo input[type="checkbox"]{
   flex:0 0 auto;
-  margin:0;                    /* 余白で左に寄せる */
-  transform: translateY(2px);  /* 文字と高さを合わせる微調整 */
+  width:20px; height:20px;   /* 見やすいサイズ */
+  margin:0;
+  accent-color:#ffd166;      /* ブランド色（対応ブラウザ） */
 }
-.promo label{
-  flex:1;                      /* 文章側は残り幅いっぱい */
+form .promo label{
+  flex:1 1 auto;             /* 文章は残り幅いっぱい */
   color:#fff;
   font-size:0.95rem;
   line-height:1.6;
-  word-break:break-word;       /* 長文でも折り返す */
+  white-space:normal;
+  overflow-wrap:anywhere;     /* 幅が狭くても崩さず改行 */
+  word-break:break-word;
+  writing-mode:horizontal-tb; /* 念のため縦書き化を明示的に無効 */
+}
+@media (max-width: 390px){
+  form .promo{ gap:8px; }
+  form .promo label{ font-size:0.9rem; }
 }
 
-/* 極小端末での安全マージン */
-@media (max-width: 390px){
-  .promo{ gap:8px; }
-  .promo label{ font-size:0.9rem; }
+/* フォームをGridで組んでいる場合は、プロモ行を1行まるごと使う */
+form .promo[data-span]{
+  grid-column:1/-1;          /* 2カラム等でも全幅で表示 */
 }
   </style>
 </head>
@@ -538,11 +546,9 @@ form.card .btn.ghost{ flex:1; justify-content:center }
       <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
 
 <!-- フライドポテト・キャンペーン -->
-<div class="promo">
+<div class="promo" data-span>
   <input type="checkbox" id="promo-potato" name="potato_present" value="yes">
-  <label for="promo-potato">
-    9/10までのお申し込み限定！フライドポテトをプレゼント🍟
-  </label>
+  <label for="promo-potato">9/10までのお申し込み限定！フライドポテトをプレゼント🍟</label>
 </div>
 
       <div class="cta" style="margin-top:16px">
