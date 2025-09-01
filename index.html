@@ -198,8 +198,9 @@ form.card{
   }
 }
 
-/* 入力欄：角丸・内側余白を大きく、視線の導線を作る */
-form.card input{
+/* フォームUI：select/textareaにも同じ見た目を適用 */
+form.card select,
+form.card textarea{
   width: 100%;
   padding: 14px 16px;
   border-radius: 12px;
@@ -209,13 +210,20 @@ form.card input{
   font-size: 16px;
   transition: .2s border-color, .2s box-shadow, .2s background;
 }
-form.card input::placeholder{ color: #bfc2d5 }
-form.card input:focus{
+
+form.card select:focus,
+form.card textarea:focus{
   border-color: var(--brand);
   outline: none;
   background: rgba(255,255,255,.10);
   box-shadow: 0 0 0 2px rgba(255,209,102,.28);
 }
+
+/* テキストエリアの行間を少し広げて読みやすく */
+form.card textarea{ line-height: 1.6; resize: vertical; }
+
+/* プレースホルダー色を合わせる */
+form.card textarea::placeholder{ color: #bfc2d5 }
 
 /* CTA：横並び・主ボタンは面積広めで信頼感 */
 form.card .cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
