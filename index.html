@@ -320,6 +320,14 @@ form .promo label{
 form .promo[data-span]{
   grid-column:1/-1;          /* 2カラム等でも全幅で表示 */
 }
+    .remain-badge{
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:linear-gradient(135deg,#ffd166,#ffb703);
+  color:#2b2000; font-weight:900; border-radius:999px;
+  padding:.55rem .9rem; box-shadow:0 10px 28px rgba(255,183,3,.25);
+}
+.remain-badge.is-low{ background:linear-gradient(135deg,#ffb703,#ff6b6b); }
+.remain-badge[hidden]{ display:none !important; }
   </style>
 </head>
 <body>
@@ -361,7 +369,9 @@ form .promo[data-span]{
         <a class="btn" href="#reserve">今すぐ予約</a>
         <a class="btn ghost" href="#about">見どころを見る</a>
       </div>
-
+<div id="remain-badge" class="remain-badge" aria-live="polite" hidden>
+  <strong id="remain-number">--</strong> / 40 まであと
+</div>
       <div class="kpis">
         <div class="kpi"><span class="lbl">日時</span><b>10/5(日) 17:30~20:00</b></div>
         <div class="kpi"><span class="lbl">会場</span><b>KU-DETA（岐阜市）</b></div>
@@ -637,6 +647,47 @@ form .promo[data-span]{
     const t=document.getElementById(id); if(!t) return; e.preventDefault();
     window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-64,behavior:'smooth'});
   }));
+
+  const GAS_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj4LK-JgsOD-B8xSZOVuBY-uVXNt1wEpAX5w9UwZq91GaaA4_0_YmSIknmyLBQ-BLtiRGfmDJiuQNJx-OSCk6DHbyCvq6dBniVI1G3dUSgrJ7zfrP_WFcHmQ63oGV6xFXXc6XxnvuDQ-tWbSLS4xogCv4_U4MjM2k641_AThb6ANOOUVEdkyXuL-NHPirf54RE8UNlYZeWdy5XLT7-KbWwLuujKurac1NLkELBEcNDKB6iFWfe3VL7CiF5Bd4Mg3FFkUVT8xhHaiDXU_XEhv-ams46IJPIQR72FWAeg&lib=MQVh1dNqfxCQSr75uhmguv_akPaTzW52E';
+
+async function updateRemainBadge(){
+  const el = document.getElementById('remain-badge');
+  const numEl = document.getElementById('remain-number');
+  try{
+    // 軽いキャッシュ（30秒）
+    const cache = JSON.parse(localStorage.getItem('cw_remain_cache')||'null');
+    const now = Date.now();
+    if(cache && (now - cache.t) < 30000){
+      apply(cache.d); return;
+    }
+
+    const res = await fetch(GAS_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('net');
+    const data = await res.json();
+    apply(data);
+    localStorage.setItem('cw_remain_cache', JSON.stringify({t:now, d:data}));
+  }catch(e){
+    // 失敗時は非表示
+    el.hidden = true;
+  }
+
+  function apply(data){
+    const remaining = Math.max(0, Number(data.remaining||0));
+    numEl.textContent = remaining;
+    el.hidden = false;
+    el.classList.toggle('is-low', remaining <= 5); // 5名以下で色を強調
+    if(remaining === 0){
+      numEl.textContent = '満席';
+      el.textContent = '満席';
+    }else{
+      // 表示を「あと ◯ 名」にしたい場合は下の1行に変更
+      el.innerHTML = `あと <strong id="remain-number">${remaining}</strong> 名`;
+    }
+  }
+}
+// 初回＆定期更新（60秒ごと）
+updateRemainBadge();
+setInterval(updateRemainBadge, 60000);
 </script>
 
 <!-- JSON-LD（イベント） -->
