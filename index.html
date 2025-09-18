@@ -707,5 +707,46 @@ setInterval(updateRemainBadge, 60000);
   "organizer":{"@type":"Organization","name":"KU-DETA","url":"https://kudeta-japan.github.io/cheesewonderland/"}
 }
 </script>
+<script>
+(async function () {
+  // ★ここをあなたのWebアプリURLに置き換え（/exec でも /macros/echo?... でもOK）
+  const API = '<<GASのデプロイURL>>';
+
+  const badge = document.getElementById('remainBadge');
+  const numEl = document.getElementById('remainNum');
+
+  async function fetchRemain() {
+    try {
+      const res = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now(), {
+        cache: 'no-store'
+      });
+      const data = await res.json(); // {capacity, reserved, remaining, updatedIso}
+      if (!Number.isFinite(data.remaining)) return;
+
+      // 数字を反映
+      numEl.textContent = data.remaining;
+
+      // 残数に応じて見た目と文言を強調（任意）
+      badge.classList.remove('danger','warn');
+      if (data.remaining <= 5) {
+        badge.classList.add('danger');
+        badge.title = 'のこり極少：お早めに！';
+      } else if (data.remaining <= 10) {
+        badge.classList.add('warn');
+        badge.title = 'のこりわずか';
+      } else {
+        badge.title = '空きあり';
+      }
+    } catch (e) {
+      console.error('remain fetch failed', e);
+      // 失敗時はそのまま（静的表示）
+    }
+  }
+
+  // 初回 & ときどき更新（5分おき）
+  fetchRemain();
+  setInterval(fetchRemain, 5 * 60 * 1000);
+})();
+</script>
 </body>
 </html>
