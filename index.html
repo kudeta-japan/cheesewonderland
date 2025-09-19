@@ -742,5 +742,21 @@ setInterval(updateRemainBadge, 60000);
   setInterval(fetchRemain, 5 * 60 * 1000);
 })();
 </script>
+  <script>
+  // ← あなたのGASのWebアプリURLに置き換え
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwSjctw4kaIg_5jMuofoy-p64vyvNr_1HSXYMpQJLwPZrqn14JKWQyiUf-ijXGSBvq2DQ/exec';
+  const form = document.getElementById('reserveForm'); // フォームに id="reserveForm" が必須
+  form.addEventListener('submit', () => {
+    const fd = new FormData(form);
+    const payload = {
+      name:   fd.get('name')  || '',
+      email:  fd.get('email') || '',
+      people: Number(fd.get('people') || 1)
+    };
+    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+    // Formspree送信と並行でGASへも送る（ページ遷移しても送れる）
+    navigator.sendBeacon(GAS_URL, blob);
+  });
+</script>
 </body>
 </html>
