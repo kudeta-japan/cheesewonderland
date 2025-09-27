@@ -1,20 +1,17 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N3STNMJWB8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-N3STNMJWB8');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N3STNMJWB8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-N3STNMJWB8');
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>CHEESE WONDERLAND｜KU-DETA</title>
   <meta name="description" content="一夜限りのチーズテーマパーク。10/5(日) 17:30–20:00｜1ドリンク付 ¥3,000｜岐阜・KU-DETAで開催。ラクレットやシカゴピザ、ルーレットフォンデュなど5つのアトラクションが楽しめる。">
-
   <!-- OGP / Twitter -->
   <meta property="og:title" content="CHEESE WONDERLAND｜KU-DETA" />
   <meta property="og:description" content="一夜限りのチーズテーマパーク。とろけて・食べて・遊べる120分！" />
@@ -26,308 +23,96 @@
   <link rel="icon" href="https://kudeta-japan.github.io/cheesewonderland/img/favicon.png" />
 
   <style>
-    :root{
-      --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8;
-      --max:1100px; --radius:18px;
-    }
-    html,body{margin:0;background:#0b0b10;color:var(--text);
-      font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
+    :root{ --brand:#ffd166; --brand-strong:#ffb703; --text:#f7f7fb; --sub:#b9b9c8; --max:1100px; --radius:18px; }
+    html,body{margin:0;background:#0b0b10;color:var(--text);font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:hidden}
     a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
     .container{max-width:var(--max);margin:auto;padding:0 20px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);
-      backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    header{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.55);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
     .nav{display:flex;justify-content:space-between;align-items:center;height:64px}
     .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-    .brand .dot{width:12px;height:12px;border-radius:50%;
-      background:linear-gradient(135deg,var(--brand),var(--brand-strong));
-      box-shadow:0 0 20px rgba(255,209,102,.85)}
-   /* 既存 .links を上書き */
-.links{
-  display:flex; gap:14px; white-space:nowrap;
-  overflow-x:auto; overflow-y:hidden;           /* 横スクロールを確実に */
-  -webkit-overflow-scrolling: touch;            /* iOSでスムーズ */
-  padding-right: max(16px, env(safe-area-inset-right));  /* 右端の切れ防止 */
-  scroll-snap-type: x proximity;                /* 指で送りやすく */
-}
-.links a{ flex:0 0 auto; scroll-snap-align:start }
-
-/* 小画面で右端にフェード（切れて見えない問題の視覚対策） */
-@media (max-width: 760px){
-  .links{
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
-  }
-  .container{ padding-left: max(16px, env(safe-area-inset-left));
-              padding-right:max(16px, env(safe-area-inset-right)); }
-}.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;
-      background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;
-      font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
+    .brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-strong));box-shadow:0 0 20px rgba(255,209,102,.85)}
+    .links{display:flex; gap:14px; white-space:nowrap; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling: touch; padding-right:max(16px, env(safe-area-inset-right)); scroll-snap-type:x proximity;}
+    .links a{flex:0 0 auto; scroll-snap-align:start}
+    @media (max-width: 760px){
+      .links{-webkit-mask-image:linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);mask-image:linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%)}
+      .container{ padding-left:max(16px, env(safe-area-inset-left)); padding-right:max(16px, env(safe-area-inset-right)); }
+      .links a:not(.btn){display:none}
+      .links{width:100%}
+      .links .btn{flex:1;display:inline-flex;padding:.9rem 1.2rem;border-radius:14px;font-size:16px;justify-content:center;width:100%}
+    }
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.26);color:var(--text)}
 
     /* Hero */
     .hero{position:relative;background:#0b0b10}
-    .hero::before{
-      content:"";position:absolute;inset:0;
-      background:url('img/hero_sunset.jpg') center/cover no-repeat;
-      opacity:.72;filter:saturate(1.06) contrast(1.02) brightness(1.03);z-index:0;
-    }
-    .hero::after{
-      content:"";position:absolute;inset:0;z-index:1;
-      background:
-        radial-gradient(1200px 520px at 20% 0%, rgba(255,209,102,.35), transparent 60%),
-        linear-gradient(180deg, rgba(255,224,232,.28) 0%, rgba(208,226,255,.16) 40%, rgba(11,11,16,.70) 100%);
-      mix-blend-mode:screen; pointer-events:none;
-    }
     .hero-inner{position:relative;z-index:2;padding:90px 0 72px}
     .hero-grid{display:grid;gap:18px}
     @media(min-width:920px){.hero-grid{grid-template-columns:1.15fr .85fr}}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;
-      background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(255,246,222,.18);border:1px solid rgba(255,246,222,.32);color:#ffe7a3;font-weight:800}
     .hero h1{font-size:clamp(28px,6vw,52px);line-height:1.1;margin:10px 0}
     .lead{color:var(--sub)}
     .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-      border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
+    .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;text-align:center;min-width:190px}
     .kpi b{display:block;font-size:clamp(18px,4vw,26px)}
-    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);
-      border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+    .glass{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:var(--radius);padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+    .hero-bg{text-align:center;overflow:hidden}
+    .hero-bg .hero-img{width:100%;max-width:800px;height:auto;margin:0 auto;display:block}
 
-    /* Countdown – 横並び＆中央寄せ */
+    /* Countdown */
     .count{display:flex;gap:8px;justify-content:flex-start;flex-wrap:nowrap;margin:14px 0}
-    .box{min-width:72px;text-align:center;background:rgba(0,0,0,.45);
-      border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 8px}
+    .box{min-width:72px;text-align:center;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 8px}
     .num{font-size:24px;font-weight:800}
     .lbl{font-size:12px;color:var(--sub)}
-
-    /* mini OGP in hero */
-    .ogp-mini{width:100%;height:auto;margin-top:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 28px rgba(0,0,0,.35)}
-    .ogp-cap{display:block;color:#aeb0c8;font-size:12px;margin-top:6px}
 
     /* Sections */
     section{padding:68px 0}
     section h2{text-align:center;font-size:clamp(22px,4vw,34px);margin:0 0 14px}
     .muted{color:var(--sub)}
-
-    /* Pastel bands (下層をHero調に) */
     .section-band{position:relative;isolation:isolate}
-    .section-band::before{
-      content:"";position:absolute;inset:-60px 0;z-index:-1;
-      background:
-        radial-gradient(1200px 420px at 18% -8%, rgba(255,223,186,.28), transparent 62%),
-        radial-gradient(980px 380px at 85% 0%, rgba(255,210,214,.22), transparent 58%),
-        radial-gradient(800px 320px at 50% 100%, rgba(190,230,255,.14), transparent 60%);
-      filter:blur(2px);
-    }
+    .section-band::before{content:"";position:absolute;inset:-60px 0;z-index:-1;background:
+      radial-gradient(1200px 420px at 18% -8%, rgba(255,223,186,.28), transparent 62%),
+      radial-gradient(980px 380px at 85% 0%, rgba(255,210,214,.22), transparent 58%),
+      radial-gradient(800px 320px at 50% 100%, rgba(190,230,255,.14), transparent 60%);filter:blur(2px);}
 
-    /* 均等カード：画面幅に応じて自動で揃う */
-.feature-cards{
-  display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
+    /* Cards */
+    .feature-cards{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:0;overflow:hidden;transition:.25s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.35)}
+    .feature .fig{flex-shrink:0;height:300px;overflow:hidden;position:relative}
+    .feature .fig img{width:100%;height:100%;object-fit:contain;background:rgba(255,255,255,.04)}
+    .feature small{display:block;padding:8px 10px;color:#aeb0c8}
 
-/* カードベース（他セクションカードも同じトーンでOK） */
-.card{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 16px;
-  padding: 0;             /* 画像とキャプションで揃えるため 0 に */
-  overflow: hidden;
-  transition: .25s;
-}
-.card:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,0,0,.35) }
-
-/* 枠の高さはそのまま（例：300px）。ここは任意の数値 */
-.feature .fig{ flex-shrink:0; height:300px; overflow:hidden; position:relative }
-
-/* ★ ここがポイント：cover → contain に変更＋背景色でレターボックスを馴染ませる */
-.feature .fig img,
-.attr-card img{
-  width:100%;
-  height:100%;
-  object-fit: contain;           /* ← 切り抜かない */
-  background: rgba(255,255,255,.04); /* ← 余白の下地（ダークでも違和感少なめ） */
-}
-
-/* バッジ（そのまま使用） */
-.badge{
-  position:absolute; left:10px; top:10px; background:rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.22); color:#ffe8b0; border-radius:999px;
-  padding:6px 10px; font-size:12px; font-weight:800
-}
-
-/* キャプションの余白・色を統一 */
-.feature small{ display:block; padding:8px 10px; color:#aeb0c8 }
-    /* アトラクション：カード型3列 */
+    /* Attractions */
     .attractions-grid{display:grid;gap:22px}
     @media(min-width:900px){.attractions-grid{grid-template-columns:repeat(3,1fr)}}
-    .attr-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;text-align:center;transition:.25s
-    }
+    .attr-card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;text-align:center;transition:.25s}
     .attr-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-    /* Attractions 画像：切らさない均一表示 */
-/* Attractions 画像：正方形で統一＆均一に見せる */
-.attr-card img{
-  width: 100%;
-  aspect-ratio: 1 / 1;   /* 正方形に固定（レスポンシブ） */
-  height: auto;          /* aspect-ratio に任せる */
-  object-fit: cover;     /* はみ出しをトリミングして埋める */
-  border-radius: 12px;
-  display: block;
-  background: none;      /* レターボックス背景は不要に */
-  margin-bottom: 10px;
-}
+    .attr-card img{width:100%;aspect-ratio:1/1;height:auto;object-fit:cover;border-radius:12px;margin-bottom:10px}
+
     footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0;color:var(--sub)}
     .reveal{opacity:0;transform:translateY(10px);transition:.6s}
     .reveal.show{opacity:1;transform:none}
     .hr-glow{height:1px;margin:28px 0;background:linear-gradient(90deg,transparent,rgba(255,215,170,.55),rgba(255,210,214,.45),rgba(190,230,255,.40),transparent);filter:blur(.4px)}
 
-    /* 予約フォーム：中央にどんと配置、リッチなカード見た目 */
-form.card{
-  max-width: 680px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 18px;
-  padding: 32px 28px;
-  box-shadow: 0 18px 44px rgba(0,0,0,.38);
-}
+    /* フォーム */
+    form.card{max-width:680px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:32px 28px;box-shadow:0 18px 44px rgba(0,0,0,.38)}
+    #tickets .attractions-grid{grid-template-columns:1fr 1fr 1fr;gap:16px}
+    @media (max-width: 760px){#tickets .attractions-grid{grid-template-columns:1fr !important}}
+    form.card input,form.card select,form.card textarea{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;font-size:16px;transition:.2s border-color,.2s box-shadow,.2s background}
+    form.card select:focus,form.card textarea:focus{border-color:var(--brand);outline:none;background:rgba(255,255,255,.10);box-shadow:0 0 0 2px rgba(255,209,102,.28)}
+    form.card textarea{line-height:1.6;resize:vertical}
+    form.card textarea::placeholder{color:#bfc2d5}
+    form.card .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+    form.card button.btn{flex:1;justify-content:center;font-size:16px;padding:1rem 1.1rem}
+    form.card .btn.ghost{flex:1;justify-content:center}
 
-/* チケットセクションのカードはスマホで1カラムに */
-@media (max-width: 760px){
-  #tickets .attractions-grid{
-    grid-template-columns: 1fr !important;
-    gap: 16px;
-  }
-}
-
-/* フォームUI：select/textareaにも同じ見た目を適用 */
-form.card input,
-    form.card select,
-form.card textarea{
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.08);
-  color: #fff;
-  font-size: 16px;
-  transition: .2s border-color, .2s box-shadow, .2s background;
-}
-
-form.card select:focus,
-form.card textarea:focus{
-  border-color: var(--brand);
-  outline: none;
-  background: rgba(255,255,255,.10);
-  box-shadow: 0 0 0 2px rgba(255,209,102,.28);
-}
-
-/* テキストエリアの行間を少し広げて読みやすく */
-form.card textarea{ line-height: 1.6; resize: vertical; }
-
-/* プレースホルダー色を合わせる */
-form.card textarea::placeholder{ color: #bfc2d5 }
-
-/* CTA：横並び・主ボタンは面積広めで信頼感 */
-form.card .cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap }
-form.card button.btn{ flex:1; justify-content:center; font-size:16px; padding:1rem 1.1rem }
-form.card .btn.ghost{ flex:1; justify-content:center }
-
-/* === Mobile: ヘッダーは「予約する」だけ === */
-@media (max-width: 760px){
-  .links a:not(.btn){
-    display: none;   /* 通常リンクは消す */
-  }
-@media (max-width: 760px){
-  .links{ width: 100%; }           /* 親を全幅に */
-  .links .btn{
-    flex: 1;                       /* フレックス項目として横いっぱい */
-    display: inline-flex;
-    padding: 0.9rem 1.2rem;
-    border-radius: 14px;
-    font-size: 16px;
-    justify-content: center;
-    width: 100%;
-  }
-}
-  .links .btn{
-    display: inline-flex;
-    padding: 0.9rem 1.2rem;
-    border-radius: 14px;
-    font-size: 16px;
-    justify-content: center;
-    width: 100%;     /* 横いっぱいにして目立たせる */
-
-  }
-}
-.hero {
-  position: relative;
-  text-align: left;
-  color: var(--text);
-  padding: 0; /* 画像を背景として使うので余白はリセット */
-}
-
-.hero-bg {
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero-bg .hero-img {
-  width: 100%;
-  max-width: 800px; /* PCでは800pxに制限 */
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-  /* --- ポテト特典の行を横並びで安定表示 --- */
-form .promo{
-  display:flex;
-  align-items:flex-start;     /* アイコンと文字のズレ防止 */
-  gap:10px;
-  margin:10px 0 0;
-  width:100%;
-}
-form .promo input[type="checkbox"]{
-  flex:0 0 auto;
-  width:20px; height:20px;   /* 見やすいサイズ */
-  margin:0;
-  accent-color:#ffd166;      /* ブランド色（対応ブラウザ） */
-}
-form .promo label{
-  flex:1 1 auto;             /* 文章は残り幅いっぱい */
-  color:#fff;
-  font-size:0.95rem;
-  line-height:1.6;
-  white-space:normal;
-  overflow-wrap:anywhere;     /* 幅が狭くても崩さず改行 */
-  word-break:break-word;
-  writing-mode:horizontal-tb; /* 念のため縦書き化を明示的に無効 */
-}
-@media (max-width: 390px){
-  form .promo{ gap:8px; }
-  form .promo label{ font-size:0.9rem; }
-}
-
-/* フォームをGridで組んでいる場合は、プロモ行を1行まるごと使う */
-form .promo[data-span]{
-  grid-column:1/-1;          /* 2カラム等でも全幅で表示 */
-}
-    .remain-badge{
-  display:inline-flex; align-items:center; gap:.5rem;
-  background:linear-gradient(135deg,#ffd166,#ffb703);
-  color:#2b2000; font-weight:900; border-radius:999px;
-  padding:.55rem .9rem; box-shadow:0 10px 28px rgba(255,183,3,.25);
-}
-.remain-badge.is-low{ background:linear-gradient(135deg,#ffb703,#ff6b6b); }
-.remain-badge[hidden]{ display:none !important; }
+    /* 残枠バッジの強調 */
+    #remainBadge{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#ffd166,#ffb703);color:#2b2000;font-weight:900;border-radius:999px;padding:.55rem .9rem;box-shadow:0 10px 28px rgba(255,183,3,.25)}
+    #remainBadge.danger{background:linear-gradient(135deg,#ff9800,#ff5252);color:#fff}
+    #remainBadge.warn{background:linear-gradient(135deg,#ffd166,#ff9800);color:#2b2000}
   </style>
 </head>
 <body>
@@ -357,7 +142,7 @@ form .promo[data-span]{
       <h3 style="margin:4px 0 14px">Melt, Taste & Play!</h3>
       <p class="lead">日曜の夕方は、とろけるチーズのテーマパークへ！SNS映え間違いなしのサプライズが次々登場♪ 女子会はもちろん、彼と一緒も大歓迎♡</p>
 
-      <!-- 横並びカウントダウン -->
+      <!-- カウントダウン -->
       <div class="count" aria-label="countdown">
         <div class="box"><div class="num" id="c-days">--</div><div class="lbl">日</div></div>
         <div class="box"><div class="num" id="c-hours">--</div><div class="lbl">時間</div></div>
@@ -369,70 +154,57 @@ form .promo[data-span]{
         <a class="btn" href="#reserve">今すぐ予約</a>
         <a class="btn ghost" href="#about">見どころを見る</a>
       </div>
-<a class="btn" id="remainBadge">あと <b id="remainNum">--</b> 名</a>
+
+      <!-- 残枠バッジ（ここをJSで更新） -->
+      <a class="btn" id="remainBadge">あと <b id="remainNum">--</b> 名</a>
+
       <div class="kpis">
         <div class="kpi"><span class="lbl">日時</span><b>10/5(日) 17:30~20:00</b></div>
         <div class="kpi"><span class="lbl">会場</span><b>KU-DETA（岐阜市）</b></div>
         <div class="kpi"><span class="lbl">参加費</span><b>¥3,000（1ドリンク付）</b></div>
         <div class="kpi"><span class="lbl">定員</span><b>40名（最大45名）</b></div>
-        
-
       </div>
     </div>
 
-<aside class="glass" aria-label="当日の流れ">
-  <h4 style="margin:0 0 8px">当日の流れ</h4>
-  <ol class="muted" style="line-height:1.8; margin:0">
-    <li>17:30 受付・パスポート配布・ウェルカムフォト</li>
-    <li>17:45 オープニング（安全・遊び方）</li>
-    <li>17:50–19:30 フリー周遊（5大アトラクション）</li>
-    <li>19:30 フィナーレ</li>
-    <li>19:40 ラストアトラクション → 20:00 クローズ</li>
-    <li>※内容が変更になることがあります。</li>
-  </ol>
-  <p class="muted" style="margin:.8rem 0 12px; font-size:12px">
-    ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b>
-  </p>
-
-  <!-- ここに画像を追加 -->
-  <img src="img/ogp3.jpg" alt="イベント雰囲気写真" 
-       style="width:100%; height:auto; border-radius:12px; margin-top:10px">
-</aside>
+    <aside class="glass" aria-label="当日の流れ">
+      <h4 style="margin:0 0 8px">当日の流れ</h4>
+      <ol class="muted" style="line-height:1.8; margin:0">
+        <li>17:30 受付・パスポート配布・ウェルカムフォト</li>
+        <li>17:45 オープニング（安全・遊び方）</li>
+        <li>17:50–19:30 フリー周遊（5大アトラクション）</li>
+        <li>19:30 フィナーレ</li>
+        <li>19:40 ラストアトラクション → 20:00 クローズ</li>
+        <li>※内容が変更になることがあります。</li>
+      </ol>
+      <p class="muted" style="margin:.8rem 0 12px; font-size:12px">ハッシュタグ <b>#CheeseWonderland</b> <b>#KUDETA</b></p>
+      <img src="img/ogp3.jpg" alt="イベント雰囲気写真" style="width:100%; height:auto; border-radius:12px; margin-top:10px">
+    </aside>
   </div>
 </section>
-  
-<!-- ABOUT（テキスト＋3カード） -->
+
+<!-- ABOUT -->
 <section id="about" class="reveal section-band">
   <div class="container">
     <h2 class="section-title" style="text-align:left">イベント概要</h2>
     <div class="about-grid">
       <div>
         <p class="about-copy">
- 「CHEESE WONDERLAND」は、チーズ好きのための夢の国♡
-目の前でとろけるラクレット、チーズが滝みたいにあふれるシカゴピザ、ドキドキのフォンデュルーレット、オリジナルDIYピザ、ふわふわ雲みたいなチーズケーキ…。
-“映えて楽しい＆美味しい”を全部まとめて体験できちゃいます！
+          「CHEESE WONDERLAND」は、チーズ好きのための夢の国♡
+          目の前でとろけるラクレット、チーズが滝みたいにあふれるシカゴピザ、ドキドキのフォンデュルーレット、オリジナルDIYピザ、ふわふわ雲みたいなチーズケーキ…。
+          “映えて楽しい＆美味しい”を全部まとめて体験できちゃいます！
         </p>
       </div>
       <div class="feature-cards">
         <a class="feature card" href="#attractions" aria-label="Raclette Slider">
-          <div class="fig">
-            <img src="img/gal_raclette.jpg?v=3" alt="Raclette Slider（イメージ）">
-       
-          </div>
+          <div class="fig"><img src="img/gal_raclette.jpg?v=3" alt="Raclette Slider（イメージ）"></div>
           <small class="muted">Raclette Slider（イメージ）</small>
         </a>
         <a class="feature card" href="#attractions" aria-label="Chicago Waterfall">
-          <div class="fig">
-            <img src="img/gal_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）">
-     
-          </div>
+          <div class="fig"><img src="img/gal_chicago.jpg?v=3" alt="Chicago Waterfall（イメージ）"></div>
           <small class="muted">Chicago Waterfall（イメージ）</small>
         </a>
         <a class="feature card" href="#attractions" aria-label="Cheese Lab">
-          <div class="fig">
-            <img src="img/gal_lab.jpg?v=3" alt="Cheese Lab（イメージ）">
-
-          </div>
+          <div class="fig"><img src="img/gal_lab.jpg?v=3" alt="Cheese Lab（イメージ）"></div>
           <small class="muted">Cheese Lab（イメージ）</small>
         </a>
       </div>
@@ -442,18 +214,18 @@ form .promo[data-span]{
   </div>
 </section>
 
-<!-- ATTRACTIONS（カード型3列＋シークレット） -->
+<!-- ATTRACTIONS -->
 <section id="attractions" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">5大アトラクション</h2>
-<p class="muted" style="margin-top:14px">
-  このイベントの魅力は、ぜんぶ<b>“自分で体験できるチーズアトラクション”</b>なところ。<br>
-  とろ〜りチーズを削ったり、のばしたり、好きにトッピングしたり。<br>
-  食べるだけじゃなく、自分で仕上げるからワクワクが倍増します。<br>
-  写真も動画もたくさん撮れて、SNS映えもバッチリ♡<br>
-  友達と一緒にキャーキャー楽しんでも、2人でゆっくり味わってもOK。<br>
-  チーズに夢中になれる120分で、思い出もしっかり作れます。
-</p>
+    <p class="muted" style="margin-top:14px">
+      このイベントの魅力は、ぜんぶ<b>“自分で体験できるチーズアトラクション”</b>なところ。<br>
+      とろ〜りチーズを削ったり、のばしたり、好きにトッピングしたり。<br>
+      食べるだけじゃなく、自分で仕上げるからワクワクが倍増します。<br>
+      写真も動画もたくさん撮れて、SNS映えもバッチリ♡<br>
+      友達と一緒にキャーキャー楽しんでも、2人でゆっくり味わってもOK。<br>
+      チーズに夢中になれる120分で、思い出もしっかり作れます。
+    </p>
     <div class="attractions-grid">
       <div class="attr-card">
         <img src="img/attr_raclette.jpg?v=3" alt="ラクレットの実演">
@@ -480,22 +252,21 @@ form .promo[data-span]{
         <h3>エスプーマ・バスク</h3>
         <p class="muted">ふわ泡を自分でエスプーマ。目の前でオン♡</p>
       </div>
-      <!-- シークレット -->
       <div class="attr-card">
         <img src="img/attr_secret.jpg?v=1" alt="シークレットアトラクション">
-        <h3> シークレットアトラクション</h3>
+        <h3>シークレットアトラクション</h3>
         <p class="muted">当日のお楽しみ♡ ここだけのサプライズ、準備中！</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TICKETS（POP文言） -->
+<!-- TICKETS -->
 <section id="tickets" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">チケット</h2>
     <div class="attractions-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="card">
+      <div class="card" style="padding:18px">
         <h3>入場パス（1ドリンク付）</h3>
         <p><b>¥3,000</b>｜税込</p>
         <p class="muted">
@@ -503,7 +274,7 @@ form .promo[data-span]{
           追加ドリンク＆アトラクションは <b>ワンコイン500円</b> で気軽に楽しめちゃう♪
         </p>
       </div>
-      <div class="card">
+      <div class="card" style="padding:18px">
         <h3>注意事項</h3>
         <ul class="muted">
           <li>未成年の方はソフトドリンクのみ</li>
@@ -511,7 +282,7 @@ form .promo[data-span]{
           <li>演出の都合でお待ちいただくことがあります</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card" style="padding:18px">
         <h3>開催情報</h3>
         <p class="muted">2025/10/5(日) 17:30–20:00<br>岐阜市 KU-DETA<br>定員40名（最大45名）</p>
       </div>
@@ -523,7 +294,7 @@ form .promo[data-span]{
   </div>
 </section>
 
-<!-- FAQ（POP文言） -->
+<!-- FAQ -->
 <section id="faq" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">FAQ</h2>
@@ -546,7 +317,7 @@ form .promo[data-span]{
     <h2 class="section-title">アクセス</h2>
     <p class="muted" style="text-align:center">岐阜市加納新本町3-1-1 KU-DETA / 058-274-2212</p>
     <div class="attractions-grid" style="grid-template-columns:1fr 1fr">
-      <div class="card">
+      <div class="card" style="padding:18px">
         <h3>電車でのアクセス</h3>
         <p class="muted">JR岐阜駅南口から徒歩10分。駐車場あり。</p>
       </div>
@@ -563,35 +334,25 @@ form .promo[data-span]{
 <section id="reserve" class="reveal section-band">
   <div class="container">
     <h2 class="section-title">予約フォーム</h2>
-    <form class="card" method="POST" action="https://formspree.io/f/xpwlgjrn" onsubmit="this.querySelector('button').disabled=true;">
+    <form id="reserveForm" class="card" method="POST" action="https://formspree.io/f/xpwlgjrn" onsubmit="this.querySelector('button').disabled=true;">
       <label>お名前*<br><input name="name" required></label>
       <label>電話番号*<br><input name="tel" required></label>
       <label>メール*<br><input type="email" name="email" required></label>
       <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
-      <!-- 年代（任意） -->
-<label>年代
-  <select name="age_group">
-    <option value="" selected>選択してください</option>
-   <option>〜19歳</option>
-    <option>20~24歳</option>
-     <option>25~29歳</option>
-     <option>30~39歳</option>
-    <option>40歳以上〜</option>
-  </select>
-</label>
-
-<!-- 備考（自由入力・任意） -->
-<label>備考
-  <textarea name="note" rows="4" placeholder="例：到着が少し遅れます など"></textarea>
-</label>
-
+      <label>年代
+        <select name="age_group">
+          <option value="" selected>選択してください</option>
+          <option>〜19歳</option><option>20~24歳</option><option>25~29歳</option><option>30~39歳</option><option>40歳以上〜</option>
+        </select>
+      </label>
+      <label>備考
+        <textarea name="note" rows="4" placeholder="例：到着が少し遅れます など"></textarea>
+      </label>
       <div class="cta" style="margin-top:16px">
         <button class="btn" type="submit">送信</button>
         <a class="btn ghost" href="https://www.instagram.com/ku_deta_gifu/" target="_blank" rel="noopener">最新情報を見る</a>
       </div>
     </form>
-
-    <!-- キャンセルポリシー -->
     <p class="muted" style="margin-top:20px; font-size:0.9rem; line-height:1.6">
       【キャンセルポリシー】<br>
       ・3日前までのキャンセル → 0%<br> 
@@ -641,50 +402,81 @@ form .promo[data-span]{
     const t=document.getElementById(id); if(!t) return; e.preventDefault();
     window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-64,behavior:'smooth'});
   }));
-
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwSjctw4kaIg_5jMuofoy-p64vyvNr_1HSXYMpQJLwPZrqn14JKWQyiUf-ijXGSBvq2DQ/exec';
-
-async function updateRemainBadge(){
-  const el = document.getElementById('remain-badge');
-  const numEl = document.getElementById('remain-number');
-  try{
-    // 軽いキャッシュ（30秒）
-    const cache = JSON.parse(localStorage.getItem('cw_remain_cache')||'null');
-    const now = Date.now();
-    if(cache && (now - cache.t) < 30000){
-      apply(cache.d); return;
-    }
-
-    const res = await fetch(GAS_URL, {cache:'no-store'});
-    if(!res.ok) throw new Error('net');
-    const data = await res.json();
-    apply(data);
-    localStorage.setItem('cw_remain_cache', JSON.stringify({t:now, d:data}));
-  }catch(e){
-    // 失敗時は非表示
-    el.hidden = true;
-  }
-
-  function apply(data){
-    const remaining = Math.max(0, Number(data.remaining||0));
-    numEl.textContent = remaining;
-    el.hidden = false;
-    el.classList.toggle('is-low', remaining <= 5); // 5名以下で色を強調
-    if(remaining === 0){
-      numEl.textContent = '満席';
-      el.textContent = '満席';
-    }else{
-      // 表示を「あと ◯ 名」にしたい場合は下の1行に変更
-      el.innerHTML = `あと <strong id="remain-number">${remaining}</strong> 名`;
-    }
-  }
-}
-// 初回＆定期更新（60秒ごと）
-updateRemainBadge();
-setInterval(updateRemainBadge, 60000);
 </script>
 
-<!-- JSON-LD（イベント） -->
+<!-- 残枠バッジ：GAS連携（特別表示に対応） -->
+<script>
+(async function () {
+  // ← あなたのGAS Webアプリの /exec に置き換え（今の動作品でもOK）
+  const API = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLi-O636q5IPTo6_Ogw0pRlslTQ5N70D2V7DEZsryDJGf-Et0cDQibQlmUlhXQNVKmx3qKNDdn8pAF9Z2YsLlUTo64CMjGGpotPAj4vyCfHHYqj5V3s7tXOYxN-lBWM8jEbycXodm0ql393NRE8a6saW64Dbc7FjEAejy8l1jt6bVoWiMZYHmv9stIAPH51v65EtAzmZA7_jkM7wniGjI1sQqZor_EPLmenGB5-zn2vkGBI0tvCeMCxw4HZOXSgHSBoyv_3krMQxDavc299XMxmPi79QXxy7mhjWKsSE&lib=MQVh1dNqfxCQSr75uhmguv_akPaTzW52E';
+
+  const badge = document.getElementById('remainBadge');
+  const numEl  = document.getElementById('remainNum');
+
+  function render(data){
+    const cap = Number(data.capacity||40);
+    const reserved = Number(data.reserved||0);
+    const remaining = Math.max(0, Number(data.remaining||0));
+
+    // デフォルト：「あと N 名」
+    badge.classList.remove('danger','warn');
+    badge.innerHTML = `あと <b id="remainNum">${remaining}</b> 名`;
+
+    if (remaining === 0){
+      badge.textContent = '満員御礼';
+      badge.classList.add('danger');
+      return;
+    }
+    if (remaining === 1){
+      // 例：現在39名、あと1組
+      badge.innerHTML = `現在<strong>${reserved}</strong>名、あと<strong>1組</strong>`;
+      badge.classList.add('danger');
+      return;
+    }
+    if (remaining <= 5){
+      badge.classList.add('danger');
+    } else if (remaining <= 10){
+      badge.classList.add('warn');
+    }
+  }
+
+  async function fetchRemain(){
+    try{
+      const res = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now(), {cache:'no-store'});
+      const data = await res.json();
+      if (!Number.isFinite(Number(data.remaining))) return;
+      render(data);
+    }catch(e){
+      console.error('remain fetch failed', e);
+    }
+  }
+
+  fetchRemain();
+  setInterval(fetchRemain, 60 * 1000);
+})();
+</script>
+
+<!-- Form 同時送信（Formspree + GASへ送る） -->
+<script>
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwSjctw4kaIg_5jMuofoy-p64vyvNr_1HSXYMpQJLwPZrqn14JKWQyiUf-ijXGSBvq2DQ/exec';
+  const form = document.getElementById('reserveForm');
+  form.addEventListener('submit', () => {
+    try{
+      const fd = new FormData(form);
+      const payload = {
+        name:   fd.get('name')  || '',
+        email:  fd.get('email') || '',
+        tel:    fd.get('tel')   || '',
+        people: Number(fd.get('people') || 1),
+        note:   fd.get('note')  || ''
+      };
+      const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      navigator.sendBeacon(GAS_URL, blob);
+    }catch(_){}
+  });
+</script>
+
+<!-- JSON-LD -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -700,63 +492,6 @@ setInterval(updateRemainBadge, 60000);
   "offers":{"@type":"Offer","price":"3000","priceCurrency":"JPY","url":"https://kudeta-japan.github.io/cheesewonderland/#reserve","availability":"https://schema.org/InStock"},
   "organizer":{"@type":"Organization","name":"KU-DETA","url":"https://kudeta-japan.github.io/cheesewonderland/"}
 }
-</script>
-<script>
-(async function () {
-  // ★ここをあなたのWebアプリURLに置き換え（/exec でも /macros/echo?... でもOK）
-  const API = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLi-O636q5IPTo6_Ogw0pRlslTQ5N70D2V7DEZsryDJGf-Et0cDQibQlmUlhXQNVKmx3qKNDdn8pAF9Z2YsLlUTo64CMjGGpotPAj4vyCfHHYqj5V3s7tXOYxN-lBWM8jEbycXodm0ql393NRE8a6saW64Dbc7FjEAejy8l1jt6bVoWiMZYHmv9stIAPH51v65EtAzmZA7_jkM7wniGjI1sQqZor_EPLmenGB5-zn2vkGBI0tvCeMCxw4HZOXSgHSBoyv_3krMQxDavc299XMxmPi79QXxy7mhjWKsSE&lib=MQVh1dNqfxCQSr75uhmguv_akPaTzW52E';
-
-  const badge = document.getElementById('remainBadge');
-  const numEl = document.getElementById('remainNum');
-
-  async function fetchRemain() {
-    try {
-      const res = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now(), {
-        cache: 'no-store'
-      });
-      const data = await res.json(); // {capacity, reserved, remaining, updatedIso}
-      if (!Number.isFinite(data.remaining)) return;
-
-      // 数字を反映
-      numEl.textContent = data.remaining;
-
-      // 残数に応じて見た目と文言を強調（任意）
-      badge.classList.remove('danger','warn');
-      if (data.remaining <= 5) {
-        badge.classList.add('danger');
-        badge.title = 'のこり極少：お早めに！';
-      } else if (data.remaining <= 10) {
-        badge.classList.add('warn');
-        badge.title = 'のこりわずか';
-      } else {
-        badge.title = '空きあり';
-      }
-    } catch (e) {
-      console.error('remain fetch failed', e);
-      // 失敗時はそのまま（静的表示）
-    }
-  }
-
-  // 初回 & ときどき更新（5分おき）
-  fetchRemain();
-  setInterval(fetchRemain, 5 * 60 * 1000);
-})();
-</script>
-  <script>
-  // ← あなたのGASのWebアプリURLに置き換え
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwSjctw4kaIg_5jMuofoy-p64vyvNr_1HSXYMpQJLwPZrqn14JKWQyiUf-ijXGSBvq2DQ/exec';
-  const form = document.getElementById('reserveForm'); // フォームに id="reserveForm" が必須
-  form.addEventListener('submit', () => {
-    const fd = new FormData(form);
-    const payload = {
-      name:   fd.get('name')  || '',
-      email:  fd.get('email') || '',
-      people: Number(fd.get('people') || 1)
-    };
-    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-    // Formspree送信と並行でGASへも送る（ページ遷移しても送れる）
-    navigator.sendBeacon(GAS_URL, blob);
-  });
 </script>
 </body>
 </html>
