@@ -45,6 +45,7 @@
     .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#2b2000;font-weight:800;box-shadow:0 10px 26px rgba(255,183,3,.22);transition:.2s}
     .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.26);color:var(--text)}
+    .btn.soldout{background:linear-gradient(135deg,#ff8a65,#ef5350);color:#fff}
 
     /* Hero */
     .hero{position:relative;background:#0b0b10}
@@ -96,23 +97,6 @@
     .reveal{opacity:0;transform:translateY(10px);transition:.6s}
     .reveal.show{opacity:1;transform:none}
     .hr-glow{height:1px;margin:28px 0;background:linear-gradient(90deg,transparent,rgba(255,215,170,.55),rgba(255,210,214,.45),rgba(190,230,255,.40),transparent);filter:blur(.4px)}
-
-    /* フォーム */
-    form.card{max-width:680px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:32px 28px;box-shadow:0 18px 44px rgba(0,0,0,.38)}
-    #tickets .attractions-grid{grid-template-columns:1fr 1fr 1fr;gap:16px}
-    @media (max-width: 760px){#tickets .attractions-grid{grid-template-columns:1fr !important}}
-    form.card input,form.card select,form.card textarea{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;font-size:16px;transition:.2s border-color,.2s box-shadow,.2s background}
-    form.card select:focus,form.card textarea:focus{border-color:var(--brand);outline:none;background:rgba(255,255,255,.10);box-shadow:0 0 0 2px rgba(255,209,102,.28)}
-    form.card textarea{line-height:1.6;resize:vertical}
-    form.card textarea::placeholder{color:#bfc2d5}
-    form.card .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
-    form.card button.btn{flex:1;justify-content:center;font-size:16px;padding:1rem 1.1rem}
-    form.card .btn.ghost{flex:1;justify-content:center}
-
-    /* 残枠バッジの強調 */
-    #remainBadge{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#ffd166,#ffb703);color:#2b2000;font-weight:900;border-radius:999px;padding:.55rem .9rem;box-shadow:0 10px 28px rgba(255,183,3,.25)}
-    #remainBadge.danger{background:linear-gradient(135deg,#ff9800,#ff5252);color:#fff}
-    #remainBadge.warn{background:linear-gradient(135deg,#ffd166,#ff9800);color:#2b2000}
   </style>
 </head>
 <body>
@@ -125,7 +109,7 @@
       <a href="#tickets">チケット</a>
       <a href="#faq">FAQ</a>
       <a href="#access">アクセス</a>
-      <a class="btn" href="#reserve">予約する</a>
+      <!-- 予約ボタンは満員につき削除 -->
     </nav>
   </div>
 </header>
@@ -151,12 +135,13 @@
       </div>
 
       <div class="cta" style="margin:10px 0 18px">
-        <a class="btn" href="#reserve">今すぐ予約</a>
+        <!-- 予約ボタン削除 -->
         <a class="btn ghost" href="#about">見どころを見る</a>
+        <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank" rel="noopener">LINEで問い合わせ</a>
       </div>
 
-      <!-- 残枠バッジ（ここをJSで更新） -->
-      <a class="btn" id="remainBadge">あと <b id="remainNum">--</b> 名</a>
+      <!-- 満員御礼の固定バッジ -->
+      <span class="btn soldout" aria-live="polite">満員御礼</span>
 
       <div class="kpis">
         <div class="kpi"><span class="lbl">日時</span><b>10/5(日) 17:30~20:00</b></div>
@@ -270,8 +255,8 @@
         <h3>入場パス（1ドリンク付）</h3>
         <p><b>¥3,000</b>｜税込</p>
         <p class="muted">
-          👉 学生にも優しいプライスで、全アトラクションが体験できます。<br>
-          追加ドリンク＆アトラクションは <b>ワンコイン500円</b> で気軽に楽しめちゃう♪
+          👉 全アトラクションが体験できます。<br>
+          追加ドリンク＆アトラクションは <b>ワンコイン500円</b> で楽しめます。
         </p>
       </div>
       <div class="card" style="padding:18px">
@@ -288,8 +273,8 @@
       </div>
     </div>
     <div class="cta" style="margin-top:14px">
-      <a class="btn" href="#reserve">今すぐ予約</a>
-      <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank" rel="noopener">LINEで質問</a>
+      <!-- 予約ボタン削除／問い合わせ導線のみ -->
+      <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank" rel="noopener">LINEで問い合わせ</a>
     </div>
   </div>
 </section>
@@ -330,37 +315,21 @@
   </div>
 </section>
 
-<!-- RESERVE -->
+<!-- SOLD OUT / お知らせ -->
 <section id="reserve" class="reveal section-band">
   <div class="container">
-    <h2 class="section-title">予約フォーム</h2>
-    <form id="reserveForm" class="card" method="POST" action="https://formspree.io/f/xpwlgjrn" onsubmit="this.querySelector('button').disabled=true;">
-      <label>お名前*<br><input name="name" required></label>
-      <label>電話番号*<br><input name="tel" required></label>
-      <label>メール*<br><input type="email" name="email" required></label>
-      <label>人数*<br><input type="number" name="people" min="1" max="6" required></label>
-      <label>年代
-        <select name="age_group">
-          <option value="" selected>選択してください</option>
-          <option>〜19歳</option><option>20~24歳</option><option>25~29歳</option><option>30~39歳</option><option>40歳以上〜</option>
-        </select>
-      </label>
-      <label>備考
-        <textarea name="note" rows="4" placeholder="例：到着が少し遅れます など"></textarea>
-      </label>
-      <div class="cta" style="margin-top:16px">
-        <button class="btn" type="submit">送信</button>
-        <a class="btn ghost" href="https://www.instagram.com/ku_deta_gifu/" target="_blank" rel="noopener">最新情報を見る</a>
+    <h2 class="section-title">満員御礼</h2>
+    <div class="card" style="max-width:680px;margin:0 auto;padding:24px 22px">
+      <p class="muted" style="line-height:1.8">
+        たくさんのお申し込みありがとうございます。<br>
+        現在、<b>満席</b>となっております。<br>
+        キャンセル待ちをご希望の方は、LINEまたはInstagramよりご連絡ください。
+      </p>
+      <div class="cta" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+        <a class="btn ghost" href="https://line.me/R/ti/p/@rzd2388u" target="_blank" rel="noopener">LINEでキャンセル待ち</a>
+        <a class="btn ghost" href="https://www.instagram.com/ku_deta_gifu/" target="_blank" rel="noopener">Instagram</a>
       </div>
-    </form>
-    <p class="muted" style="margin-top:20px; font-size:0.9rem; line-height:1.6">
-      【キャンセルポリシー】<br>
-      ・3日前までのキャンセル → 0%<br> 
-      ・前日までのキャンセル → 50%<br>
-      ・当日のキャンセル → 100%<br>
-      ※無断キャンセルはご遠慮ください。<br>
-      体調不良など、やむを得ない場合はなるべく早めにご連絡くださいね。
-    </p>
+    </div>
   </div>
 </section>
 
@@ -404,79 +373,7 @@
   }));
 </script>
 
-<!-- 残枠バッジ：GAS連携（特別表示に対応） -->
-<script>
-(async function () {
-  // ← あなたのGAS Webアプリの /exec に置き換え（今の動作品でもOK）
-  const API = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLi-O636q5IPTo6_Ogw0pRlslTQ5N70D2V7DEZsryDJGf-Et0cDQibQlmUlhXQNVKmx3qKNDdn8pAF9Z2YsLlUTo64CMjGGpotPAj4vyCfHHYqj5V3s7tXOYxN-lBWM8jEbycXodm0ql393NRE8a6saW64Dbc7FjEAejy8l1jt6bVoWiMZYHmv9stIAPH51v65EtAzmZA7_jkM7wniGjI1sQqZor_EPLmenGB5-zn2vkGBI0tvCeMCxw4HZOXSgHSBoyv_3krMQxDavc299XMxmPi79QXxy7mhjWKsSE&lib=MQVh1dNqfxCQSr75uhmguv_akPaTzW52E';
-
-  const badge = document.getElementById('remainBadge');
-  const numEl  = document.getElementById('remainNum');
-
-  function render(data){
-    const cap = Number(data.capacity||40);
-    const reserved = Number(data.reserved||0);
-    const remaining = Math.max(0, Number(data.remaining||0));
-
-    // デフォルト：「あと N 名」
-    badge.classList.remove('danger','warn');
-    badge.innerHTML = `あと <b id="remainNum">${remaining}</b> 名`;
-
-    if (remaining === 0){
-      badge.textContent = '満員御礼';
-      badge.classList.add('danger');
-      return;
-    }
-    if (remaining === 1){
-      // 例：現在39名、あと1組
-      badge.innerHTML = `現在<strong>${reserved}</strong>名、あと<strong>1組</strong>`;
-      badge.classList.add('danger');
-      return;
-    }
-    if (remaining <= 5){
-      badge.classList.add('danger');
-    } else if (remaining <= 10){
-      badge.classList.add('warn');
-    }
-  }
-
-  async function fetchRemain(){
-    try{
-      const res = await fetch(API + (API.includes('?') ? '&' : '?') + 't=' + Date.now(), {cache:'no-store'});
-      const data = await res.json();
-      if (!Number.isFinite(Number(data.remaining))) return;
-      render(data);
-    }catch(e){
-      console.error('remain fetch failed', e);
-    }
-  }
-
-  fetchRemain();
-  setInterval(fetchRemain, 60 * 1000);
-})();
-</script>
-
-<!-- Form 同時送信（Formspree + GASへ送る） -->
-<script>
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwSjctw4kaIg_5jMuofoy-p64vyvNr_1HSXYMpQJLwPZrqn14JKWQyiUf-ijXGSBvq2DQ/exec';
-  const form = document.getElementById('reserveForm');
-  form.addEventListener('submit', () => {
-    try{
-      const fd = new FormData(form);
-      const payload = {
-        name:   fd.get('name')  || '',
-        email:  fd.get('email') || '',
-        tel:    fd.get('tel')   || '',
-        people: Number(fd.get('people') || 1),
-        note:   fd.get('note')  || ''
-      };
-      const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-      navigator.sendBeacon(GAS_URL, blob);
-    }catch(_){}
-  });
-</script>
-
-<!-- JSON-LD -->
+<!-- JSON-LD（SoldOut） -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -489,7 +386,13 @@
   "eventStatus":"https://schema.org/EventScheduled",
   "image":["https://kudeta-japan.github.io/cheesewonderland/img/ogp.jpg"],
   "location":{"@type":"Place","name":"KU-DETA","address":{"@type":"PostalAddress","addressLocality":"岐阜市","streetAddress":"加納新本町3-1-1"}},
-  "offers":{"@type":"Offer","price":"3000","priceCurrency":"JPY","url":"https://kudeta-japan.github.io/cheesewonderland/#reserve","availability":"https://schema.org/InStock"},
+  "offers":{
+    "@type":"Offer",
+    "price":"3000",
+    "priceCurrency":"JPY",
+    "url":"https://kudeta-japan.github.io/cheesewonderland/",
+    "availability":"https://schema.org/SoldOut"
+  },
   "organizer":{"@type":"Organization","name":"KU-DETA","url":"https://kudeta-japan.github.io/cheesewonderland/"}
 }
 </script>
