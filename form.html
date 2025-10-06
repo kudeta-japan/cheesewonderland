@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- =============================================
+    Cheese Wonderland アンケート（Formspree版・1ファイル）
+    使い方：
+      1) Formspreeでフォームを作成 → フォームIDを取得（例：f/abcdwxyz）
+      2) 下の FORM_ID_HERE をあなたのIDに置き換え
+      3) 任意で「特典コード」「送信後メッセージ」を変更
+      4) このファイルをサーバー/Netlify/GitHub Pages などで公開
+  ============================================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cheese Wonderland アンケート</title>
+  <meta name="description" content="Cheese Wonderland ご参加者アンケート（所要60秒〜3分／匿名）" />
+  <style>
+    :root{
+      --bg:#0b0c10; --fg:#f7f7f7; --muted:#b5b5b5; --brand:#ffd54d; --brand2:#ffb300; --card:#14161a; --ok:#31c48d; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; background:radial-gradient(1200px 800px at 70% -20%, rgba(255,213,77,.15), transparent), var(--bg); color:var(--fg);}
+    .wrap{max-width:880px; margin:0 auto; padding:28px 18px 56px;}
+    header{display:flex; align-items:center; gap:12px; margin-bottom:18px}
+    .logo{width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,var(--brand),var(--brand2)); box-shadow:0 6px 18px rgba(255,181,0,.25);}
+    h1{font-size: clamp(1.2rem, 2.4vw, 1.8rem); margin:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)); border:1px solid rgba(255,255,255,.06); box-shadow:0 10px 30px rgba(0,0,0,.25); border-radius:18px; padding:18px; margin:14px 0;}
+    .muted{color:var(--muted); font-size:.95rem}
+    .grid{display:grid; gap:12px}
+    .two{grid-template-columns:1fr 1fr}
+    label{display:block; font-weight:600; margin:6px 0 8px}
+    .help{color:var(--muted); font-size:.9rem}
+    input[type="text"], input[type="number"], input[type="email"], select, textarea{
+      width:100%; background:#101217; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none;
+    }
+    input[type="range"]{width:100%}
+    textarea{min-height:92px; resize:vertical}
+    .btns{display:flex; gap:10px; flex-wrap:wrap}
+    button, .btn{cursor:pointer; border:0; padding:12px 16px; border-radius:12px; font-weight:700}
+    .primary{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#202020}
+    .ghost{background:transparent; color:var(--fg); border:1px solid rgba(255,255,255,.14)}
+    .danger{background:#B00020}
+    .ok{background:var(--ok); color:#0b0c10}
+    .bar{height:8px; background:#20242c; border-radius:999px; overflow:hidden;}
+    .bar>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .35s ease}
+    .step{display:none}
+    .step.active{display:block}
+    .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#101217; border:1px solid rgba(255,255,255,.08); font-size:.9rem}
+    .opt{display:flex; gap:8px; flex-wrap:wrap}
+    .opt input{display:none}
+    .opt label{border:1px solid rgba(255,255,255,.14); padding:10px 12px; border-radius:12px; cursor:pointer; background:#101217}
+    .opt input:checked + label{outline:2px solid var(--brand); background:linear-gradient(180deg,rgba(255,213,77,.10),transparent)}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+    .foot{margin-top:18px; font-size:.9rem}
+    .success{border-color:rgba(49,196,141,.35);}
+    .error{border-color:#ff6b6b}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Cheese Wonderland アンケート</h1>
+        <div class="muted">所要 <b>60秒</b>（詳しく答える場合 <b>3分</b>）／匿名・一部任意</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="bar" aria-label="進行状況"><i id="progress"></i></div>
+      <form id="form" class="grid" novalidate>
+        <!-- 🔒 honeypot for spam -->
+        <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
+        <input type="hidden" name="timestamp" id="timestamp">
+        <input type="hidden" name="detail_level" id="detail_level" value="simple">
+        <input type="hidden" name="source" id="source">
+        <input type="hidden" name="form_version" value="cw_v1.0">
+
+        <!-- STEP 1: 満足度 -->
+        <section class="step active" data-step="1">
+          <label for="csat">本日の満足度（1〜5）</label>
+          <div class="opt">
+            <input type="radio" id="csat1" name="csat" value="1" required><label for="csat1">1</label>
+            <input type="radio" id="csat2" name="csat" value="2"><label for="csat2">2</label>
+            <input type="radio" id="csat3" name="csat" value="3"><label for="csat3">3</label>
+            <input type="radio" id="csat4" name="csat" value="4"><label for="csat4">4</label>
+            <input type="radio" id="csat5" name="csat" value="5"><label for="csat5">5</label>
+          </div>
+          <p class="help">1=不満 / 5=とても満足</p>
+          <div class="btns"><button type="button" class="primary" data-next>次へ</button></div>
+        </section>
+
+        <!-- STEP 2: NPS -->
+        <section class="step" data-step="2">
+          <label for="nps">本イベントを友人に勧めたい度（0〜10）</label>
+          <input type="range" id="nps" name="nps" min="0" max="10" step="1" value="8" aria-describedby="npsval">
+          <div id="npsval" class="pill">現在の選択：<span id="nps_out">8</span></div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <!-- STEP 3: よかった点 / 改善点 -->
+        <section class="step" data-step="3">
+          <label for="good_points">良かった点（自由記述）</label>
+          <textarea id="good_points" name="good_points" placeholder="例：〇〇のチーズが最高、スタッフの説明が丁寧 など"></textarea>
+          <label for="improvements">改善してほしい点（自由記述）</label>
+          <textarea id="improvements" name="improvements" placeholder="例：列の並び方、提供スピード など"></textarea>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <!-- STEP 4: 次回参加意向 -->
+        <section class="step" data-step="4">
+          <label>次回も参加したいですか？</label>
+          <div class="opt">
+            <input type="radio" id="rejoin_yes" name="rejoin" value="はい" required><label for="rejoin_yes">はい</label>
+            <input type="radio" id="rejoin_maybe" name="rejoin" value="未定"><label for="rejoin_maybe">未定</label>
+            <input type="radio" id="rejoin_no" name="rejoin" value="いいえ"><label for="rejoin_no">いいえ</label>
+          </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" id="to_detail">詳しく答える</button>
+            <button type="button" class="ok" id="skip_detail">この内容で送信</button>
+          </div>
+          <p class="help">※「詳しく答える」で各コンテンツ評価など（約2分）</p>
+        </section>
+
+        <!-- STEP 5+: 詳細セクション -->
+        <section class="step" data-step="5">
+          <h3 style="margin:0 0 8px">価格の納得感</h3>
+          <select name="price_fairness" id="price_fairness">
+            <option value="">選択してください</option>
+            <option>高すぎる</option>
+            <option>やや高い</option>
+            <option>ちょうどよい</option>
+            <option>やや安い</option>
+            <option>安すぎる</option>
+          </select>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="6">
+          <label>各コンテンツの評価（1〜5）</label>
+          <div class="grid two">
+            <div>
+              <span class="help">ラクレットスライダー</span>
+              <input type="number" name="raclette" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">シカゴウォーターフォール</span>
+              <input type="number" name="pizza_lab" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">メルティディップポット（チーズフォンデュ）</span>
+              <input type="number" name="roulette_fondue" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">チーズピザラボ</span>
+              <input type="number" name="tasting" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">エスプーマバスク</span>
+              <input type="number" name="photo_welcome" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">混雑の感じ方</span>
+              <input type="number" name="crowding" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">提供スピード</span>
+              <input type="number" name="speed" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">スタッフ接客</span>
+              <input type="number" name="hospitality" min="1" max="5" placeholder="1-5">
+            </div>
+            <div>
+              <span class="help">料理の出来栄え</span>
+              <input type="number" name="dish_quality" min="1" max="5" placeholder="1-5">
+            </div>
+          </div>
+          <label for="favorites_top3">お気に入りベスト3（自由記述）</label>
+          <textarea id="favorites_top3" name="favorites_top3" placeholder="例：①〇〇 ②△△ ③□□"></textarea>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="7">
+          <label>次回の希望テーマ（複数可）</label>
+          <div class="opt">
+            <input type="checkbox" id="theme_meat" name="next_theme" value="肉フェス"><label for="theme_meat">肉フェス</label>
+            <input type="checkbox" id="theme_wine" name="next_theme" value="ワイン&チーズ"><label for="theme_wine">ワイン&チーズ</label>
+            <input type="checkbox" id="theme_world" name="next_theme" value="世界のチーズ"><label for="theme_world">世界のチーズ</label>
+            <input type="checkbox" id="theme_truffle" name="next_theme" value="トリュフ&チーズ"><label for="theme_truffle">トリュフ&チーズ</label>
+            <input type="checkbox" id="theme_spicy" name="next_theme" value="辛い×チーズ"><label for="theme_spicy">辛い×チーズ</label>
+            <input type="checkbox" id="theme_family" name="next_theme" value="ファミリー昼"><label for="theme_family">ファミリー昼</label>
+            <input type="checkbox" id="theme_other" name="next_theme" value="その他"><label for="theme_other">その他</label>
+          </div>
+          <label for="preferred_time">開催の希望</label>
+          <select id="preferred_time" name="preferred_time">
+            <option value="">選択してください</option>
+            <option>平日夜</option>
+            <option>土曜夜</option>
+            <option>日曜昼</option>
+            <option>祝日前夜</option>
+            <option>その他</option>
+          </select>
+          <label for="preferred_price">価格帯の希望</label>
+          <select id="preferred_price" name="preferred_price">
+            <option value="">選択してください</option>
+            <option>2,500円</option>
+            <option>3,000円</option>
+            <option>3,500円</option>
+            <option>4,000円</option>
+            <option>5,000円以上</option>
+          </select>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="8">
+          <label for="party">同伴者（最も近いもの）</label>
+          <select id="party" name="companion_type">
+            <option value="">選択してください</option>
+            <option>ひとり</option>
+            <option>カップル</option>
+            <option>友人</option>
+            <option>家族(子どもあり)</option>
+            <option>家族(子どもなし)</option>
+            <option>その他</option>
+          </select>
+          <label for="group_size">来店人数（自グループ）</label>
+          <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
+          <label for="age">年代</label>
+          <select id="age" name="age">
+            <option value="">選択してください</option>
+            <option>10代</option>
+            <option>20代</option>
+            <option>30代</option>
+            <option>40代</option>
+            <option>50代</option>
+            <option>60代以上</option>
+          </select>
+          <label for="city">お住まい（市町村）</label>
+          <input type="text" id="city" name="city" placeholder="例：岐阜市">
+          <label for="consent">コメント掲載</label>
+          <select id="consent" name="publish_consent">
+            <option value="">選択してください</option>
+            <option>掲載OK(匿名)</option>
+            <option>掲載NG</option>
+          </select>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="9">
+          <h3 style="margin:0 0 12px">任意：連絡先 & お知らせ</h3>
+          <div class="grid two">
+            <div>
+              <label for="name">お名前（任意）</label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="匿名可">
+            </div>
+            <div>
+              <label for="email">メール（任意）</label>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="次回先行案内で使用">
+            </div>
+          </div>
+          <label>次回の先行案内</label>
+          <div class="opt">
+            <input type="radio" id="priority_yes" name="priority_notice" value="希望する"><label for="priority_yes">希望する</label>
+            <input type="radio" id="priority_no" name="priority_notice" value="希望しない"><label for="priority_no">希望しない</label>
+          </div>
+          <label for="booking_channel">予約経路</label>
+          <select id="booking_channel" name="booking_channel">
+            <option value="">選択してください</option>
+            <option>LINE</option>
+            <option>Instagram</option>
+            <option>知人紹介</option>
+            <option>店頭</option>
+            <option>Google検索</option>
+            <option>その他</option>
+          </select>
+          <label for="awareness_channel">イベントを知ったきっかけ</label>
+          <select id="awareness_channel" name="awareness_channel">
+            <option value="">選択してください</option>
+            <option>LINE</option>
+            <option>Instagram</option>
+            <option>知人紹介</option>
+            <option>店頭</option>
+            <option>Google検索</option>
+            <option>その他</option>
+          </select>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="submit" class="primary">送信する</button>
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <div id="result" class="card" style="display:none"></div>
+
+    <div class="foot muted">
+      匿名でのご協力ありがとうございます。入力内容は改善・品質向上の目的でのみ利用し、個人を特定する利用は行いません。
+    </div>
+  </div>
+
+  <script>
+    // ====== 設定：Formspree の endpoint を入力 ======
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj"; // ← ここを書き換え
+    const THANKS_COUPON = "CW100"; // 送信後に表示する特典コード（任意）
+
+    // ====== 進行管理 ======
+    const steps = Array.from(document.querySelectorAll('.step'));
+    let idx = 0; // 現在のステップindex（0開始）
+    const progress = document.getElementById('progress');
+
+    function updateProgress(){
+      const pct = Math.round(((idx+1)/steps.length)*100);
+      progress.style.width = pct + '%';
+    }
+    function goto(i){
+      steps[idx].classList.remove('active');
+      idx = i; steps[idx].classList.add('active');
+      updateProgress();
+      // フォーカス移動（アクセシビリティ）
+      const firstInput = steps[idx].querySelector('input, select, textarea, button');
+      if(firstInput) firstInput.focus({preventScroll:false});
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click', ()=>{
+      // 必須チェック（簡易）
+      const required = steps[idx].querySelectorAll('[required]');
+      for(const el of required){ if(el.type==='radio'){
+        const name = el.name; if(!document.querySelector(`input[name="${name}"]:checked`)){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; }
+      } else if(!el.value){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; } }
+      goto(Math.min(idx+1, steps.length-1));
+    }));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click', ()=> goto(Math.max(idx-1, 0))));
+
+    // 詳細へ / スキップ送信
+    const toDetail = document.getElementById('to_detail');
+    const skipDetail = document.getElementById('skip_detail');
+    const detailLevel = document.getElementById('detail_level');
+
+    toDetail.addEventListener('click', ()=>{ detailLevel.value = 'detailed'; goto(4); }); // index: 0-based → step5
+    skipDetail.addEventListener('click', ()=>{ detailLevel.value = 'simple'; submitForm(); });
+
+    // NPS数値表示
+    const nps = document.getElementById('nps');
+    const nps_out = document.getElementById('nps_out');
+    nps.addEventListener('input', ()=> nps_out.textContent = nps.value);
+
+    // タイムスタンプ & source（URL ch / utm_source）
+    const ts = document.getElementById('timestamp');
+    ts.value = new Date().toISOString();
+    const params = new URLSearchParams(location.search);
+    document.getElementById('source').value = params.get('ch') || params.get('utm_source') || '';
+
+    // ====== 送信処理（AJAX） ======
+    const form = document.getElementById('form');
+    form.addEventListener('submit', (e)=>{ e.preventDefault(); submitForm(); });
+
+    async function submitForm(){
+      const result = document.getElementById('result');
+      const data = new FormData(form);
+
+      // バリデーション（最低限：csat必須）
+      if(!document.querySelector('input[name="csat"]:checked')){
+        idx=0; goto(0); return;
+      }
+
+      try{
+        const res = await fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' }});
+        if(res.ok){
+          const name = data.get('name');
+          document.querySelector('.card').style.display='none';
+          result.style.display='block';
+          result.classList.add('success');
+          result.innerHTML = `
+            <h2 style="margin:0 0 6px">ご回答ありがとうございました！</h2>
+            <p class="muted">皆さまの声をもとに、次回をもっと良くします。</p>
+            <div class="pill">特典コード：<span class="mono"><b>${THANKS_COUPON}</b></span></div>
+            <p class="help">※ 次回会計時にスタッフへお見せください（期間限定）。</p>
+            <hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:14px 0">
+            <p class="muted">もし未送信やエラーがあれば、ネット接続をご確認のうえ再読み込みしてください。</p>
+          `;
+          localStorage.setItem('cw_survey_submitted','1');
+        } else {
+          const payload = await res.json().catch(()=>({}));
+          throw new Error(payload?.error || '送信に失敗しました。時間を置いてお試しください。');
+        }
+      } catch(err){
+        alert(err.message);
+      }
+    }
+
+    // 既に送信済みの場合のガード（任意）
+    if(localStorage.getItem('cw_survey_submitted')==='1'){
+      document.querySelector('#result').style.display='block';
+      document.querySelector('#result').innerHTML = `<h2>送信ありがとうございました！</h2><p class="muted">再度回答される場合は、ページを再読み込みしてください。</p>`;
+      document.querySelector('.card').style.display='none';
+    }
+  </script>
+</body>
+</html>
