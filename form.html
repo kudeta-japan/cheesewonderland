@@ -2,18 +2,18 @@
 <html lang="ja">
 <head>
   <!-- =============================================
-    Cheese Wonderland アンケート（Formspree版・詳細版のみ）
-    更新点：
-      - 分岐を廃止（常に詳細版）
-      - 進行メーター削除
-      - NPSを含む評価は 1〜5 のラジオ表記に統一
-      - 記述式は「その他」選択時のみテキスト入力表示
-      - 各設問に想定回答例（3つ）を記載
+    Cheese Wonderland アンケート（Formspree版・A/B構成＋進行メーター）
+    変更点：
+      - 見出しを A. 全体評価 ／ B. 各アトラクション の2部構成に明確化
+      - 進行メーター（どれくらいで終わるか）を再表示
+      - アトラクション名を指定の5つに更新
+      - ベスト3 → 1位/2位/3位 の順位選択（重複不可）
+      - 名前・メール・お住まい・掲載可否は削除
   ============================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cheese Wonderland アンケート</title>
-  <meta name="description" content="Cheese Wonderland ご参加者アンケート（所要3分・匿名）" />
+  <meta name="description" content="Cheese Wonderland ご参加者アンケート（所要2〜3分・匿名）" />
   <style>
     :root{ --bg:#0b0c10; --fg:#f7f7f7; --muted:#b5b5b5; --brand:#ffd54d; --brand2:#ffb300; --card:#14161a; --ok:#31c48d; }
     *{box-sizing:border-box}
@@ -25,25 +25,25 @@
     .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)); border:1px solid rgba(255,255,255,.06); box-shadow:0 10px 30px rgba(0,0,0,.25); border-radius:18px; padding:18px; margin:14px 0;}
     .muted{color:var(--muted); font-size:.95rem}
     .grid{display:grid; gap:12px}
-    .two{grid-template-columns:1fr 1fr}
     label{display:block; font-weight:600; margin:6px 0 8px}
     .help{color:var(--muted); font-size:.9rem}
-    input[type="text"], input[type="number"], input[type="email"], select, textarea{ width:100%; background:#101217; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
-    textarea{min-height:92px; resize:vertical}
+    input[type="text"], select{ width:100%; background:#101217; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
     .btns{display:flex; gap:10px; flex-wrap:wrap}
     button{cursor:pointer; border:0; padding:12px 16px; border-radius:12px; font-weight:700}
     .primary{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#202020}
     .ghost{background:transparent; color:var(--fg); border:1px solid rgba(255,255,255,.14)}
     .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#101217; border:1px solid rgba(255,255,255,.08); font-size:.9rem}
     .opt{display:flex; gap:8px; flex-wrap:wrap}
-    .opt input[type="radio"], .opt input[type="checkbox"]{display:none}
+    .opt input[type="radio"]{display:none}
     .opt label{border:1px solid rgba(255,255,255,.14); padding:10px 12px; border-radius:12px; cursor:pointer; background:#101217}
     .opt input:checked + label{outline:2px solid var(--brand); background:linear-gradient(180deg,rgba(255,213,77,.10),transparent)}
     .error{border-color:#ff6b6b}
     .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
     .foot{margin-top:18px; font-size:.9rem}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
-    .section-title{font-size:1.05rem; margin:6px 0 4px;}
+    .section-badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#101217; border:1px solid rgba(255,255,255,.12); font-size:.85rem; margin-bottom:8px}
+    .bar{height:8px; background:#20242c; border-radius:999px; overflow:hidden; margin-bottom:12px}
+    .bar>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .35s ease}
   </style>
 </head>
 <body>
@@ -52,21 +52,22 @@
       <div class="logo" aria-hidden="true"></div>
       <div>
         <h1>Cheese Wonderland アンケート</h1>
-        <div class="muted">所要 <b>3分</b>／匿名・一部任意</div>
+        <div class="muted">所要 <b>2〜3分</b>／匿名・一部任意</div>
       </div>
     </header>
 
     <div class="card">
+      <div class="bar" aria-label="進行状況"><i id="progress"></i></div>
       <form id="form" class="grid" novalidate>
         <!-- 🔒 honeypot for spam -->
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v1.1_detailed_only">
+        <input type="hidden" name="form_version" value="cw_v1.2_ab">
 
-        <!-- A. 全体評価 -->
-        <h2 class="section-title">A. 全体評価</h2>
-        <section>
+        <!-- STEP A-1: 満足度 -->
+        <section class="step active" data-step="1">
+          <div class="section-badge">A. 全体評価</div>
           <label>本日の満足度（1〜5）</label>
           <div class="opt" role="radiogroup" aria-label="満足度">
             <input type="radio" id="csat1" name="csat" value="1" required><label for="csat1">1</label>
@@ -76,8 +77,12 @@
             <input type="radio" id="csat5" name="csat" value="5"><label for="csat5">5</label>
           </div>
           <p class="help">1=不満 / 5=とても満足</p>
+          <div class="btns"><button type="button" class="primary" data-next>次へ</button></div>
         </section>
-        <section>
+
+        <!-- STEP A-2: 勧めたい度 -->
+        <section class="step" data-step="2">
+          <div class="section-badge">A. 全体評価</div>
           <label>友人に勧めたい度（1〜5）</label>
           <div class="opt" role="radiogroup" aria-label="勧めたい度">
             <input type="radio" id="nps1" name="nps" value="1" required><label for="nps1">1</label>
@@ -86,16 +91,30 @@
             <input type="radio" id="nps4" name="nps" value="4"><label for="nps4">4</label>
             <input type="radio" id="nps5" name="nps" value="5"><label for="nps5">5</label>
           </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
         </section>
-        <section>
+
+        <!-- STEP A-3: 次回参加意向 -->
+        <section class="step" data-step="3">
+          <div class="section-badge">A. 全体評価</div>
           <label>次回も参加したいですか？</label>
           <div class="opt">
             <input type="radio" id="rejoin_yes" name="rejoin" value="はい" required><label for="rejoin_yes">はい</label>
             <input type="radio" id="rejoin_maybe" name="rejoin" value="未定"><label for="rejoin_maybe">未定</label>
             <input type="radio" id="rejoin_no" name="rejoin" value="いいえ"><label for="rejoin_no">いいえ</label>
           </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
         </section>
-        <section>
+
+        <!-- STEP A-4: 価格感 -->
+        <section class="step" data-step="4">
+          <div class="section-badge">A. 全体評価</div>
           <label>価格の納得感</label>
           <div class="opt">
             <input type="radio" id="price1" name="price_fairness" value="高すぎる" required><label for="price1">高すぎる</label>
@@ -104,271 +123,141 @@
             <input type="radio" id="price4" name="price_fairness" value="やや安い"><label for="price4">やや安い</label>
             <input type="radio" id="price5" name="price_fairness" value="安すぎる"><label for="price5">安すぎる</label>
           </div>
-        </section>
-
-        <!-- B. 各コンテンツ評価（1〜5） -->
-        <h2 class="section-title">B. 各コンテンツ評価（1〜5）</h2>
-        <div class="grid two">
-          <div>
-            <span class="help">ラクレット</span>
-            <div class="opt" role="radiogroup" aria-label="ラクレット">
-              <input type="radio" id="rac1" name="raclette" value="1"><label for="rac1">1</label>
-              <input type="radio" id="rac2" name="raclette" value="2"><label for="rac2">2</label>
-              <input type="radio" id="rac3" name="raclette" value="3"><label for="rac3">3</label>
-              <input type="radio" id="rac4" name="raclette" value="4"><label for="rac4">4</label>
-              <input type="radio" id="rac5" name="raclette" value="5"><label for="rac5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">シカゴピザラボ</span>
-            <div class="opt" role="radiogroup" aria-label="シカゴピザラボ">
-              <input type="radio" id="pl1" name="pizza_lab" value="1"><label for="pl1">1</label>
-              <input type="radio" id="pl2" name="pizza_lab" value="2"><label for="pl2">2</label>
-              <input type="radio" id="pl3" name="pizza_lab" value="3"><label for="pl3">3</label>
-              <input type="radio" id="pl4" name="pizza_lab" value="4"><label for="pl4">4</label>
-              <input type="radio" id="pl5" name="pizza_lab" value="5"><label for="pl5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">ルーレットフォンデュ</span>
-            <div class="opt" role="radiogroup" aria-label="ルーレットフォンデュ">
-              <input type="radio" id="rf1" name="roulette_fondue" value="1"><label for="rf1">1</label>
-              <input type="radio" id="rf2" name="roulette_fondue" value="2"><label for="rf2">2</label>
-              <input type="radio" id="rf3" name="roulette_fondue" value="3"><label for="rf3">3</label>
-              <input type="radio" id="rf4" name="roulette_fondue" value="4"><label for="rf4">4</label>
-              <input type="radio" id="rf5" name="roulette_fondue" value="5"><label for="rf5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">チーズテイスティング</span>
-            <div class="opt" role="radiogroup" aria-label="チーズテイスティング">
-              <input type="radio" id="t1" name="tasting" value="1"><label for="t1">1</label>
-              <input type="radio" id="t2" name="tasting" value="2"><label for="t2">2</label>
-              <input type="radio" id="t3" name="tasting" value="3"><label for="t3">3</label>
-              <input type="radio" id="t4" name="tasting" value="4"><label for="t4">4</label>
-              <input type="radio" id="t5" name="tasting" value="5"><label for="t5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">フォト/ウェルカム</span>
-            <div class="opt" role="radiogroup" aria-label="フォト/ウェルカム">
-              <input type="radio" id="pw1" name="photo_welcome" value="1"><label for="pw1">1</label>
-              <input type="radio" id="pw2" name="photo_welcome" value="2"><label for="pw2">2</label>
-              <input type="radio" id="pw3" name="photo_welcome" value="3"><label for="pw3">3</label>
-              <input type="radio" id="pw4" name="photo_welcome" value="4"><label for="pw4">4</label>
-              <input type="radio" id="pw5" name="photo_welcome" value="5"><label for="pw5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">混雑の感じ方</span>
-            <div class="opt" role="radiogroup" aria-label="混雑の感じ方">
-              <input type="radio" id="cr1" name="crowding" value="1"><label for="cr1">1</label>
-              <input type="radio" id="cr2" name="crowding" value="2"><label for="cr2">2</label>
-              <input type="radio" id="cr3" name="crowding" value="3"><label for="cr3">3</label>
-              <input type="radio" id="cr4" name="crowding" value="4"><label for="cr4">4</label>
-              <input type="radio" id="cr5" name="crowding" value="5"><label for="cr5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">提供スピード</span>
-            <div class="opt" role="radiogroup" aria-label="提供スピード">
-              <input type="radio" id="sp1" name="speed" value="1"><label for="sp1">1</label>
-              <input type="radio" id="sp2" name="speed" value="2"><label for="sp2">2</label>
-              <input type="radio" id="sp3" name="speed" value="3"><label for="sp3">3</label>
-              <input type="radio" id="sp4" name="speed" value="4"><label for="sp4">4</label>
-              <input type="radio" id="sp5" name="speed" value="5"><label for="sp5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">スタッフ接客</span>
-            <div class="opt" role="radiogroup" aria-label="スタッフ接客">
-              <input type="radio" id="hs1" name="hospitality" value="1"><label for="hs1">1</label>
-              <input type="radio" id="hs2" name="hospitality" value="2"><label for="hs2">2</label>
-              <input type="radio" id="hs3" name="hospitality" value="3"><label for="hs3">3</label>
-              <input type="radio" id="hs4" name="hospitality" value="4"><label for="hs4">4</label>
-              <input type="radio" id="hs5" name="hospitality" value="5"><label for="hs5">5</label>
-            </div>
-          </div>
-          <div>
-            <span class="help">料理の出来栄え</span>
-            <div class="opt" role="radiogroup" aria-label="料理の出来栄え">
-              <input type="radio" id="dq1" name="dish_quality" value="1"><label for="dq1">1</label>
-              <input type="radio" id="dq2" name="dish_quality" value="2"><label for="dq2">2</label>
-              <input type="radio" id="dq3" name="dish_quality" value="3"><label for="dq3">3</label>
-              <input type="radio" id="dq4" name="dish_quality" value="4"><label for="dq4">4</label>
-              <input type="radio" id="dq5" name="dish_quality" value="5"><label for="dq5">5</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- C. 選択式（その他で記述可） -->
-        <h2 class="section-title">C. 良かった点／改善点／お気に入り</h2>
-        <section>
-          <label>良かった点（複数選択可）</label>
-          <p class="help">例：スタッフの接客が良かった／料理の味・盛付けが良かった／フォトスポットが楽しい</p>
-          <div class="opt">
-            <input type="checkbox" id="good1" name="good_points" value="スタッフの接客が良かった"><label for="good1">スタッフの接客が良かった</label>
-            <input type="checkbox" id="good2" name="good_points" value="料理の味・盛付けが良かった"><label for="good2">料理の味・盛付けが良かった</label>
-            <input type="checkbox" id="good3" name="good_points" value="フォトスポット/演出が良かった"><label for="good3">フォトスポット/演出が良かった</label>
-            <input type="checkbox" id="good_etc" name="good_points" value="その他"><label for="good_etc">その他</label>
-          </div>
-          <input type="text" id="good_etc_text" name="good_points_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label>改善してほしい点（複数選択可）</label>
-          <p class="help">例：提供スピードを改善／列・導線の案内をわかりやすく／会場の音量を調整</p>
-          <div class="opt">
-            <input type="checkbox" id="imp1" name="improvements" value="提供スピードを改善してほしい"><label for="imp1">提供スピードを改善してほしい</label>
-            <input type="checkbox" id="imp2" name="improvements" value="列・導線の案内をわかりやすく"><label for="imp2">列・導線の案内をわかりやすく</label>
-            <input type="checkbox" id="imp3" name="improvements" value="会場の音量/BGMを調整してほしい"><label for="imp3">会場の音量/BGMを調整してほしい</label>
-            <input type="checkbox" id="imp_etc" name="improvements" value="その他"><label for="imp_etc">その他</label>
-          </div>
-          <input type="text" id="imp_etc_text" name="improvements_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label>お気に入りベスト3（最大3つまで）</label>
-          <p class="help">例：ラクレット／シカゴピザラボ／フォトスポット</p>
-          <div class="opt" id="fav_group">
-            <input type="checkbox" id="fav_rac" name="favorites_top3" value="ラクレット"><label for="fav_rac">ラクレット</label>
-            <input type="checkbox" id="fav_pl" name="favorites_top3" value="シカゴピザラボ"><label for="fav_pl">シカゴピザラボ</label>
-            <input type="checkbox" id="fav_rf" name="favorites_top3" value="ルーレットフォンデュ"><label for="fav_rf">ルーレットフォンデュ</label>
-            <input type="checkbox" id="fav_t" name="favorites_top3" value="チーズテイスティング"><label for="fav_t">チーズテイスティング</label>
-            <input type="checkbox" id="fav_pw" name="favorites_top3" value="フォト/ウェルカム"><label for="fav_pw">フォト/ウェルカム</label>
-            <input type="checkbox" id="fav_dr" name="favorites_top3" value="ドリンク"><label for="fav_dr">ドリンク</label>
-            <input type="checkbox" id="fav_etc" name="favorites_top3" value="その他"><label for="fav_etc">その他</label>
-          </div>
-          <input type="text" id="fav_etc_text" name="favorites_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-
-        <!-- D. 次回ニーズ -->
-        <h2 class="section-title">D. 次回ニーズ</h2>
-        <section>
-          <label>次回の希望テーマ（複数可）</label>
-          <p class="help">例：肉フェス／ワイン&チーズ／世界のチーズ</p>
-          <div class="opt">
-            <input type="checkbox" id="theme_meat" name="next_theme" value="肉フェス"><label for="theme_meat">肉フェス</label>
-            <input type="checkbox" id="theme_wine" name="next_theme" value="ワイン&チーズ"><label for="theme_wine">ワイン&チーズ</label>
-            <input type="checkbox" id="theme_world" name="next_theme" value="世界のチーズ"><label for="theme_world">世界のチーズ</label>
-            <input type="checkbox" id="theme_truffle" name="next_theme" value="トリュフ&チーズ"><label for="theme_truffle">トリュフ&チーズ</label>
-            <input type="checkbox" id="theme_spicy" name="next_theme" value="辛い×チーズ"><label for="theme_spicy">辛い×チーズ</label>
-            <input type="checkbox" id="theme_family" name="next_theme" value="ファミリー昼"><label for="theme_family">ファミリー昼</label>
-            <input type="checkbox" id="theme_other" name="next_theme" value="その他"><label for="theme_other">その他</label>
-          </div>
-          <input type="text" id="theme_other_text" name="theme_other_text" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label for="preferred_time">開催の希望</label>
-          <div class="opt">
-            <input type="radio" id="pt1" name="preferred_time" value="平日夜"><label for="pt1">平日夜</label>
-            <input type="radio" id="pt2" name="preferred_time" value="土曜夜"><label for="pt2">土曜夜</label>
-            <input type="radio" id="pt3" name="preferred_time" value="日曜昼"><label for="pt3">日曜昼</label>
-            <input type="radio" id="pt4" name="preferred_time" value="祝日前夜"><label for="pt4">祝日前夜</label>
-            <input type="radio" id="pt5" name="preferred_time" value="その他"><label for="pt5">その他</label>
-          </div>
-          <input type="text" id="preferred_time_other" name="preferred_time_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label for="preferred_price">価格帯の希望</label>
-          <div class="opt">
-            <input type="radio" id="pp1" name="preferred_price" value="2,500円"><label for="pp1">2,500円</label>
-            <input type="radio" id="pp2" name="preferred_price" value="3,000円"><label for="pp2">3,000円</label>
-            <input type="radio" id="pp3" name="preferred_price" value="3,500円"><label for="pp3">3,500円</label>
-            <input type="radio" id="pp4" name="preferred_price" value="4,000円"><label for="pp4">4,000円</label>
-            <input type="radio" id="pp5" name="preferred_price" value="5,000円以上"><label for="pp5">5,000円以上</label>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
           </div>
         </section>
 
-        <!-- E. 属性（任意） -->
-        <h2 class="section-title">E. 属性（任意）</h2>
-        <section>
-          <label>同伴者（最も近いもの）</label>
-          <div class="opt">
-            <input type="radio" id="p1" name="companion_type" value="ひとり"><label for="p1">ひとり</label>
-            <input type="radio" id="p2" name="companion_type" value="カップル"><label for="p2">カップル</label>
-            <input type="radio" id="p3" name="companion_type" value="友人"><label for="p3">友人</label>
-            <input type="radio" id="p4" name="companion_type" value="家族(子どもあり)"><label for="p4">家族(子どもあり)</label>
-            <input type="radio" id="p5" name="companion_type" value="家族(子どもなし)"><label for="p5">家族(子どもなし)</label>
-            <input type="radio" id="p6" name="companion_type" value="その他"><label for="p6">その他</label>
+        <!-- STEP B-1: ラクレットスライダー -->
+        <section class="step" data-step="5">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>ラクレットスライダー（1〜5）</label>
+          <div class="opt" role="radiogroup">
+            <input type="radio" id="rac1" name="raclette_slider" value="1" required><label for="rac1">1</label>
+            <input type="radio" id="rac2" name="raclette_slider" value="2"><label for="rac2">2</label>
+            <input type="radio" id="rac3" name="raclette_slider" value="3"><label for="rac3">3</label>
+            <input type="radio" id="rac4" name="raclette_slider" value="4"><label for="rac4">4</label>
+            <input type="radio" id="rac5" name="raclette_slider" value="5"><label for="rac5">5</label>
           </div>
-          <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label for="group_size">来店人数（自グループ）</label>
-          <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
-        </section>
-        <section>
-          <label>年代</label>
-          <div class="opt">
-            <input type="radio" id="age10" name="age" value="10代"><label for="age10">10代</label>
-            <input type="radio" id="age20" name="age" value="20代"><label for="age20">20代</label>
-            <input type="radio" id="age30" name="age" value="30代"><label for="age30">30代</label>
-            <input type="radio" id="age40" name="age" value="40代"><label for="age40">40代</label>
-            <input type="radio" id="age50" name="age" value="50代"><label for="age50">50代</label>
-            <input type="radio" id="age60" name="age" value="60代以上"><label for="age60">60代以上</label>
-          </div>
-        </section>
-        <section>
-          <label for="city">お住まい（市町村）</label>
-          <input type="text" id="city" name="city" placeholder="例：岐阜市">
-        </section>
-        <section>
-          <label>コメント掲載</label>
-          <div class="opt">
-            <input type="radio" id="pub_ok" name="publish_consent" value="掲載OK(匿名)"><label for="pub_ok">掲載OK(匿名)</label>
-            <input type="radio" id="pub_ng" name="publish_consent" value="掲載NG"><label for="pub_ng">掲載NG</label>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
           </div>
         </section>
 
-        <!-- F. 予約経路など（任意） -->
-        <h2 class="section-title">F. 予約経路など（任意）</h2>
-        <section>
-          <label>予約経路</label>
-          <div class="opt">
-            <input type="radio" id="bc1" name="booking_channel" value="LINE"><label for="bc1">LINE</label>
-            <input type="radio" id="bc2" name="booking_channel" value="Instagram"><label for="bc2">Instagram</label>
-            <input type="radio" id="bc3" name="booking_channel" value="知人紹介"><label for="bc3">知人紹介</label>
-            <input type="radio" id="bc4" name="booking_channel" value="店頭"><label for="bc4">店頭</label>
-            <input type="radio" id="bc5" name="booking_channel" value="Google検索"><label for="bc5">Google検索</label>
-            <input type="radio" id="bc6" name="booking_channel" value="その他"><label for="bc6">その他</label>
+        <!-- STEP B-2: シカゴウォーターフォール -->
+        <section class="step" data-step="6">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>シカゴウォーターフォール（1〜5）</label>
+          <div class="opt" role="radiogroup">
+            <input type="radio" id="cwf1" name="chicago_waterfall" value="1" required><label for="cwf1">1</label>
+            <input type="radio" id="cwf2" name="chicago_waterfall" value="2"><label for="cwf2">2</label>
+            <input type="radio" id="cwf3" name="chicago_waterfall" value="3"><label for="cwf3">3</label>
+            <input type="radio" id="cwf4" name="chicago_waterfall" value="4"><label for="cwf4">4</label>
+            <input type="radio" id="cwf5" name="chicago_waterfall" value="5"><label for="cwf5">5</label>
           </div>
-          <input type="text" id="booking_other" name="booking_channel_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-        <section>
-          <label>イベントを知ったきっかけ</label>
-          <div class="opt">
-            <input type="radio" id="aw1" name="awareness_channel" value="LINE"><label for="aw1">LINE</label>
-            <input type="radio" id="aw2" name="awareness_channel" value="Instagram"><label for="aw2">Instagram</label>
-            <input type="radio" id="aw3" name="awareness_channel" value="知人紹介"><label for="aw3">知人紹介</label>
-            <input type="radio" id="aw4" name="awareness_channel" value="店頭"><label for="aw4">店頭</label>
-            <input type="radio" id="aw5" name="awareness_channel" value="Google検索"><label for="aw5">Google検索</label>
-            <input type="radio" id="aw6" name="awareness_channel" value="その他"><label for="aw6">その他</label>
-          </div>
-          <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="display:none">
-        </section>
-
-        <!-- 任意：連絡先 -->
-        <h2 class="section-title">G. 連絡先（任意）</h2>
-        <div class="grid two">
-          <div>
-            <label for="name">お名前（任意）</label>
-            <input type="text" id="name" name="name" autocomplete="name" placeholder="匿名可">
-          </div>
-          <div>
-            <label for="email">メール（任意）</label>
-            <input type="email" id="email" name="email" autocomplete="email" placeholder="次回先行案内で使用">
-          </div>
-        </div>
-        <section>
-          <label>次回の先行案内</label>
-          <div class="opt">
-            <input type="radio" id="priority_yes" name="priority_notice" value="希望する"><label for="priority_yes">希望する</label>
-            <input type="radio" id="priority_no" name="priority_notice" value="希望しない"><label for="priority_no">希望しない</label>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
           </div>
         </section>
 
-        <div class="btns">
-          <button type="submit" class="primary">送信する</button>
-        </div>
+        <!-- STEP B-3: メルティディップポット（チーズフォンデュ） -->
+        <section class="step" data-step="7">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>メルティディップポット（チーズフォンデュ）（1〜5）</label>
+          <div class="opt" role="radiogroup">
+            <input type="radio" id="mdp1" name="melty_dip_pot" value="1" required><label for="mdp1">1</label>
+            <input type="radio" id="mdp2" name="melty_dip_pot" value="2"><label for="mdp2">2</label>
+            <input type="radio" id="mdp3" name="melty_dip_pot" value="3"><label for="mdp3">3</label>
+            <input type="radio" id="mdp4" name="melty_dip_pot" value="4"><label for="mdp4">4</label>
+            <input type="radio" id="mdp5" name="melty_dip_pot" value="5"><label for="mdp5">5</label>
+          </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <!-- STEP B-4: チーズピザラボ -->
+        <section class="step" data-step="8">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>チーズピザラボ（1〜5）</label>
+          <div class="opt" role="radiogroup">
+            <input type="radio" id="cpl1" name="cheese_pizza_lab" value="1" required><label for="cpl1">1</label>
+            <input type="radio" id="cpl2" name="cheese_pizza_lab" value="2"><label for="cpl2">2</label>
+            <input type="radio" id="cpl3" name="cheese_pizza_lab" value="3"><label for="cpl3">3</label>
+            <input type="radio" id="cpl4" name="cheese_pizza_lab" value="4"><label for="cpl4">4</label>
+            <input type="radio" id="cpl5" name="cheese_pizza_lab" value="5"><label for="cpl5">5</label>
+          </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <!-- STEP B-5: エスプーマバスク -->
+        <section class="step" data-step="9">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>エスプーマバスク（1〜5）</label>
+          <div class="opt" role="radiogroup">
+            <input type="radio" id="eb1" name="espuma_basque" value="1" required><label for="eb1">1</label>
+            <input type="radio" id="eb2" name="espuma_basque" value="2"><label for="eb2">2</label>
+            <input type="radio" id="eb3" name="espuma_basque" value="3"><label for="eb3">3</label>
+            <input type="radio" id="eb4" name="espuma_basque" value="4"><label for="eb4">4</label>
+            <input type="radio" id="eb5" name="espuma_basque" value="5"><label for="eb5">5</label>
+          </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="button" class="primary" data-next>次へ</button>
+          </div>
+        </section>
+
+        <!-- STEP B-6: お気に入り順位 -->
+        <section class="step" data-step="10">
+          <div class="section-badge">B. 各アトラクション</div>
+          <label>お気に入りの順位を選んでください（重複不可）</label>
+          <div class="grid">
+            <div>
+              <span class="help">1位</span>
+              <select id="rank1" name="favorite_rank_1" required>
+                <option value="">選択してください</option>
+                <option>ラクレットスライダー</option>
+                <option>シカゴウォーターフォール</option>
+                <option>メルティディップポット（チーズフォンデュ）</option>
+                <option>チーズピザラボ</option>
+                <option>エスプーマバスク</option>
+              </select>
+            </div>
+            <div>
+              <span class="help">2位</span>
+              <select id="rank2" name="favorite_rank_2" required>
+                <option value="">選択してください</option>
+                <option>ラクレットスライダー</option>
+                <option>シカゴウォーターフォール</option>
+                <option>メルティディップポット（チーズフォンデュ）</option>
+                <option>チーズピザラボ</option>
+                <option>エスプーマバスク</option>
+              </select>
+            </div>
+            <div>
+              <span class="help">3位</span>
+              <select id="rank3" name="favorite_rank_3" required>
+                <option value="">選択してください</option>
+                <option>ラクレットスライダー</option>
+                <option>シカゴウォーターフォール</option>
+                <option>メルティディップポット（チーズフォンデュ）</option>
+                <option>チーズピザラボ</option>
+                <option>エスプーマバスク</option>
+              </select>
+            </div>
+          </div>
+          <div class="btns">
+            <button type="button" class="ghost" data-prev>戻る</button>
+            <button type="submit" class="primary">送信する</button>
+          </div>
+        </section>
       </form>
     </div>
 
@@ -381,55 +270,67 @@
 
   <script>
     // ====== 設定：Formspree の endpoint ======
-    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj"; // ← あなたのIDを反映済み
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj"; // ← 指定ID
     const THANKS_COUPON = "CW100"; // 送信後に表示する特典コード（任意）
+
+    // 進行管理
+    const steps = Array.from(document.querySelectorAll('.step'));
+    let idx = 0; // 現在のステップindex（0開始）
+    const progress = document.getElementById('progress');
+
+    function updateProgress(){
+      const pct = Math.round(((idx+1)/steps.length)*100);
+      progress.style.width = pct + '%';
+    }
+    function goto(i){
+      steps[idx].classList.remove('active');
+      idx = i; steps[idx].classList.add('active');
+      updateProgress();
+      const firstInput = steps[idx].querySelector('input, select, button');
+      if(firstInput) firstInput.focus({preventScroll:false});
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click', ()=>{
+      const required = steps[idx].querySelectorAll('[required]');
+      for(const el of required){ if(el.type==='radio'){
+        const name = el.name; if(!document.querySelector(`input[name="${name}"]:checked`)){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; }
+      } else if(el.tagName==='SELECT' && !el.value){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; } }
+      goto(Math.min(idx+1, steps.length-1));
+    }));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click', ()=> goto(Math.max(idx-1, 0))));
 
     // タイムスタンプ & source
     document.getElementById('timestamp').value = new Date().toISOString();
     const params = new URLSearchParams(location.search);
     document.getElementById('source').value = params.get('ch') || params.get('utm_source') || '';
 
-    // その他選択時にテキストを表示するユーティリティ
-    function toggleEtc(checkboxId, inputId){
-      const c = document.getElementById(checkboxId);
-      const i = document.getElementById(inputId);
-      function u(){ i.style.display = (c.checked || (c.type==='radio' && c.checked)) ? 'block':'none'; if(!i.style.display) i.value=''; }
-      c.addEventListener('change', u); u();
+    // 順位選択の重複防止
+    const selects = ['rank1','rank2','rank3'].map(id=>document.getElementById(id));
+    function refreshOptions(){
+      const chosen = new Set(selects.map(s=>s.value).filter(v=>v));
+      selects.forEach(s=>{
+        Array.from(s.options).forEach(o=>{
+          if(o.value==='') return; // placeholder
+          o.disabled = !o.selected && chosen.has(o.value);
+        });
+      });
     }
-    toggleEtc('good_etc','good_etc_text');
-    toggleEtc('imp_etc','imp_etc_text');
-    toggleEtc('fav_etc','fav_etc_text');
-    toggleEtc('theme_other','theme_other_text');
-    toggleEtc('pt5','preferred_time_other');
-    toggleEtc('p6','party_other');
-    toggleEtc('bc6','booking_other');
-    toggleEtc('aw6','awareness_other');
-
-    // お気に入りは最大3つまで
-    const favGroup = document.getElementById('fav_group');
-    favGroup.addEventListener('change', ()=>{
-      const checks = favGroup.querySelectorAll('input[type="checkbox"]:checked');
-      if(checks.length>3){
-        // 直近でチェックされたものを外す
-        const last = Array.from(favGroup.querySelectorAll('input[type="checkbox"]')).reverse().find(i=>i===document.activeElement || i.matches(':focus-visible'));
-        (last||checks[checks.length-1]).checked = false;
-        alert('最大3つまで選択できます');
-      }
-    });
+    selects.forEach(s=> s.addEventListener('change', refreshOptions));
 
     // 送信
     const form = document.getElementById('form');
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
 
-      // 必須：csat & nps & rejoin & price
-      const requiredNames = ['csat','nps','rejoin','price_fairness'];
-      for(const n of requiredNames){
-        if(!form.querySelector(`[name="${n}"]:checked`)){
-          alert('未回答の必須項目があります');
-          return;
-        }
-      }
+      // 必須チェック：Aの4問、Bの5問、順位3つ
+      const requiredNames = ['csat','nps','rejoin','price_fairness','raclette_slider','chicago_waterfall','melty_dip_pot','cheese_pizza_lab','espuma_basque'];
+      for(const n of requiredNames){ if(!form.querySelector(`[name="${n}"]:checked`)){ alert('未回答の必須項目があります'); return; } }
+      for(const id of ['rank1','rank2','rank3']){ if(!document.getElementById(id).value){ alert('お気に入りの順位を選択してください'); return; } }
+      // 重複チェック
+      const r1 = document.getElementById('rank1').value;
+      const r2 = document.getElementById('rank2').value;
+      const r3 = document.getElementById('rank3').value;
+      if(new Set([r1,r2,r3]).size < 3){ alert('1位・2位・3位は重複しないよう選んでください'); return; }
 
       const data = new FormData(form);
       try{
@@ -453,6 +354,9 @@
         alert(err.message);
       }
     });
+
+    // 初期化
+    updateProgress();
 
     // 既に送信済みの場合
     if(localStorage.getItem('cw_survey_submitted')==='1'){
