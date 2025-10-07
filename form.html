@@ -2,14 +2,10 @@
 <html lang="ja">
 <head>
   <!-- =============================================
-    Cheese Wonderland アンケート（Formspree版・A/B構成＋進行メーター＋マスコット応援）
-    変更点：
-      - ワクワク演出：チーズのマスコット「チーゾ」が応援（吹き出し/アニメ）
-      - 進行メーター強化：残り問数＆%表示、チーゾがバー上を移動
-      - ステップ完了時にコンフェッティ（🧀✨）演出
-      - 触感UI：選択時にポップ/グロー、ボタンに軽い跳ね
-      - 構成は前回同様：A.全体評価 → B.各アトラクション → 順位
-      - 不要項目（氏名/メール/お住まい/掲載可否）は引き続き非表示
+    Cheese Wonderland アンケート（Formspree版）
+    改訂：A/B/C ごとに1画面切替（全体→アトラクション＋順位→来店動機ほか）
+          進行メーター＋強化マスコット（チーゾ）
+          氏名/メール/お住まい/掲載可否なし、自由記述は「その他」選択時のみ
   ============================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,23 +13,544 @@
   <meta name="description" content="Cheese Wonderland ご参加者アンケート（所要2〜3分・匿名）" />
   <style>
     :root{
-      --bg:#090b11; --fg:#f8f8fb; --muted:#b9bfd1; --brand:#ffd54d; --brand2:#ffb300; --card:#121520; --ok:#31c48d; --pink:#ff82c3;
-      --accent:#78d3ff; --glow:0 0 0 0 rgba(255,213,77,.0);
+      --bg:#080a10; --fg:#f8f8fb; --muted:#b9bfd1; --brand:#ffd54d; --brand2:#ffb300; --card:#121520; --ok:#31c48d; --accent:#78d3ff; --rose:#ff7ab6;
     }
     *{box-sizing:border-box}
     body{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; background:
       radial-gradient(1200px 800px at 70% -20%, rgba(255,213,77,.10), transparent),
-      radial-gradient(1000px 600px at 10% 110%, rgba(120,211,255,.08), transparent),
-      var(--bg); color:var(--fg);}
-    .wrap{max-width:920px; margin:0 auto; padding:28px 18px 64px;}
+      radial-gradient(1000px 600px at 10% 110%, rgba(120,211,255,.08), transparent), var(--bg); color:var(--fg);}
+    .wrap{max-width:960px; margin:0 auto; padding:28px 18px 64px;}
     header{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:12px}
     .brand{display:flex; align-items:center; gap:12px}
     .logo{width:44px; height:44px; border-radius:12px; background:conic-gradient(from 20deg,var(--brand),var(--brand2)); box-shadow:0 6px 18px rgba(255,181,0,.25);}
     h1{font-size: clamp(1.2rem, 2.4vw, 1.8rem); margin:0}
     .muted{color:var(--muted); font-size:.95rem}
 
-    /* mascot */
+    /* mascot advanced */
     .mascot{position:relative; display:flex; align-items:center; gap:12px}
+    .mascot svg{width:96px; filter: drop-shadow(0 10px 28px rgba(255,179,0,.22)); animation: floaty 4s ease-in-out infinite;}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .bubble{position:relative; background:#0f1430; border:1px solid rgba(255,255,255,.10); padding:10px 12px; border-radius:14px; max-width:320px;}
+    .bubble:after{content:""; position:absolute; left:-8px; top:22px; border:8px solid transparent; border-right-color:#0f1430; filter:drop-shadow(-1px 0 0 rgba(255,255,255,.1))}
+    .bubble strong{color:#ffe082}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.0)); border:1px solid rgba(255,255,255,.06); box-shadow:0 10px 30px rgba(0,0,0,.25); border-radius:22px; padding:18px; margin:16px 0;}
+
+    /* progress */
+    .progress-wrap{position:relative;}
+    .bar{height:10px; background:#20242c; border-radius:999px; overflow:hidden;}
+    .bar>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand),var(--brand2)); box-shadow:0 0 22px rgba(255,179,0,.45) inset; transition:width .35s ease}
+    .bar .buddy{position:absolute; top:50%; transform:translate(-50%,-50%); width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 30% 30%, #fff7c4, #ffcc33); box-shadow:0 8px 18px rgba(255,190,0,.35); border:2px solid #2a2210}
+    .bar .buddy:after{content:"🧀"; position:absolute; inset:0; display:grid; place-items:center; font-size:16px}
+    .progress-caption{display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:.92rem; color:var(--muted)}
+
+    /* inputs */
+    .grid{display:grid; gap:12px}
+    .two{grid-template-columns:repeat(2, minmax(0,1fr));}
+    label{display:block; font-weight:700; margin:6px 0 8px}
+    .help{color:var(--muted); font-size:.9rem}
+    .opt{display:flex; gap:10px; flex-wrap:wrap}
+    .opt input[type="radio"], .opt input[type="checkbox"]{display:none}
+    .opt label{border:1px solid rgba(255,255,255,.14); padding:12px 14px; border-radius:14px; cursor:pointer; background:#101217; transition:.15s transform, .2s box-shadow}
+    .opt label:hover{transform:translateY(-1px)}
+    .opt input:checked + label{outline:2px solid var(--brand); background:linear-gradient(180deg,rgba(255,213,77,.12),transparent); box-shadow:0 0 0 6px rgba(255,213,77,.10)}
+    select, input[type="number"], input[type="text"]{ width:100%; background:#101217; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
+
+    .btns{display:flex; gap:10px; flex-wrap:wrap}
+    button{cursor:pointer; border:0; padding:12px 16px; border-radius:14px; font-weight:800; transition:transform .08s ease}
+    .primary{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#202020}
+    .ghost{background:transparent; color:var(--fg); border:1px solid rgba(255,255,255,.14)}
+    button:active{transform:translateY(1px) scale(.99)}
+
+    .section-badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#101217; border:1px solid rgba(255,255,255,.12); font-size:.85rem; margin-bottom:8px}
+
+    .step{display:none}
+    .step.active{display:block; animation: fadeIn .22s ease}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+
+    .confetti span{position:fixed; top:-10vh; left:50%; transform:translateX(-50%); font-size:18px; animation: fall 1.6s linear forwards;}
+    @keyframes fall{to{transform:translateX(calc(-50% + var(--x))) translateY(110vh) rotate(720deg); opacity:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Cheese Wonderland アンケート</h1>
+          <div class="muted">所要 <b>2〜3分</b>／匿名・一部任意</div>
+        </div>
+      </div>
+      <div class="mascot" aria-live="polite">
+        <!-- 🧀 チーゾ：陰影・ハイライト・まばたき・手足アニメ -->
+        <svg viewBox="0 0 160 140" aria-hidden="true">
+          <defs>
+            <radialGradient id="bodyGrad" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#fffad1"/>
+              <stop offset="100%" stop-color="#ffcc33"/>
+            </radialGradient>
+            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- legs -->
+          <line x1="55" y1="120" x2="50" y2="135" stroke="#2a2210" stroke-width="4">
+            <animate attributeName="y2" values="135;132;135" dur="1.2s" repeatCount="indefinite"/>
+          </line>
+          <line x1="95" y1="120" x2="100" y2="135" stroke="#2a2210" stroke-width="4">
+            <animate attributeName="y2" values="135;138;135" dur="1.2s" repeatCount="indefinite"/>
+          </line>
+          <!-- body wedge -->
+          <polygon points="30,110 120,110 75,30" fill="url(#bodyGrad)" stroke="#a67810" stroke-width="4"/>
+          <!-- gloss -->
+          <path d="M70 38 Q80 46 85 60" stroke="url(#shine)" stroke-width="6" fill="none" opacity=".7"/>
+          <!-- holes -->
+          <circle cx="74" cy="72" r="7" fill="#f5b400" opacity=".8"/>
+          <circle cx="92" cy="88" r="5" fill="#f5b400" opacity=".8"/>
+          <circle cx="58" cy="95" r="4" fill="#f5b400" opacity=".8"/>
+          <!-- arms -->
+          <g>
+            <path d="M28 90 q-18 -8 -20 8" stroke="#a67810" stroke-width="4" fill="none">
+              <animate attributeName="d" values="M28 90 q-18 -8 -20 8; M28 90 q-18 0 -20 8; M28 90 q-18 -8 -20 8" dur="1.8s" repeatCount="indefinite"/>
+            </path>
+            <path d="M122 90 q18 -8 20 8" stroke="#a67810" stroke-width="4" fill="none">
+              <animate attributeName="d" values="M122 90 q18 -8 20 8; M122 90 q18 0 20 8; M122 90 q18 -8 20 8" dur="1.8s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <!-- face -->
+          <g>
+            <ellipse id="eyeL" cx="70" cy="68" rx="3" ry="3.5" fill="#2a2210">
+              <animate attributeName="ry" values="3.5;0.6;3.5" dur="4s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse id="eyeR" cx="88" cy="68" rx="3" ry="3.5" fill="#2a2210">
+              <animate attributeName="ry" values="3.5;3.5;0.6;3.5" dur="4s" repeatCount="indefinite"/>
+            </ellipse>
+            <path d="M70 82 Q79 86 88 82" stroke="#2a2210" stroke-width="4" fill="none"/>
+            <circle cx="62" cy="76" r="2" fill="#ff8aa6"/>
+            <circle cx="96" cy="76" r="2" fill="#ff8aa6"/>
+          </g>
+        </svg>
+        <div class="bubble" id="bubble">ようこそ！まずは<strong>A</strong>から。全部で3画面だよ🧀</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="progress-wrap">
+        <div class="bar"><i id="progress"></i><i class="buddy" id="buddy" style="left:0%"></i></div>
+        <div class="progress-caption"><span id="captionLeft">A. 全体評価 / 残り2画面</span><span id="captionRight">0%</span></div>
+      </div>
+
+      <form id="form" class="grid" novalidate>
+        <!-- 🔒 honeypot for spam -->
+        <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
+        <input type="hidden" name="timestamp" id="timestamp">
+        <input type="hidden" name="source" id="source">
+        <input type="hidden" name="form_version" value="cw_v1.5_grouped_plus">
+
+        <!-- STEP 1: A 全体評価（1画面） -->
+        <section class="step active" data-step="1">
+          <div class="section-badge">A. 全体評価</div>
+          <div class="grid two">
+            <div>
+              <label>本日の満足度（1〜5）</label>
+              <div class="opt" role="radiogroup" aria-label="満足度">
+                <input type="radio" id="csat1" name="csat" value="1" required><label for="csat1">1</label>
+                <input type="radio" id="csat2" name="csat" value="2"><label for="csat2">2</label>
+                <input type="radio" id="csat3" name="csat" value="3"><label for="csat3">3</label>
+                <input type="radio" id="csat4" name="csat" value="4"><label for="csat4">4</label>
+                <input type="radio" id="csat5" name="csat" value="5"><label for="csat5">5</label>
+              </div>
+              <p class="help">1=不満 / 5=とても満足</p>
+            </div>
+            <div>
+              <label>友人に勧めたい度（1〜5）</label>
+              <div class="opt" role="radiogroup" aria-label="勧めたい度">
+                <input type="radio" id="nps1" name="nps" value="1" required><label for="nps1">1</label>
+                <input type="radio" id="nps2" name="nps" value="2"><label for="nps2">2</label>
+                <input type="radio" id="nps3" name="nps" value="3"><label for="nps3">3</label>
+                <input type="radio" id="nps4" name="nps" value="4"><label for="nps4">4</label>
+                <input type="radio" id="nps5" name="nps" value="5"><label for="nps5">5</label>
+              </div>
+            </div>
+            <div>
+              <label>次回も参加したいですか？</label>
+              <div class="opt">
+                <input type="radio" id="rejoin_yes" name="rejoin" value="はい" required><label for="rejoin_yes">はい</label>
+                <input type="radio" id="rejoin_maybe" name="rejoin" value="未定"><label for="rejoin_maybe">未定</label>
+                <input type="radio" id="rejoin_no" name="rejoin" value="いいえ"><label for="rejoin_no">いいえ</label>
+              </div>
+            </div>
+            <div>
+              <label>価格の納得感</label>
+              <div class="opt">
+                <input type="radio" id="price1" name="price_fairness" value="高すぎる" required><label for="price1">高すぎる</label>
+                <input type="radio" id="price2" name="price_fairness" value="やや高い"><label for="price2">やや高い</label>
+                <input type="radio" id="price3" name="price_fairness" value="ちょうどよい"><label for="price3">ちょうどよい</label>
+                <input type="radio" id="price4" name="price_fairness" value="やや安い"><label for="price4">やや安い</label>
+                <input type="radio" id="price5" name="price_fairness" value="安すぎる"><label for="price5">安すぎる</label>
+              </div>
+            </div>
+          </div>
+          <div class="btns"><button type="button" class="primary" data-next>次へ（Bへ進む）</button></div>
+        </section>
+
+        <!-- STEP 2: B 各アトラクション評価（＋順位） -->
+        <section class="step" data-step="2">
+          <div class="section-badge">B. 各アトラクション（1〜5）</div>
+          <div class="grid two">
+            <div>
+              <label>ラクレットスライダー</label>
+              <div class="opt" role="radiogroup">
+                <input type="radio" id="rac1" name="raclette_slider" value="1" required><label for="rac1">1</label>
+                <input type="radio" id="rac2" name="raclette_slider" value="2"><label for="rac2">2</label>
+                <input type="radio" id="rac3" name="raclette_slider" value="3"><label for="rac3">3</label>
+                <input type="radio" id="rac4" name="raclette_slider" value="4"><label for="rac4">4</label>
+                <input type="radio" id="rac5" name="raclette_slider" value="5"><label for="rac5">5</label>
+              </div>
+            </div>
+            <div>
+              <label>シカゴウォーターフォール</label>
+              <div class="opt" role="radiogroup">
+                <input type="radio" id="cwf1" name="chicago_waterfall" value="1" required><label for="cwf1">1</label>
+                <input type="radio" id="cwf2" name="chicago_waterfall" value="2"><label for="cwf2">2</label>
+                <input type="radio" id="cwf3" name="chicago_waterfall" value="3"><label for="cwf3">3</label>
+                <input type="radio" id="cwf4" name="chicago_waterfall" value="4"><label for="cwf4">4</label>
+                <input type="radio" id="cwf5" name="chicago_waterfall" value="5"><label for="cwf5">5</label>
+              </div>
+            </div>
+            <div>
+              <label>メルティディップポット（チーズフォンデュ）</label>
+              <div class="opt" role="radiogroup">
+                <input type="radio" id="mdp1" name="melty_dip_pot" value="1" required><label for="mdp1">1</label>
+                <input type="radio" id="mdp2" name="melty_dip_pot" value="2"><label for="mdp2">2</label>
+                <input type="radio" id="mdp3" name="melty_dip_pot" value="3"><label for="mdp3">3</label>
+                <input type="radio" id="mdp4" name="melty_dip_pot" value="4"><label for="mdp4">4</label>
+                <input type="radio" id="mdp5" name="melty_dip_pot" value="5"><label for="mdp5">5</label>
+              </div>
+            </div>
+            <div>
+              <label>チーズピザラボ</label>
+              <div class="opt" role="radiogroup">
+                <input type="radio" id="cpl1" name="cheese_pizza_lab" value="1" required><label for="cpl1">1</label>
+                <input type="radio" id="cpl2" name="cheese_pizza_lab" value="2"><label for="cpl2">2</label>
+                <input type="radio" id="cpl3" name="cheese_pizza_lab" value="3"><label for="cpl3">3</label>
+                <input type="radio" id="cpl4" name="cheese_pizza_lab" value="4"><label for="cpl4">4</label>
+                <input type="radio" id="cpl5" name="cheese_pizza_lab" value="5"><label for="cpl5">5</label>
+              </div>
+            </div>
+            <div>
+              <label>エスプーマバスク</label>
+              <div class="opt" role="radiogroup">
+                <input type="radio" id="eb1" name="espuma_basque" value="1" required><label for="eb1">1</label>
+                <input type="radio" id="eb2" name="espuma_basque" value="2"><label for="eb2">2</label>
+                <input type="radio" id="eb3" name="espuma_basque" value="3"><label for="eb3">3</label>
+                <input type="radio" id="eb4" name="espuma_basque" value="4"><label for="eb4">4</label>
+                <input type="radio" id="eb5" name="espuma_basque" value="5"><label for="eb5">5</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top:10px">
+            <label>お気に入りの順位（重複不可）</label>
+            <div class="two">
+              <div>
+                <span class="help">1位</span>
+                <select id="rank1" name="favorite_rank_1" required>
+                  <option value="">選択してください</option>
+                  <option>ラクレットスライダー</option>
+                  <option>シカゴウォーターフォール</option>
+                  <option>メルティディップポット（チーズフォンデュ）</option>
+                  <option>チーズピザラボ</option>
+                  <option>エスプーマバスク</option>
+                </select>
+              </div>
+              <div>
+                <span class="help">2位</span>
+                <select id="rank2" name="favorite_rank_2" required>
+                  <option value="">選択してください</option>
+                  <option>ラクレットスライダー</option>
+                  <option>シカゴウォーターフォール</option>
+                  <option>メルティディップポット（チーズフォンデュ）</option>
+                  <option>チーズピザラボ</option>
+                  <option>エスプーマバスク</option>
+                </select>
+              </div>
+              <div>
+                <span class="help">3位</span>
+                <select id="rank3" name="favorite_rank_3" required>
+                  <option value="">選択してください</option>
+                  <option>ラクレットスライダー</option>
+                  <option>シカゴウォーターフォール</option>
+                  <option>メルティディップポット（チーズフォンデュ）</option>
+                  <option>チーズピザラボ</option>
+                  <option>エスプーマバスク</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="btns"><button type="button" class="ghost" data-prev>戻る</button><button type="button" class="primary" data-next>次へ（Cへ）</button></div>
+        </section>
+
+        <!-- STEP 3: C 来店動機・次回ニーズ・属性（1画面） -->
+        <section class="step" data-step="3">
+          <div class="section-badge">C. 来店動機・次回ニーズ・属性</div>
+
+          <div class="grid">
+            <div>
+              <label>来店動機（複数選択可）</label>
+              <div class="opt">
+                <input type="checkbox" id="mot1" name="visit_motivation" value="料理が美味しそう"><label for="mot1">料理が美味しそう</label>
+                <input type="checkbox" id="mot2" name="visit_motivation" value="チーズが好き"><label for="mot2">チーズが好き</label>
+                <input type="checkbox" id="mot3" name="visit_motivation" value="写真映え/体験が楽しそう"><label for="mot3">写真映え/体験が楽しそう</label>
+                <input type="checkbox" id="mot4" name="visit_motivation" value="SNSで見た"><label for="mot4">SNSで見た</label>
+                <input type="checkbox" id="mot5" name="visit_motivation" value="友人に誘われて"><label for="mot5">友人に誘われて</label>
+                <input type="checkbox" id="mot6" name="visit_motivation" value="価格が手頃"><label for="mot6">価格が手頃</label>
+                <input type="checkbox" id="mot7" name="visit_motivation" value="限定/新メニューに惹かれた"><label for="mot7">限定/新メニューに惹かれた</label>
+                <input type="checkbox" id="mot_etc" name="visit_motivation" value="その他"><label for="mot_etc">その他</label>
+              </div>
+              <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（自由記述）" style="display:none">
+            </div>
+
+            <div class="two">
+              <div>
+                <label>予約経路</label>
+                <div class="opt">
+                  <input type="radio" id="bc1" name="booking_channel" value="LINE"><label for="bc1">LINE</label>
+                  <input type="radio" id="bc2" name="booking_channel" value="Instagram"><label for="bc2">Instagram</label>
+                  <input type="radio" id="bc3" name="booking_channel" value="知人紹介"><label for="bc3">知人紹介</label>
+                  <input type="radio" id="bc4" name="booking_channel" value="店頭"><label for="bc4">店頭</label>
+                  <input type="radio" id="bc5" name="booking_channel" value="Google検索"><label for="bc5">Google検索</label>
+                  <input type="radio" id="bc6" name="booking_channel" value="その他"><label for="bc6">その他</label>
+                </div>
+                <input type="text" id="booking_other" name="booking_channel_other" placeholder="その他（自由記述）" style="display:none">
+              </div>
+              <div>
+                <label>イベントを知ったきっかけ</label>
+                <div class="opt">
+                  <input type="radio" id="aw1" name="awareness_channel" value="LINE"><label for="aw1">LINE</label>
+                  <input type="radio" id="aw2" name="awareness_channel" value="Instagram"><label for="aw2">Instagram</label>
+                  <input type="radio" id="aw3" name="awareness_channel" value="知人紹介"><label for="aw3">知人紹介</label>
+                  <input type="radio" id="aw4" name="awareness_channel" value="店頭"><label for="aw4">店頭</label>
+                  <input type="radio" id="aw5" name="awareness_channel" value="Google検索"><label for="aw5">Google検索</label>
+                  <input type="radio" id="aw6" name="awareness_channel" value="その他"><label for="aw6">その他</label>
+                </div>
+                <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="display:none">
+              </div>
+            </div>
+
+            <div>
+              <label>次回の希望テーマ（複数可）</label>
+              <div class="opt">
+                <input type="checkbox" id="theme_meat" name="next_theme" value="肉フェス"><label for="theme_meat">肉フェス</label>
+                <input type="checkbox" id="theme_wine" name="next_theme" value="ワイン&チーズ"><label for="theme_wine">ワイン&チーズ</label>
+                <input type="checkbox" id="theme_world" name="next_theme" value="世界のチーズ"><label for="theme_world">世界のチーズ</label>
+                <input type="checkbox" id="theme_truffle" name="next_theme" value="トリュフ&チーズ"><label for="theme_truffle">トリュフ&チーズ</label>
+                <input type="checkbox" id="theme_spicy" name="next_theme" value="辛い×チーズ"><label for="theme_spicy">辛い×チーズ</label>
+                <input type="checkbox" id="theme_family" name="next_theme" value="ファミリー昼"><label for="theme_family">ファミリー昼</label>
+                <input type="checkbox" id="theme_other" name="next_theme" value="その他"><label for="theme_other">その他</label>
+              </div>
+              <input type="text" id="theme_other_text" name="theme_other_text" placeholder="その他（自由記述）" style="display:none">
+            </div>
+
+            <div class="two">
+              <div>
+                <label>開催の希望</label>
+                <div class="opt">
+                  <input type="radio" id="pt1" name="preferred_time" value="平日夜"><label for="pt1">平日夜</label>
+                  <input type="radio" id="pt2" name="preferred_time" value="土曜夜"><label for="pt2">土曜夜</label>
+                  <input type="radio" id="pt3" name="preferred_time" value="日曜昼"><label for="pt3">日曜昼</label>
+                  <input type="radio" id="pt4" name="preferred_time" value="祝日前夜"><label for="pt4">祝日前夜</label>
+                  <input type="radio" id="pt5" name="preferred_time" value="その他"><label for="pt5">その他</label>
+                </div>
+                <input type="text" id="preferred_time_other" name="preferred_time_other" placeholder="その他（自由記述）" style="display:none">
+              </div>
+              <div>
+                <label>価格帯の希望</label>
+                <div class="opt">
+                  <input type="radio" id="pp1" name="preferred_price" value="2,500円"><label for="pp1">2,500円</label>
+                  <input type="radio" id="pp2" name="preferred_price" value="3,000円"><label for="pp2">3,000円</label>
+                  <input type="radio" id="pp3" name="preferred_price" value="3,500円"><label for="pp3">3,500円</label>
+                  <input type="radio" id="pp4" name="preferred_price" value="4,000円"><label for="pp4">4,000円</label>
+                  <input type="radio" id="pp5" name="preferred_price" value="5,000円以上"><label for="pp5">5,000円以上</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="two">
+              <div>
+                <label>同伴者（最も近いもの）</label>
+                <div class="opt">
+                  <input type="radio" id="p1" name="companion_type" value="ひとり"><label for="p1">ひとり</label>
+                  <input type="radio" id="p2" name="companion_type" value="カップル"><label for="p2">カップル</label>
+                  <input type="radio" id="p3" name="companion_type" value="友人"><label for="p3">友人</label>
+                  <input type="radio" id="p4" name="companion_type" value="家族(子どもあり)"><label for="p4">家族(子どもあり)</label>
+                  <input type="radio" id="p5" name="companion_type" value="家族(子どもなし)"><label for="p5">家族(子どもなし)</label>
+                  <input type="radio" id="p6" name="companion_type" value="その他"><label for="p6">その他</label>
+                </div>
+                <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）" style="display:none">
+              </div>
+              <div>
+                <label for="group_size">来店人数（自グループ）</label>
+                <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
+                <label style="margin-top:10px">年代</label>
+                <div class="opt">
+                  <input type="radio" id="age10" name="age" value="10代"><label for="age10">10代</label>
+                  <input type="radio" id="age20" name="age" value="20代"><label for="age20">20代</label>
+                  <input type="radio" id="age30" name="age" value="30代"><label for="age30">30代</label>
+                  <input type="radio" id="age40" name="age" value="40代"><label for="age40">40代</label>
+                  <input type="radio" id="age50" name="age" value="50代"><label for="age50">50代</label>
+                  <input type="radio" id="age60" name="age" value="60代以上"><label for="age60">60代以上</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="btns"><button type="button" class="ghost" data-prev>戻る</button><button type="submit" class="primary">送信する</button></div>
+        </section>
+      </form>
+    </div>
+
+    <div id="result" class="card" style="display:none"></div>
+
+    <div class="foot muted">匿名でのご協力ありがとうございます。入力内容は改善・品質向上の目的でのみ利用します。</div>
+  </div>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    // ====== 設定：Formspree の endpoint ======
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj"; // 指定ID
+    const THANKS_COUPON = "CW100"; // 送信後の特典コード（任意）
+
+    // ステップ / 進行
+    const steps = Array.from(document.querySelectorAll('.step'));
+    let idx = 0; // 現在ステップindex（0開始）
+    const progress = document.getElementById('progress');
+    const buddy = document.getElementById('buddy');
+    const capL = document.getElementById('captionLeft');
+    const capR = document.getElementById('captionRight');
+    const bubble = document.getElementById('bubble');
+    const total = steps.length; // 3
+
+    const captions = [
+      {l:'A. 全体評価 / 残り2画面', b:'AクリアでチーズLvUP！🧀'},
+      {l:'B. 各アトラクション / 残り1画面', b:'いい流れ！お気に入りも選んでね🎢'},
+      {l:'C. 来店動機ほか / 残り0画面', b:'フィニッシュ目前！あと少し✨'}
+    ];
+
+    function confettiBurst(n=36){
+      const root = document.getElementById('confetti');
+      for(let i=0;i<n;i++){
+        const s = document.createElement('span');
+        s.textContent = Math.random()>.4 ? '🧀' : (Math.random()>.5?'✨':'⭐️');
+        s.style.left = Math.random()*100 + 'vw';
+        s.style.setProperty('--x', (Math.random()*200-100)+'px');
+        s.style.animationDuration = (1.2+Math.random()*0.8)+'s';
+        root.appendChild(s);
+        setTimeout(()=> s.remove(), 1800);
+      }
+    }
+
+    function updateProgress(){
+      const pct = Math.round(((idx+1)/total)*100);
+      progress.style.width = pct + '%';
+      buddy.style.left = pct + '%';
+      capL.textContent = captions[idx].l;
+      capR.textContent = `${pct}%`;
+      bubble.innerHTML = captions[idx].b;
+    }
+
+    function goto(i){
+      steps[idx].classList.remove('active');
+      idx = i; steps[idx].classList.add('active');
+      updateProgress();
+      const firstInput = steps[idx].querySelector('input, select, button');
+      if(firstInput) firstInput.focus({preventScroll:false});
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // 次へ / 戻る
+    document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click', ()=>{
+      const required = steps[idx].querySelectorAll('[required]');
+      for(const el of required){ if(el.type==='radio'){
+        const name = el.name; if(!steps[idx].querySelector(`input[name="${name}"]:checked`)){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; }
+      } else if(el.tagName==='SELECT' && !el.value){ steps[idx].classList.add('error'); setTimeout(()=>steps[idx].classList.remove('error'), 800); return; } }
+      if(idx===0 || idx===1) confettiBurst(18);
+      goto(Math.min(idx+1, total-1));
+    }));
+    document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click', ()=> goto(Math.max(idx-1, 0))));
+
+    // タイムスタンプ & source
+    document.getElementById('timestamp').value = new Date().toISOString();
+    const params = new URLSearchParams(location.search);
+    document.getElementById('source').value = params.get('ch') || params.get('utm_source') || '';
+
+    // 「その他」選択時テキスト表示
+    function toggleEtc(triggerId, inputId){
+      const t = document.getElementById(triggerId); const i = document.getElementById(inputId);
+      function u(){ i.style.display = (t.checked || (t.type==='radio' && t.checked)) ? 'block' : 'none'; if(i.style.display==='none') i.value=''; }
+      t.addEventListener('change', u); u();
+    }
+    ['mot_etc:mot_etc_text','theme_other:theme_other_text','pt5:preferred_time_other','p6:party_other','bc6:booking_other','aw6:awareness_other']
+      .forEach(pair=>{ const [t,i]=pair.split(':'); toggleEtc(t,i); });
+
+    // 順位重複防止
+    const selects = ['rank1','rank2','rank3'].map(id=>document.getElementById(id));
+    function refreshOptions(){
+      const chosen = new Set(selects.map(s=>s.value).filter(Boolean));
+      selects.forEach(s=>{ Array.from(s.options).forEach(o=>{ if(!o.value) return; o.disabled = !o.selected && chosen.has(o.value); }); });
+    }
+    selects.forEach(s=> s.addEventListener('change', refreshOptions));
+
+    // 送信
+    const form = document.getElementById('form');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      // 必須：Aの4問＋Bの5問＋順位3つ
+      const requiredNames = ['csat','nps','rejoin','price_fairness','raclette_slider','chicago_waterfall','melty_dip_pot','cheese_pizza_lab','espuma_basque'];
+      for(const n of requiredNames){ if(!form.querySelector(`[name="${n}"]:checked`)){ alert('未回答の必須項目があります'); goto(n.includes('raclette')||n.includes('waterfall')||n.includes('dip')||n.includes('pizza')||n.includes('espuma')?1:0); return; } }
+      for(const id of ['rank1','rank2','rank3']){ if(!document.getElementById(id).value){ alert('お気に入りの順位を選択してください'); goto(1); return; } }
+      const [r1,r2,r3] = selects.map(s=>s.value);
+      if(new Set([r1,r2,r3]).size<3){ alert('1位・2位・3位は重複しないよう選んでください'); goto(1); return; }
+
+      const data = new FormData(form);
+      try{
+        const res = await fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' }});
+        if(res.ok){
+          document.querySelector('.card').style.display='none';
+          const result = document.getElementById('result');
+          result.style.display='block';
+          result.innerHTML = `
+            <h2 style="margin:0 0 6px">ご回答ありがとうございました！</h2>
+            <p class="muted">やったー！次回はもっと楽しくなるよ🎊</p>
+            <div class="pill">特典コード：<span class="mono"><b>${THANKS_COUPON}</b></span></div>
+            <p class="help">※ 次回会計時にスタッフへお見せください（期間限定）。</p>
+          `;
+          confettiBurst(60);
+          localStorage.setItem('cw_survey_submitted','1');
+        } else {
+          const payload = await res.json().catch(()=>({}));
+          throw new Error(payload?.error || '送信に失敗しました。時間を置いてお試しください。');
+        }
+      } catch(err){ alert(err.message); }
+    });
+
+    // 初期表示
+    function init(){ updateProgress(); refreshOptions(); }
+    init();
+
+    // 送信済み時の表示
+    if(localStorage.getItem('cw_survey_submitted')==='1'){
+      document.querySelector('#result').style.display='block';
+      document.querySelector('#result').innerHTML = `<h2>送信ありがとうございました！</h2><p class="muted">再度回答される場合は、ページを再読み込みしてください。</p>`;
+      document.querySelector('.card').style.display='none';
+    }
+  </script>
+</body>
+</html>
     .mascot svg{width:86px; filter: drop-shadow(0 10px 28px rgba(255,179,0,.22)); animation: floaty 4s ease-in-out infinite;}
     @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
     .bubble{position:relative; background:#101528; border:1px solid rgba(255,255,255,.10); padding:10px 12px; border-radius:14px; max-width:280px;}
