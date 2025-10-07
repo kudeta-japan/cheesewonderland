@@ -3,8 +3,9 @@
 <head>
   <!-- Cheese Wonderland アンケート（Formspree版）
        ・A/B/C 3画面・進行メーター固定(A0/B33/C66) → 成功で100%
-       ・予約経路セクション削除
+       ・予約経路セクションなし
        ・人数は2〜6ボタン ＋「ひとり」選択時は1を送信
+       ・Aの満足度/勧めたい度に「低←→高」目盛＋ライブ説明（★表示）
        ・成功画面：staff.jpgを角丸で表示／再入力ボタン
   -->
   <meta charset="utf-8" />
@@ -61,7 +62,7 @@
     .opt label{border:1px solid rgba(255,255,255,.14); padding:12px 14px; border-radius:14px; cursor:pointer; background:#101217; transition:.15s transform, .2s box-shadow}
     .opt label:hover{transform:translateY(-1px)}
     .opt input:checked + label{outline:2px solid var(--brand); background:linear-gradient(180deg,rgba(255,213,77,.12),transparent); box-shadow:0 0 0 6px rgba(255,213,77,.10)}
-    select, input[type="number"], input[type="text"], textarea{ width:100%; background:#101217; color:#f8f8fb; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
+    select, input[type="text"], textarea{ width:100%; background:#101217; color:#f8f8fb; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
     textarea{min-height:120px; line-height:1.5}
 
     .btns{display:flex; gap:10px; flex-wrap:wrap}
@@ -88,6 +89,12 @@
     .step[data-step="3"] label{ color:#e8f3ff }
     .hint{color:#a3c9ff; font-size:.9rem}
     .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(120,211,255,.35),transparent); margin:6px 0 2px}
+
+    /* === 満足度/NPS: 低←→高の補助ラベル & ライブ表示 === */
+    .scale-hint{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;color:var(--muted);margin:-2px 0 6px}
+    .opt.scale label{min-width:38px;text-align:center}
+    .now-hint{margin-top:6px;color:var(--muted);font-size:.9rem}
+    .now-hint b{color:#ffe082}
   </style>
 </head>
 <body>
@@ -146,33 +153,40 @@
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v2.1_rmBooking_rectPhoto">
+        <input type="hidden" name="form_version" value="cw_v2.2_scaleHints">
 
         <!-- A -->
         <section class="step active" data-step="1">
           <div class="section-badge">A. 全体評価</div>
           <div class="grid two">
+            <!-- 本日の満足度 -->
             <div>
               <label>本日の満足度（1〜5）</label>
-              <div class="opt" role="radiogroup" aria-label="満足度">
+              <div class="scale-hint"><span>低（不満）</span><span>高（とても満足）</span></div>
+              <div class="opt scale" role="radiogroup" aria-label="満足度">
                 <input type="radio" id="csat1" name="csat" value="1" required><label for="csat1">1</label>
                 <input type="radio" id="csat2" name="csat" value="2"><label for="csat2">2</label>
                 <input type="radio" id="csat3" name="csat" value="3"><label for="csat3">3</label>
                 <input type="radio" id="csat4" name="csat" value="4"><label for="csat4">4</label>
                 <input type="radio" id="csat5" name="csat" value="5"><label for="csat5">5</label>
               </div>
-              <p class="help">1=不満 / 5=とても満足</p>
+              <div class="now-hint" id="csatNow">選択：—（<span>1=不満 / 5=とても満足</span>）</div>
             </div>
+
+            <!-- 友人に勧めたい度 -->
             <div>
               <label>友人に勧めたい度（1〜5）</label>
-              <div class="opt" role="radiogroup" aria-label="勧めたい度">
+              <div class="scale-hint"><span>勧めない</span><span>とても勧めたい</span></div>
+              <div class="opt scale" role="radiogroup" aria-label="勧めたい度">
                 <input type="radio" id="nps1" name="nps" value="1" required><label for="nps1">1</label>
                 <input type="radio" id="nps2" name="nps" value="2"><label for="nps2">2</label>
                 <input type="radio" id="nps3" name="nps" value="3"><label for="nps3">3</label>
                 <input type="radio" id="nps4" name="nps" value="4"><label for="nps4">4</label>
                 <input type="radio" id="nps5" name="nps" value="5"><label for="nps5">5</label>
               </div>
+              <div class="now-hint" id="npsNow">選択：—（<span>1=勧めない / 5=とても勧めたい</span>）</div>
             </div>
+
             <div>
               <label>次回も参加したいですか？</label>
               <div class="opt">
@@ -417,6 +431,23 @@
       {l:'C. 来店動機ほか / 最終画面', b:'ここが最後！「送信」で完了✨'}
     ];
 
+    // === 満足度/NPS ライブ表示 ===
+    const csatText = {1:'とても不満',2:'やや不満',3:'ふつう',4:'満足',5:'とても満足'};
+    const npsText  = {1:'勧めない',2:'あまり勧めない',3:'どちらとも言えない',4:'勧めたい',5:'とても勧めたい'};
+    const csatNow = document.getElementById('csatNow');
+    const npsNow  = document.getElementById('npsNow');
+    function stars(n){ return '★'.repeat(n) + '☆'.repeat(5-n); }
+    function bindLiveHint(name, hintEl, dict){
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{
+        r.addEventListener('change', ()=>{
+          const v = Number(document.querySelector(`input[name="${name}"]:checked`)?.value || r.value);
+          hintEl.innerHTML = `選択：<b>${stars(v)}</b>（${dict[v]}）`;
+        });
+      });
+    }
+    bindLiveHint('csat', csatNow, csatText);
+    bindLiveHint('nps',  npsNow,  npsText);
+
     function confettiBurst(n=36){
       const root = document.getElementById('confetti');
       for(let i=0;i<n;i++){
@@ -540,7 +571,8 @@
               <button type="button" class="ghost" id="againBtn">もう一度回答する</button>
             </div>
           `;
-          confettiBurst(60);
+          // ちょっとした祝福
+          (function(){const root=document.getElementById('confetti'); for(let i=0;i<60;i++){const s=document.createElement('span'); s.textContent = Math.random()>.4 ? '🧀' : (Math.random()>.5?'✨':'⭐️'); s.style.left = Math.random()*100 + 'vw'; s.style.setProperty('--x', (Math.random()*200-100)+'px'); s.style.animationDuration = (1.2+Math.random()*0.8)+'s'; root.appendChild(s); setTimeout(()=> s.remove(), 1800);} })();
 
           // 再回答ボタンでフォームに戻る（制限なし）
           document.getElementById('againBtn')?.addEventListener('click', ()=>{
@@ -549,6 +581,9 @@
             // その他欄を隠す
             ['mot_etc_text','awareness_other','theme_other_text','preferred_time_other','party_other']
               .forEach(id=>{ const el=document.getElementById(id); if(el){ el.value=''; el.style.display='none'; } });
+            // ライブ表示を初期化
+            csatNow.innerHTML = '選択：—（<span>1=不満 / 5=とても満足</span>）';
+            npsNow.innerHTML  = '選択：—（<span>1=勧めない / 5=とても勧めたい</span>）';
             // 新しいタイムスタンプ
             document.getElementById('timestamp').value = new Date().toISOString();
             // 画面をAへ戻す
