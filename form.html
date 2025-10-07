@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <!-- Cheese Wonderland アンケート（Formspree版・A/B/C 3画面＋進行メーター＋強化マスコット）
-       C画面の視認性強化＋「ご要望・ご意見（任意）」追加 -->
+  <!-- Cheese Wonderland アンケート（Formspree版）
+       A/B/C 3画面・進行メーター固定(A0/B33/C66)・C視認性UP
+       送信成功：staff.jpg + お礼メッセージ表示／特典なし
+  -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cheese Wonderland アンケート</title>
@@ -64,7 +66,7 @@
     .btns{display:flex; gap:10px; flex-wrap:wrap}
     button{cursor:pointer; border:0; padding:12px 16px; border-radius:14px; font-weight:800; transition:transform .08s ease}
     .primary{background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#202020}
-    .ghost{background:transparent; color:var(--fg); border:1px solid rgba(255,255,255,.14)}
+    .ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
     button:active{transform:translateY(1px) scale(.99)}
 
     .section-badge{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#101217; border:1px solid rgba(255,255,255,.12); font-size:.85rem; margin-bottom:8px}
@@ -74,19 +76,10 @@
     .step.active{display:block; animation: fadeIn .22s ease}
     @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
 
-    /* ==== C画面：視認性UP専用スタイル ==== */
+    /* ==== C画面 視認性UP ==== */
     .step[data-step="3"]{--stripe1:linear-gradient(180deg,var(--accent),#9ad9ff); --stripe2:linear-gradient(180deg,#ffa8d2,var(--rose)); --stripe3:linear-gradient(180deg,#ffd761,var(--brand2));}
-    .cgroup{
-      background:var(--cbg);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:16px;
-      padding:14px;
-      position:relative;
-      box-shadow:0 6px 20px rgba(0,0,0,.25);
-    }
-    .cgroup:before{
-      content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:6px; border-radius:16px 0 0 16px; background:var(--stripe1);
-    }
+    .cgroup{background:var(--cbg); border:1px solid rgba(255,255,255,.10); border-radius:16px; padding:14px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,.25);}
+    .cgroup:before{content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:6px; border-radius:16px 0 0 16px; background:var(--stripe1);}
     .cgroup.alt1:before{ background:var(--stripe2); }
     .cgroup.alt2:before{ background:var(--stripe3); }
     .step[data-step="3"] .opt label{ background:#0f1528; border-color:rgba(120,211,255,.22);}
@@ -95,11 +88,8 @@
     .hint{color:#a3c9ff; font-size:.9rem}
     .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(120,211,255,.35),transparent); margin:6px 0 2px}
 
-    /* confetti / helpers */
-    .confetti span{position:fixed; top:-10vh; left:50%; transform:translateX(-50%); font-size:18px; animation: fall 1.6s linear forwards;}
-    @keyframes fall{to{transform:translateX(calc(-50% + var(--x))) translateY(110vh) rotate(720deg); opacity:0}}
+    /* helpers */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#101217;border:1px solid rgba(255,255,255,.12)}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
     .error{animation:shake .3s ease}
     @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(4px)}75%{transform:translateX(-4px)}}
@@ -161,7 +151,7 @@
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v1.6_c_visual">
+        <input type="hidden" name="form_version" value="cw_v1.8_photo_final">
 
         <!-- A -->
         <section class="step active" data-step="1">
@@ -281,25 +271,25 @@
           <div class="btns"><button type="button" class="ghost" data-prev>戻る</button><button type="button" class="primary" data-next>次へ（Cへ）</button></div>
         </section>
 
-        <!-- C（視認性強化） -->
+        <!-- C -->
         <section class="step" data-step="3">
-          <div class="section-badge section-badge--c">C. 来店動機・次回ニーズ・属性</div>
+          <div class="section-badge section-badge--c">C. 来店動機・次回ニーズ・属性（最終画面）</div>
 
           <div class="grid">
             <div class="cgroup alt2">
               <label>来店動機（複数選択可） <span class="hint">※ あてはまるものをすべて</span></label>
               <div class="divider"></div>
               <div class="opt">
-                <input type="checkbox" id="mot1" name="visit_motivation" value="料理が美味しそう"><label for="mot1">料理が美味しそう</label>
-                <input type="checkbox" id="mot2" name="visit_motivation" value="チーズが好き"><label for="mot2">チーズが好き</label>
-                <input type="checkbox" id="mot3" name="visit_motivation" value="写真映え/体験が楽しそう"><label for="mot3">写真映え/体験が楽しそう</label>
-                <input type="checkbox" id="mot4" name="visit_motivation" value="SNSで見た"><label for="mot4">SNSで見た</label>
-                <input type="checkbox" id="mot5" name="visit_motivation" value="友人に誘われて"><label for="mot5">友人に誘われて</label>
-                <input type="checkbox" id="mot6" name="visit_motivation" value="価格が手頃"><label for="mot6">価格が手頃</label>
-                <input type="checkbox" id="mot7" name="visit_motivation" value="限定/新メニューに惹かれた"><label for="mot7">限定/新メニューに惹かれた</label>
+                <input type="checkbox" id="mot1" name="visit_motivation" value="写真を見ておいしそうだった"><label for="mot1">写真を見ておいしそうだった</label>
+                <input type="checkbox" id="mot2" name="visit_motivation" value="チーズが大好き"><label for="mot2">チーズが大好き</label>
+                <input type="checkbox" id="mot3" name="visit_motivation" value="写真を撮りたい・映えそうだった"><label for="mot3">写真を撮りたい・映えそうだった</label>
+                <input type="checkbox" id="mot4" name="visit_motivation" value="SNSの投稿を見て"><label for="mot4">SNSの投稿を見て</label>
+                <input type="checkbox" id="mot5" name="visit_motivation" value="友だちに誘われて"><label for="mot5">友だちに誘われて</label>
+                <input type="checkbox" id="mot6" name="visit_motivation" value="価格がちょうど良かった"><label for="mot6">価格がちょうど良かった</label>
+                <input type="checkbox" id="mot7" name="visit_motivation" value="限定・新メニューに惹かれて"><label for="mot7">限定・新メニューに惹かれて</label>
                 <input type="checkbox" id="mot_etc" name="visit_motivation" value="その他"><label for="mot_etc">その他</label>
               </div>
-              <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（自由記述）" style="margin-top:8px">
+              <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（よろしければ理由を）" style="margin-top:8px">
             </div>
 
             <div class="two">
@@ -338,9 +328,9 @@
                 <input type="checkbox" id="theme_meat" name="next_theme" value="肉フェス"><label for="theme_meat">肉フェス</label>
                 <input type="checkbox" id="theme_wine" name="next_theme" value="ワイン&チーズ"><label for="theme_wine">ワイン&チーズ</label>
                 <input type="checkbox" id="theme_world" name="next_theme" value="世界のチーズ"><label for="theme_world">世界のチーズ</label>
-                <input type="checkbox" id="theme_truffle" name="next_theme" value="トリュフ&チーズ"><label for="theme_truffle">トリュフ&チーズ</label>
-                <input type="checkbox" id="theme_spicy" name="next_theme" value="辛い×チーズ"><label for="theme_spicy">辛い×チーズ</label>
                 <input type="checkbox" id="theme_family" name="next_theme" value="ファミリー昼"><label for="theme_family">ファミリー昼</label>
+                <input type="checkbox" id="theme_steak" name="next_theme" value="赤身ステーキ"><label for="theme_steak">赤身ステーキ</label>
+                <input type="checkbox" id="theme_american" name="next_theme" value="アメリカンパーティ"><label for="theme_american">アメリカンパーティ</label>
                 <input type="checkbox" id="theme_other" name="next_theme" value="その他"><label for="theme_other">その他</label>
               </div>
               <input type="text" id="theme_other_text" name="theme_other_text" placeholder="その他（自由記述）" style="margin-top:8px">
@@ -372,32 +362,33 @@
               </div>
             </div>
 
-            <div class="two">
-              <div class="cgroup alt2">
-                <label>同伴者（最も近いもの）</label>
-                <div class="divider"></div>
-                <div class="opt">
-                  <input type="radio" id="p1" name="companion_type" value="ひとり"><label for="p1">ひとり</label>
-                  <input type="radio" id="p2" name="companion_type" value="カップル"><label for="p2">カップル</label>
-                  <input type="radio" id="p3" name="companion_type" value="友人"><label for="p3">友人</label>
-                  <input type="radio" id="p4" name="companion_type" value="家族(子どもあり)"><label for="p4">家族(子どもあり)</label>
-                  <input type="radio" id="p5" name="companion_type" value="家族(子どもなし)"><label for="p5">家族(子どもなし)</label>
-                  <input type="radio" id="p6" name="companion_type" value="その他"><label for="p6">その他</label>
+            <div class="cgroup alt2">
+              <label>同伴者・人数・年代</label>
+              <div class="divider"></div>
+              <div class="two">
+                <div>
+                  <div class="opt" style="margin-bottom:8px">
+                    <input type="radio" id="p1" name="companion_type" value="ひとり"><label for="p1">ひとり</label>
+                    <input type="radio" id="p2" name="companion_type" value="カップル"><label for="p2">カップル</label>
+                    <input type="radio" id="p3" name="companion_type" value="友人"><label for="p3">友人</label>
+                    <input type="radio" id="p4" name="companion_type" value="家族(子どもあり)"><label for="p4">家族(子どもあり)</label>
+                    <input type="radio" id="p5" name="companion_type" value="家族(子どもなし)"><label for="p5">家族(子どもなし)</label>
+                    <input type="radio" id="p6" name="companion_type" value="その他"><label for="p6">その他</label>
+                  </div>
+                  <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）">
                 </div>
-                <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）" style="margin-top:8px">
-              </div>
-              <div class="cgroup">
-                <label for="group_size">来店人数（自グループ）</label>
-                <div class="divider"></div>
-                <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
-                <label style="margin-top:10px">年代</label>
-                <div class="opt">
-                  <input type="radio" id="age10" name="age" value="10代"><label for="age10">10代</label>
-                  <input type="radio" id="age20" name="age" value="20代"><label for="age20">20代</label>
-                  <input type="radio" id="age30" name="age" value="30代"><label for="age30">30代</label>
-                  <input type="radio" id="age40" name="age" value="40代"><label for="age40">40代</label>
-                  <input type="radio" id="age50" name="age" value="50代"><label for="age50">50代</label>
-                  <input type="radio" id="age60" name="age" value="60代以上"><label for="age60">60代以上</label>
+                <div>
+                  <label for="group_size" class="help">来店人数（自グループ）</label>
+                  <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
+                  <label class="help" style="margin-top:10px">年代</label>
+                  <div class="opt">
+                    <input type="radio" id="age10" name="age" value="10代"><label for="age10">10代</label>
+                    <input type="radio" id="age20" name="age" value="20代"><label for="age20">20代</label>
+                    <input type="radio" id="age30" name="age" value="30代"><label for="age30">30代</label>
+                    <input type="radio" id="age40" name="age" value="40代"><label for="age40">40代</label>
+                    <input type="radio" id="age50" name="age" value="50代"><label for="age50">50代</label>
+                    <input type="radio" id="age60" name="age" value="60代以上"><label for="age60">60代以上</label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -422,7 +413,6 @@
 
   <script>
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj";
-    const THANKS_COUPON = "CW100";
 
     const steps = Array.from(document.querySelectorAll('.step'));
     let idx = 0;
@@ -431,12 +421,13 @@
     const capL = document.getElementById('captionLeft');
     const capR = document.getElementById('captionRight');
     const bubble = document.getElementById('bubble');
-    const total = steps.length;
 
+    // 固定メーター: A=0, B=33, C=66（送信成功で100）
+    const pctByStep = [0, 33, 66];
     const captions = [
-      {l:'A. 全体評価 / 残り2画面', b:'AクリアでチーズLvUP！🧀'},
+      {l:'A. 全体評価 / 残り2画面', b:'Aクリア！次へ進もう🧀'},
       {l:'B. 各アトラクション / 残り1画面', b:'いい流れ！お気に入りも選んでね🎢'},
-      {l:'C. 来店動機ほか / 残り0画面', b:'フィニッシュ目前！あと少し✨'}
+      {l:'C. 来店動機ほか / 最終画面', b:'ここが最後！「送信」で完了✨'}
     ];
 
     function confettiBurst(n=36){
@@ -453,7 +444,7 @@
     }
 
     function updateProgress(){
-      const pct = Math.round(((idx+1)/total)*100);
+      const pct = pctByStep[idx] ?? 0;
       progress.style.width = pct + '%';
       buddy.style.left = pct + '%';
       capL.textContent = captions[idx].l;
@@ -483,7 +474,7 @@
         }
       }
       if(idx===0 || idx===1) confettiBurst(18);
-      goto(Math.min(idx+1, total-1));
+      goto(Math.min(idx+1, steps.length-1));
     }));
     document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click', ()=> goto(Math.max(idx-1, 0))));
 
@@ -527,14 +518,24 @@
       try{
         const res = await fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' }});
         if(res.ok){
+          // 成功画面
           document.querySelector('.card').style.display='none';
           const result = document.getElementById('result');
           result.style.display='block';
+          // 進行率を100%に（完了演出）
+          progress.style.width = '100%'; buddy.style.left = '100%'; capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
+          // メッセージ＋写真
           result.innerHTML = `
-            <h2 style="margin:0 0 6px">ご回答ありがとうございました！</h2>
-            <p class="muted">やったー！次回はもっと楽しくなるよ🎊</p>
-            <div class="pill">特典コード：<span class="mono"><b>${THANKS_COUPON}</b></span></div>
-            <p class="help">※ 次回会計時にスタッフへお見せください（期間限定）。</p>
+            <h2 style="margin:0 0 10px">ご回答ありがとうございました！</h2>
+            <img src="staff.jpg" alt="KU-DETA スタッフ" style="width:100%;max-width:620px;border-radius:16px;display:block;margin:6px 0 14px;object-fit:cover">
+            <div style="background:#0f1426;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px 14px;line-height:1.9;box-shadow:0 6px 20px rgba(0,0,0,.25);">
+              <p>この度はチーズワンダーランドにご参加いただき、本当にありがとうございました。</p>
+              <p>私たちの準備不足で、スムーズな進行ができずご迷惑をおかけしました。</p>
+              <p>申し訳ありません。</p>
+              <p>このような形で新しい試みへの挑戦を温かい目で見守ってくださるお客様のおかげで、運営を終えることができました。</p>
+              <p>この経験をしっかりと糧にして今後のKU-DETAの営業また更なる価値をご提供できるようにスタッフ一丸となって取り組んでまいります。</p>
+              <p>これからもKU-DETAをよろしくお願いいたします。</p>
+            </div>
           `;
           confettiBurst(60);
           localStorage.setItem('cw_survey_submitted','1');
@@ -548,10 +549,12 @@
     function init(){ updateProgress(); refreshOptions(); }
     init();
 
+    // 送信済み再訪時
     if(localStorage.getItem('cw_survey_submitted')==='1'){
       document.querySelector('#result').style.display='block';
       document.querySelector('#result').innerHTML = `<h2>送信ありがとうございました！</h2><p class="muted">再度回答される場合は、ページを再読み込みしてください。</p>`;
       document.querySelector('.card').style.display='none';
+      progress.style.width = '100%'; buddy.style.left = '100%'; capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
     }
   </script>
 </body>
