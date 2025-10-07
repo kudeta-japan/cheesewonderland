@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
   <!-- Cheese Wonderland アンケート（Formspree版）
-       ・A/B/C 3画面
-       ・進行メーター固定: A=0% / B=33% / C=66%（送信成功で100%）
-       ・C視認性UP & お客様目線の文言
-       ・成功画面: staff.jpgをチーズ形マスクで表示、特典無し、再入力ボタンあり
+       ・A/B/C 3画面・進行メーター固定(A0/B33/C66) → 成功で100%
+       ・予約経路セクション削除
+       ・人数は2〜6ボタン ＋「ひとり」選択時は1を送信
+       ・成功画面：staff.jpgを角丸で表示／再入力ボタン
   -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,7 +14,7 @@
   <style>
     :root{
       --bg:#080a10; --fg:#f8f8fb; --muted:#b9bfd1; --brand:#ffd54d; --brand2:#ffb300;
-      --card:#121520; --ok:#31c48d; --accent:#78d3ff; --rose:#ff7ab6; --cbg:#0b1020;
+      --card:#121520; --accent:#78d3ff; --rose:#ff7ab6; --cbg:#0b1020;
     }
     *{box-sizing:border-box}
     body{
@@ -61,7 +61,7 @@
     .opt label{border:1px solid rgba(255,255,255,.14); padding:12px 14px; border-radius:14px; cursor:pointer; background:#101217; transition:.15s transform, .2s box-shadow}
     .opt label:hover{transform:translateY(-1px)}
     .opt input:checked + label{outline:2px solid var(--brand); background:linear-gradient(180deg,rgba(255,213,77,.12),transparent); box-shadow:0 0 0 6px rgba(255,213,77,.10)}
-    select, input[type="number"], input[type="text"], textarea{ width:100%; background:#101217; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
+    select, input[type="number"], input[type="text"], textarea{ width:100%; background:#101217; color:#f8f8fb; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 14px; font-size:1rem; outline:none; }
     textarea{min-height:120px; line-height:1.5}
 
     .btns{display:flex; gap:10px; flex-wrap:wrap}
@@ -78,7 +78,7 @@
     @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
 
     /* ==== C画面 視認性UP ==== */
-    .step[data-step="3"]{--stripe1:linear-gradient(180deg,var(--accent),#9ad9ff); --stripe2:linear-gradient(180deg,#ffa8d2,var(--rose)); --stripe3:linear-gradient(180deg,#ffd761,var(--brand2));}
+    .step[data-step="3"]{--stripe1:linear-gradient(180deg,var(--accent),#9ad9ff); --stripe2:linear-gradient(180deg,#ffa8d2,var(--rose)); --stripe3:linear-gradient(180deg,#ffd761,#ffb300);}
     .cgroup{background:var(--cbg); border:1px solid rgba(255,255,255,.10); border-radius:16px; padding:14px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,.25);}
     .cgroup:before{content:""; position:absolute; left:-1px; top:-1px; bottom:-1px; width:6px; border-radius:16px 0 0 16px; background:var(--stripe1);}
     .cgroup.alt1:before{ background:var(--stripe2); }
@@ -88,16 +88,6 @@
     .step[data-step="3"] label{ color:#e8f3ff }
     .hint{color:#a3c9ff; font-size:.9rem}
     .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(120,211,255,.35),transparent); margin:6px 0 2px}
-
-    /* helpers */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-    .error{animation:shake .3s ease}
-    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(4px)}75%{transform:translateX(-4px)}}
-
-    /* success: cheese photo shape */
-    .cheese-photo{width:100%; max-width:640px; margin:6px 0 14px}
-    .cheese-photo svg{width:100%; height:auto; display:block; filter:drop-shadow(0 10px 26px rgba(0,0,0,.45))}
   </style>
 </head>
 <body>
@@ -114,8 +104,12 @@
         <!-- 🧀 マスコット -->
         <svg viewBox="0 0 160 140" aria-hidden="true">
           <defs>
-            <radialGradient id="bodyGrad" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#fffad1"/><stop offset="100%" stop-color="#ffcc33"/></radialGradient>
-            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity=".6"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+            <radialGradient id="bodyGrad" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#fffad1"/><stop offset="100%" stop-color="#ffcc33"/>
+            </radialGradient>
+            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity=".6"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
           </defs>
           <line x1="55" y1="120" x2="50" y2="135" stroke="#2a2210" stroke-width="4"><animate attributeName="y2" values="135;132;135" dur="1.2s" repeatCount="indefinite"/></line>
           <line x1="95" y1="120" x2="100" y2="135" stroke="#2a2210" stroke-width="4"><animate attributeName="y2" values="135;138;135" dur="1.2s" repeatCount="indefinite"/></line>
@@ -123,8 +117,12 @@
           <path d="M70 38 Q80 46 85 60" stroke="url(#shine)" stroke-width="6" fill="none" opacity=".7"/>
           <circle cx="74" cy="72" r="7" fill="#f5b400" opacity=".8"/><circle cx="92" cy="88" r="5" fill="#f5b400" opacity=".8"/><circle cx="58" cy="95" r="4" fill="#f5b400" opacity=".8"/>
           <g>
-            <path d="M28 90 q-18 -8 -20 8" stroke="#a67810" stroke-width="4" fill="none"><animate attributeName="d" values="M28 90 q-18 -8 -20 8; M28 90 q-18 0 -20 8; M28 90 q-18 -8 -20 8" dur="1.8s" repeatCount="indefinite"/></path>
-            <path d="M122 90 q18 -8 20 8" stroke="#a67810" stroke-width="4" fill="none"><animate attributeName="d" values="M122 90 q18 -8 20 8; M122 90 q18 0 20 8; M122 90 q18 -8 20 8" dur="1.8s" repeatCount="indefinite"/></path>
+            <path d="M28 90 q-18 -8 -20 8" stroke="#a67810" stroke-width="4" fill="none">
+              <animate attributeName="d" values="M28 90 q-18 -8 -20 8; M28 90 q-18 0 -20 8; M28 90 q-18 -8 -20 8" dur="1.8s" repeatCount="indefinite"/>
+            </path>
+            <path d="M122 90 q18 -8 20 8" stroke="#a67810" stroke-width="4" fill="none">
+              <animate attributeName="d" values="M122 90 q18 -8 20 8; M122 90 q18 0 20 8; M122 90 q18 -8 20 8" dur="1.8s" repeatCount="indefinite"/>
+            </path>
           </g>
           <g>
             <ellipse cx="70" cy="68" rx="3" ry="3.5" fill="#2a2210"><animate attributeName="ry" values="3.5;0.6;3.5" dur="4s" repeatCount="indefinite"/></ellipse>
@@ -148,7 +146,7 @@
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v2.0_multi_cheeseMask">
+        <input type="hidden" name="form_version" value="cw_v2.1_rmBooking_rectPhoto">
 
         <!-- A -->
         <section class="step active" data-step="1">
@@ -289,33 +287,18 @@
               <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（よろしければ理由を）" style="margin-top:8px; display:none">
             </div>
 
-            <div class="two">
-              <div class="cgroup alt1">
-                <label>予約経路</label>
-                <div class="divider"></div>
-                <div class="opt">
-                  <input type="radio" id="bc1" name="booking_channel" value="LINE"><label for="bc1">LINE</label>
-                  <input type="radio" id="bc2" name="booking_channel" value="Instagram"><label for="bc2">Instagram</label>
-                  <input type="radio" id="bc3" name="booking_channel" value="知人紹介"><label for="bc3">知人紹介</label>
-                  <input type="radio" id="bc4" name="booking_channel" value="店頭"><label for="bc4">店頭</label>
-                  <input type="radio" id="bc5" name="booking_channel" value="Google検索"><label for="bc5">Google検索</label>
-                  <input type="radio" id="bc6" name="booking_channel" value="その他"><label for="bc6">その他</label>
-                </div>
-                <input type="text" id="booking_other" name="booking_channel_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
+            <div class="cgroup">
+              <label>イベントを知ったきっかけ</label>
+              <div class="divider"></div>
+              <div class="opt">
+                <input type="radio" id="aw1" name="awareness_channel" value="LINE"><label for="aw1">LINE</label>
+                <input type="radio" id="aw2" name="awareness_channel" value="Instagram"><label for="aw2">Instagram</label>
+                <input type="radio" id="aw3" name="awareness_channel" value="知人紹介"><label for="aw3">知人紹介</label>
+                <input type="radio" id="aw4" name="awareness_channel" value="店頭"><label for="aw4">店頭</label>
+                <input type="radio" id="aw5" name="awareness_channel" value="Google検索"><label for="aw5">Google検索</label>
+                <input type="radio" id="aw6" name="awareness_channel" value="その他"><label for="aw6">その他</label>
               </div>
-              <div class="cgroup">
-                <label>イベントを知ったきっかけ</label>
-                <div class="divider"></div>
-                <div class="opt">
-                  <input type="radio" id="aw1" name="awareness_channel" value="LINE"><label for="aw1">LINE</label>
-                  <input type="radio" id="aw2" name="awareness_channel" value="Instagram"><label for="aw2">Instagram</label>
-                  <input type="radio" id="aw3" name="awareness_channel" value="知人紹介"><label for="aw3">知人紹介</label>
-                  <input type="radio" id="aw4" name="awareness_channel" value="店頭"><label for="aw4">店頭</label>
-                  <input type="radio" id="aw5" name="awareness_channel" value="Google検索"><label for="aw5">Google検索</label>
-                  <input type="radio" id="aw6" name="awareness_channel" value="その他"><label for="aw6">その他</label>
-                </div>
-                <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
-              </div>
+              <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
             </div>
 
             <div class="cgroup alt2">
@@ -375,8 +358,15 @@
                   <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）" style="display:none">
                 </div>
                 <div>
-                  <label for="group_size" class="help">来店人数（自グループ）</label>
-                  <input type="number" id="group_size" name="group_size" min="1" max="20" placeholder="例：2">
+                  <label class="help">来店人数（自グループ）</label>
+                  <div class="opt" id="group_size_wrap">
+                    <input type="radio" id="gs2" name="group_size" value="2"><label for="gs2">2</label>
+                    <input type="radio" id="gs3" name="group_size" value="3"><label for="gs3">3</label>
+                    <input type="radio" id="gs4" name="group_size" value="4"><label for="gs4">4</label>
+                    <input type="radio" id="gs5" name="group_size" value="5"><label for="gs5">5</label>
+                    <input type="radio" id="gs6" name="group_size" value="6"><label for="gs6">6</label>
+                  </div>
+
                   <label class="help" style="margin-top:10px">年代</label>
                   <div class="opt">
                     <input type="radio" id="age10" name="age" value="10代"><label for="age10">10代</label>
@@ -409,10 +399,8 @@
   <div class="confetti" id="confetti" aria-hidden="true"></div>
 
   <script>
-    // ====== 設定 ======
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj";
 
-    // ====== ステップ制御 ======
     const steps = Array.from(document.querySelectorAll('.step'));
     let idx = 0;
     const progress = document.getElementById('progress');
@@ -489,7 +477,7 @@
       function u(){ const on = !!t.checked; i.style.display = on ? 'block' : 'none'; if(!on) i.value=''; }
       t.addEventListener('change', u); u();
     }
-    ['mot_etc:mot_etc_text','theme_other:theme_other_text','pt5:preferred_time_other','p6:party_other','bc6:booking_other','aw6:awareness_other']
+    ['mot_etc:mot_etc_text','theme_other:theme_other_text','pt5:preferred_time_other','p6:party_other','aw6:awareness_other']
       .forEach(pair=>{ const [t,i]=pair.split(':'); toggleEtc(t,i); });
 
     // 順位の重複防止
@@ -514,11 +502,16 @@
           return;
         }
       }
+      // 順位必須
       for(const id of ['rank1','rank2','rank3']){ if(!document.getElementById(id).value){ alert('お気に入りの順位を選択してください'); goto(1); return; } }
       const [r1,r2,r3] = selects.map(s=>s.value);
       if(new Set([r1,r2,r3]).size<3){ alert('1位・2位・3位は重複しないよう選んでください'); goto(1); return; }
 
+      // 送信データ作成
       const data = new FormData(form);
+      // 「ひとり」なら group_size=1 を強制セット
+      if(data.get('companion_type') === 'ひとり'){ data.set('group_size','1'); }
+
       try{
         const res = await fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' }});
         if(res.ok){
@@ -531,27 +524,10 @@
           capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
           bubble.innerHTML = 'ありがとう！受け付けたよ🎉';
 
-          // 写真をチーズ形（くさび形＋穴）でマスクして表示
+          // 写真（角丸の通常表示）＋メッセージ
           result.innerHTML = `
             <h2 style="margin:0 0 10px">ご回答ありがとうございました！</h2>
-            <div class="cheese-photo">
-              <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="KU-DETA スタッフ">
-                <defs>
-                  <mask id="cheeseMask">
-                    <!-- 白=表示、黒=抜き -->
-                    <rect width="100%" height="100%" fill="black"/>
-                    <!-- くさび形（チーズ） -->
-                    <path fill="white" d="M80 600 L920 600 L540 120 Z"/>
-                    <!-- 穴（黒で抜く） -->
-                    <circle cx="560" cy="350" r="40" fill="black"/>
-                    <circle cx="650" cy="450" r="28" fill="black"/>
-                    <circle cx="480" cy="480" r="24" fill="black"/>
-                  </mask>
-                </defs>
-                <image href="staff.jpg" x="0" y="0" width="1000" height="700" preserveAspectRatio="xMidYMid slice" mask="url(#cheeseMask)"/>
-              </svg>
-            </div>
-
+            <img src="staff.jpg" alt="KU-DETA スタッフ" style="width:100%;max-width:640px;border-radius:16px;display:block;margin:6px 0 14px;object-fit:cover">
             <div style="background:#0f1426;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px 14px;line-height:1.9;box-shadow:0 6px 20px rgba(0,0,0,.25);">
               <p>この度はチーズワンダーランドにご参加いただき、本当にありがとうございました。</p>
               <p>私たちの準備不足で、スムーズな進行ができずご迷惑をおかけしました。</p>
@@ -560,19 +536,18 @@
               <p>この経験をしっかりと糧にして今後のKU-DETAの営業また更なる価値をご提供できるようにスタッフ一丸となって取り組んでまいります。</p>
               <p>これからもKU-DETAをよろしくお願いいたします。</p>
             </div>
-
             <div class="btns" style="margin-top:12px">
               <button type="button" class="ghost" id="againBtn">もう一度回答する</button>
             </div>
           `;
           confettiBurst(60);
 
-          // 再回答ボタンでフォームに戻る（ローカル制限なし）
+          // 再回答ボタンでフォームに戻る（制限なし）
           document.getElementById('againBtn')?.addEventListener('click', ()=>{
             form.reset();
             refreshOptions();
             // その他欄を隠す
-            ['mot_etc_text','booking_other','awareness_other','theme_other_text','preferred_time_other','party_other']
+            ['mot_etc_text','awareness_other','theme_other_text','preferred_time_other','party_other']
               .forEach(id=>{ const el=document.getElementById(id); if(el){ el.value=''; el.style.display='none'; } });
             // 新しいタイムスタンプ
             document.getElementById('timestamp').value = new Date().toISOString();
@@ -593,8 +568,6 @@
     // 初期化
     function init(){ updateProgress(); refreshOptions(); }
     init();
-
-    // ※ 再入力ブロックは無し（localStorageは使いません）
   </script>
 </body>
 </html>
