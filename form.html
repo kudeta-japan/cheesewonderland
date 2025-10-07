@@ -2,8 +2,10 @@
 <html lang="ja">
 <head>
   <!-- Cheese Wonderland アンケート（Formspree版）
-       A/B/C 3画面・進行メーター固定(A0/B33/C66)・C視認性UP
-       送信成功：staff.jpg + お礼メッセージ表示／特典なし
+       ・A/B/C 3画面
+       ・進行メーター固定: A=0% / B=33% / C=66%（送信成功で100%）
+       ・C視認性UP & お客様目線の文言
+       ・成功画面: staff.jpgをチーズ形マスクで表示、特典無し、再入力ボタンあり
   -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,8 +18,7 @@
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
       background:
         radial-gradient(1200px 800px at 70% -20%, rgba(255,213,77,.10), transparent),
         radial-gradient(1000px 600px at 10% 110%, rgba(120,211,255,.08), transparent),
@@ -93,6 +94,10 @@
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
     .error{animation:shake .3s ease}
     @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(4px)}75%{transform:translateX(-4px)}}
+
+    /* success: cheese photo shape */
+    .cheese-photo{width:100%; max-width:640px; margin:6px 0 14px}
+    .cheese-photo svg{width:100%; height:auto; display:block; filter:drop-shadow(0 10px 26px rgba(0,0,0,.45))}
   </style>
 </head>
 <body>
@@ -109,12 +114,8 @@
         <!-- 🧀 マスコット -->
         <svg viewBox="0 0 160 140" aria-hidden="true">
           <defs>
-            <radialGradient id="bodyGrad" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#fffad1"/><stop offset="100%" stop-color="#ffcc33"/>
-            </radialGradient>
-            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity=".6"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
+            <radialGradient id="bodyGrad" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#fffad1"/><stop offset="100%" stop-color="#ffcc33"/></radialGradient>
+            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity=".6"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
           </defs>
           <line x1="55" y1="120" x2="50" y2="135" stroke="#2a2210" stroke-width="4"><animate attributeName="y2" values="135;132;135" dur="1.2s" repeatCount="indefinite"/></line>
           <line x1="95" y1="120" x2="100" y2="135" stroke="#2a2210" stroke-width="4"><animate attributeName="y2" values="135;138;135" dur="1.2s" repeatCount="indefinite"/></line>
@@ -122,12 +123,8 @@
           <path d="M70 38 Q80 46 85 60" stroke="url(#shine)" stroke-width="6" fill="none" opacity=".7"/>
           <circle cx="74" cy="72" r="7" fill="#f5b400" opacity=".8"/><circle cx="92" cy="88" r="5" fill="#f5b400" opacity=".8"/><circle cx="58" cy="95" r="4" fill="#f5b400" opacity=".8"/>
           <g>
-            <path d="M28 90 q-18 -8 -20 8" stroke="#a67810" stroke-width="4" fill="none">
-              <animate attributeName="d" values="M28 90 q-18 -8 -20 8; M28 90 q-18 0 -20 8; M28 90 q-18 -8 -20 8" dur="1.8s" repeatCount="indefinite"/>
-            </path>
-            <path d="M122 90 q18 -8 20 8" stroke="#a67810" stroke-width="4" fill="none">
-              <animate attributeName="d" values="M122 90 q18 -8 20 8; M122 90 q18 0 20 8; M122 90 q18 -8 20 8" dur="1.8s" repeatCount="indefinite"/>
-            </path>
+            <path d="M28 90 q-18 -8 -20 8" stroke="#a67810" stroke-width="4" fill="none"><animate attributeName="d" values="M28 90 q-18 -8 -20 8; M28 90 q-18 0 -20 8; M28 90 q-18 -8 -20 8" dur="1.8s" repeatCount="indefinite"/></path>
+            <path d="M122 90 q18 -8 20 8" stroke="#a67810" stroke-width="4" fill="none"><animate attributeName="d" values="M122 90 q18 -8 20 8; M122 90 q18 0 20 8; M122 90 q18 -8 20 8" dur="1.8s" repeatCount="indefinite"/></path>
           </g>
           <g>
             <ellipse cx="70" cy="68" rx="3" ry="3.5" fill="#2a2210"><animate attributeName="ry" values="3.5;0.6;3.5" dur="4s" repeatCount="indefinite"/></ellipse>
@@ -151,7 +148,7 @@
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v1.8_photo_final">
+        <input type="hidden" name="form_version" value="cw_v2.0_multi_cheeseMask">
 
         <!-- A -->
         <section class="step active" data-step="1">
@@ -289,7 +286,7 @@
                 <input type="checkbox" id="mot7" name="visit_motivation" value="限定・新メニューに惹かれて"><label for="mot7">限定・新メニューに惹かれて</label>
                 <input type="checkbox" id="mot_etc" name="visit_motivation" value="その他"><label for="mot_etc">その他</label>
               </div>
-              <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（よろしければ理由を）" style="margin-top:8px">
+              <input type="text" id="mot_etc_text" name="visit_motivation_other" placeholder="その他（よろしければ理由を）" style="margin-top:8px; display:none">
             </div>
 
             <div class="two">
@@ -304,7 +301,7 @@
                   <input type="radio" id="bc5" name="booking_channel" value="Google検索"><label for="bc5">Google検索</label>
                   <input type="radio" id="bc6" name="booking_channel" value="その他"><label for="bc6">その他</label>
                 </div>
-                <input type="text" id="booking_other" name="booking_channel_other" placeholder="その他（自由記述）" style="margin-top:8px">
+                <input type="text" id="booking_other" name="booking_channel_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
               </div>
               <div class="cgroup">
                 <label>イベントを知ったきっかけ</label>
@@ -317,7 +314,7 @@
                   <input type="radio" id="aw5" name="awareness_channel" value="Google検索"><label for="aw5">Google検索</label>
                   <input type="radio" id="aw6" name="awareness_channel" value="その他"><label for="aw6">その他</label>
                 </div>
-                <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="margin-top:8px">
+                <input type="text" id="awareness_other" name="awareness_channel_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
               </div>
             </div>
 
@@ -333,7 +330,7 @@
                 <input type="checkbox" id="theme_american" name="next_theme" value="アメリカンパーティ"><label for="theme_american">アメリカンパーティ</label>
                 <input type="checkbox" id="theme_other" name="next_theme" value="その他"><label for="theme_other">その他</label>
               </div>
-              <input type="text" id="theme_other_text" name="theme_other_text" placeholder="その他（自由記述）" style="margin-top:8px">
+              <input type="text" id="theme_other_text" name="theme_other_text" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
             </div>
 
             <div class="two">
@@ -347,17 +344,17 @@
                   <input type="radio" id="pt4" name="preferred_time" value="祝日前夜"><label for="pt4">祝日前夜</label>
                   <input type="radio" id="pt5" name="preferred_time" value="その他"><label for="pt5">その他</label>
                 </div>
-                <input type="text" id="preferred_time_other" name="preferred_time_other" placeholder="その他（自由記述）" style="margin-top:8px">
+                <input type="text" id="preferred_time_other" name="preferred_time_other" placeholder="その他（自由記述）" style="margin-top:8px; display:none">
               </div>
               <div class="cgroup">
                 <label>価格帯の希望</label>
                 <div class="divider"></div>
                 <div class="opt">
-                  <input type="radio" id="pp1" name="preferred_price" value="2,500円"><label for="pp1">2,500円</label>
                   <input type="radio" id="pp2" name="preferred_price" value="3,000円"><label for="pp2">3,000円</label>
-                  <input type="radio" id="pp3" name="preferred_price" value="3,500円"><label for="pp3">3,500円</label>
                   <input type="radio" id="pp4" name="preferred_price" value="4,000円"><label for="pp4">4,000円</label>
-                  <input type="radio" id="pp5" name="preferred_price" value="5,000円以上"><label for="pp5">5,000円以上</label>
+                  <input type="radio" id="pp5" name="preferred_price" value="5,000円"><label for="pp5">5,000円</label>
+                  <input type="radio" id="pp6" name="preferred_price" value="6,000円"><label for="pp6">6,000円</label>
+                  <input type="radio" id="pp8" name="preferred_price" value="8,000円以上"><label for="pp8">8,000円以上</label>
                 </div>
               </div>
             </div>
@@ -375,7 +372,7 @@
                     <input type="radio" id="p5" name="companion_type" value="家族(子どもなし)"><label for="p5">家族(子どもなし)</label>
                     <input type="radio" id="p6" name="companion_type" value="その他"><label for="p6">その他</label>
                   </div>
-                  <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）">
+                  <input type="text" id="party_other" name="companion_type_other" placeholder="その他（自由記述）" style="display:none">
                 </div>
                 <div>
                   <label for="group_size" class="help">来店人数（自グループ）</label>
@@ -412,8 +409,10 @@
   <div class="confetti" id="confetti" aria-hidden="true"></div>
 
   <script>
+    // ====== 設定 ======
     const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdkwdvvj";
 
+    // ====== ステップ制御 ======
     const steps = Array.from(document.querySelectorAll('.step'));
     let idx = 0;
     const progress = document.getElementById('progress');
@@ -461,6 +460,7 @@
       window.scrollTo({top:0, behavior:'smooth'});
     }
 
+    // 次へ／戻る
     document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click', ()=>{
       const required = steps[idx].querySelectorAll('[required]');
       for(const el of required){
@@ -478,18 +478,21 @@
     }));
     document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click', ()=> goto(Math.max(idx-1, 0))));
 
+    // 初期メタ
     document.getElementById('timestamp').value = new Date().toISOString();
     const params = new URLSearchParams(location.search);
     document.getElementById('source').value = params.get('ch') || params.get('utm_source') || '';
 
+    // 「その他」表示切替
     function toggleEtc(triggerId, inputId){
       const t = document.getElementById(triggerId); const i = document.getElementById(inputId);
-      function u(){ const on = t.checked || (t.type==='radio' && t.checked); i.style.display = on ? 'block' : 'none'; if(!on) i.value=''; }
+      function u(){ const on = !!t.checked; i.style.display = on ? 'block' : 'none'; if(!on) i.value=''; }
       t.addEventListener('change', u); u();
     }
     ['mot_etc:mot_etc_text','theme_other:theme_other_text','pt5:preferred_time_other','p6:party_other','bc6:booking_other','aw6:awareness_other']
       .forEach(pair=>{ const [t,i]=pair.split(':'); toggleEtc(t,i); });
 
+    // 順位の重複防止
     const selects = ['rank1','rank2','rank3'].map(id=>document.getElementById(id));
     function refreshOptions(){
       const chosen = new Set(selects.map(s=>s.value).filter(Boolean));
@@ -499,6 +502,7 @@
     }
     selects.forEach(s=> s.addEventListener('change', refreshOptions));
 
+    // フォーム送信
     const form = document.getElementById('form');
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
@@ -522,12 +526,32 @@
           document.querySelector('.card').style.display='none';
           const result = document.getElementById('result');
           result.style.display='block';
-          // 進行率を100%に（完了演出）
-          progress.style.width = '100%'; buddy.style.left = '100%'; capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
-          // メッセージ＋写真
+          // 進行率・吹き出しを完了表示へ
+          progress.style.width = '100%'; buddy.style.left = '100%';
+          capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
+          bubble.innerHTML = 'ありがとう！受け付けたよ🎉';
+
+          // 写真をチーズ形（くさび形＋穴）でマスクして表示
           result.innerHTML = `
             <h2 style="margin:0 0 10px">ご回答ありがとうございました！</h2>
-            <img src="staff.jpg" alt="KU-DETA スタッフ" style="width:100%;max-width:620px;border-radius:16px;display:block;margin:6px 0 14px;object-fit:cover">
+            <div class="cheese-photo">
+              <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="KU-DETA スタッフ">
+                <defs>
+                  <mask id="cheeseMask">
+                    <!-- 白=表示、黒=抜き -->
+                    <rect width="100%" height="100%" fill="black"/>
+                    <!-- くさび形（チーズ） -->
+                    <path fill="white" d="M80 600 L920 600 L540 120 Z"/>
+                    <!-- 穴（黒で抜く） -->
+                    <circle cx="560" cy="350" r="40" fill="black"/>
+                    <circle cx="650" cy="450" r="28" fill="black"/>
+                    <circle cx="480" cy="480" r="24" fill="black"/>
+                  </mask>
+                </defs>
+                <image href="staff.jpg" x="0" y="0" width="1000" height="700" preserveAspectRatio="xMidYMid slice" mask="url(#cheeseMask)"/>
+              </svg>
+            </div>
+
             <div style="background:#0f1426;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px 14px;line-height:1.9;box-shadow:0 6px 20px rgba(0,0,0,.25);">
               <p>この度はチーズワンダーランドにご参加いただき、本当にありがとうございました。</p>
               <p>私たちの準備不足で、スムーズな進行ができずご迷惑をおかけしました。</p>
@@ -536,9 +560,29 @@
               <p>この経験をしっかりと糧にして今後のKU-DETAの営業また更なる価値をご提供できるようにスタッフ一丸となって取り組んでまいります。</p>
               <p>これからもKU-DETAをよろしくお願いいたします。</p>
             </div>
+
+            <div class="btns" style="margin-top:12px">
+              <button type="button" class="ghost" id="againBtn">もう一度回答する</button>
+            </div>
           `;
           confettiBurst(60);
-          localStorage.setItem('cw_survey_submitted','1');
+
+          // 再回答ボタンでフォームに戻る（ローカル制限なし）
+          document.getElementById('againBtn')?.addEventListener('click', ()=>{
+            form.reset();
+            refreshOptions();
+            // その他欄を隠す
+            ['mot_etc_text','booking_other','awareness_other','theme_other_text','preferred_time_other','party_other']
+              .forEach(id=>{ const el=document.getElementById(id); if(el){ el.value=''; el.style.display='none'; } });
+            // 新しいタイムスタンプ
+            document.getElementById('timestamp').value = new Date().toISOString();
+            // 画面をAへ戻す
+            result.style.display='none';
+            document.querySelector('.card').style.display='block';
+            goto(0);
+            window.scrollTo({top:0, behavior:'smooth'});
+          });
+
         } else {
           const payload = await res.json().catch(()=>({}));
           throw new Error(payload?.error || '送信に失敗しました。時間を置いてお試しください。');
@@ -546,16 +590,11 @@
       } catch(err){ alert(err.message); }
     });
 
+    // 初期化
     function init(){ updateProgress(); refreshOptions(); }
     init();
 
-    // 送信済み再訪時
-    if(localStorage.getItem('cw_survey_submitted')==='1'){
-      document.querySelector('#result').style.display='block';
-      document.querySelector('#result').innerHTML = `<h2>送信ありがとうございました！</h2><p class="muted">再度回答される場合は、ページを再読み込みしてください。</p>`;
-      document.querySelector('.card').style.display='none';
-      progress.style.width = '100%'; buddy.style.left = '100%'; capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
-    }
+    // ※ 再入力ブロックは無し（localStorageは使いません）
   </script>
 </body>
 </html>
