@@ -5,8 +5,9 @@
        ・A/B/C 3画面・進行メーター固定(A0/B33/C66) → 成功で100%
        ・予約経路セクションなし
        ・人数は2〜6ボタン ＋「ひとり」選択時は1を送信
-       ・A/Bの5段階を「低←→高」目盛＋ライブ説明（★表示）で明確化
+       ・A/Bの5段階を「低←→高」目盛＋ライブ説明（★表示）
        ・成功画面：staff.jpgを角丸で表示／再入力ボタン
+       ・ハニーポット(sr-only)を不可視＋ボット投稿を弾く
   -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,6 +96,14 @@
     .opt.scale label{min-width:38px;text-align:center}
     .now-hint{margin-top:6px;color:var(--muted);font-size:.9rem}
     .now-hint b{color:#ffe082}
+
+    /* === ハニーポットを完全不可視 === */
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
   </style>
 </head>
 <body>
@@ -149,11 +158,11 @@
       </div>
 
       <form id="form" class="grid" novalidate>
-        <!-- 🔒 honeypot -->
+        <!-- 🔒 honeypot (不可視) -->
         <input type="text" name="website" autocomplete="off" class="sr-only" tabindex="-1" aria-hidden="true">
         <input type="hidden" name="timestamp" id="timestamp">
         <input type="hidden" name="source" id="source">
-        <input type="hidden" name="form_version" value="cw_v2.3_BScaleHints">
+        <input type="hidden" name="form_version" value="cw_v2.4_honeypotFixed">
 
         <!-- A -->
         <section class="step active" data-step="1">
@@ -567,6 +576,11 @@
     const form = document.getElementById('form');
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
+
+      // 🔒 ハニーポット：値が入っていたら中断（ボット対策）
+      const honey = form.querySelector('input[name="website"]');
+      if (honey && honey.value.trim() !== '') { return; }
+
       const requiredNames = ['csat','nps','rejoin','price_fairness','raclette_slider','chicago_waterfall','melty_dip_pot','cheese_pizza_lab','espuma_basque'];
       for(const n of requiredNames){
         if(!form.querySelector(`[name="${n}"]:checked`)){
@@ -597,7 +611,7 @@
           capL.textContent = '送信完了 / ありがとうございました！'; capR.textContent = '100%';
           bubble.innerHTML = 'ありがとう！受け付けたよ🎉';
 
-          // 写真（角丸の通常表示）＋メッセージ
+          // 写真＋お礼メッセージ
           result.innerHTML = `
             <h2 style="margin:0 0 10px">ご回答ありがとうございました！</h2>
             <img src="staff.jpg" alt="KU-DETA スタッフ" style="width:100%;max-width:640px;border-radius:16px;display:block;margin:6px 0 14px;object-fit:cover">
@@ -620,10 +634,8 @@
           document.getElementById('againBtn')?.addEventListener('click', ()=>{
             form.reset();
             refreshOptions();
-            // その他欄を隠す
             ['mot_etc_text','awareness_other','theme_other_text','preferred_time_other','party_other']
               .forEach(id=>{ const el=document.getElementById(id); if(el){ el.value=''; el.style.display='none'; } });
-            // ライブ表示を初期化
             csatNow.innerHTML = '選択：—（<span>1=不満 / 5=とても満足</span>）';
             npsNow.innerHTML  = '選択：—（<span>1=勧めない / 5=とても勧めたい</span>）';
             racNow.innerHTML  = '選択：—（<span>1=イマイチ / 5=最高！</span>）';
@@ -631,9 +643,7 @@
             mdpNow.innerHTML  = '選択：—（<span>1=イマイチ / 5=最高！</span>）';
             cplNow.innerHTML  = '選択：—（<span>1=イマイチ / 5=最高！</span>）';
             ebNow.innerHTML   = '選択：—（<span>1=イマイチ / 5=最高！</span>）';
-            // 新しいタイムスタンプ
             document.getElementById('timestamp').value = new Date().toISOString();
-            // 画面をAへ戻す
             result.style.display='none';
             document.querySelector('.card').style.display='block';
             goto(0);
